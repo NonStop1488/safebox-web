@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeBox – Безпека, що просто працює</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+<div class="bg-atmo"></div>
+
+<!-- ══════════════════════════════════════
+     НАВІГАЦІЯ
+══════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">
+    <span class="logo-text">SafeBox</span>
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')"      id="nav-home"     >Головна</a></li>
+    <li><a onclick="showPage('downloads')" id="nav-downloads">Завантаження</a></li>
+    <li><a onclick="showPage('security')"  id="nav-security" >Безпека</a></li>
+    <li><a onclick="showPage('about')"     id="nav-about"    >Про нас</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="btn-ghost" onclick="showPage('signin')">Увійти</button>
+    <button class="btn-solid" onclick="showPage('signup')">Реєстрація</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     ГОЛОВНА
+══════════════════════════════════════ -->
+<div id="home" class="page active">
+
+  <!-- Герой -->
+  <div class="section" style="text-align:center; padding-top:100px; padding-bottom:40px;">
+    <div class="badge fade-up" style="margin:0 auto 28px;">
+      <span class="dot"></span>Ваш надійний помічник
+    </div>
+    <h1 class="hero-title fade-up d1">Безпека, що<br>просто працює</h1>
+    <p class="sub fade-up d2">Надійно зберігайте, керуйте та отримуйте доступ до своїх паролів будь-де.</p>
+    <button class="btn-ghost fade-up d3" style="margin-top:32px; padding:13px 34px; font-size:0.9rem;" onclick="showPage('signup')">
+      Почати безкоштовно
+    </button>
+  </div>
+
+  <!-- Попередній перегляд застосунку -->
+  <div style="max-width:860px; margin:0 auto 48px; padding:0 48px;">
+    <div class="card" style="border-radius:20px; padding:32px; min-height:260px; display:flex; align-items:center; justify-content:center;">
+      <p style="color:var(--muted); font-size:0.88rem;">Попередній перегляд застосунку</p>
+    </div>
+  </div>
+
+  <!-- Переваги -->
+  <div class="section">
+    <h2 class="section-title">Наші переваги</h2>
+    <p class="sub">Все необхідне для безпечного та ефективного керування вашим цифровим життям.</p>
+    <div class="grid-2" style="margin-top:40px;">
+      <div class="card">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="card-title">Генератор паролів</div>
+        <div class="card-text">Створюйте надійні унікальні паролі одним кліком для максимального захисту.</div>
+      </div>
+      <div class="card">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <div class="card-title">Синхронізація між пристроями</div>
+        <div class="card-text">Отримуйте доступ до сховища з будь-якого пристрою в будь-якій точці світу.</div>
+      </div>
+      <div class="card">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="card-title">Підтримка 2FA</div>
+        <div class="card-text">Додайте додатковий рівень захисту завдяки вбудованій двофакторній автентифікації.</div>
+      </div>
+      <div class="card">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <div class="card-title">Надійне зберігання</div>
+        <div class="card-text">Шифрування військового рівня для всіх ваших паролів і конфіденційних даних.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Як це працює -->
+  <div class="section" style="text-align:center;">
+    <h2 class="section-title">Як це працює</h2>
+    <p class="sub">Почати роботу з SafeBox легко і швидко. Дотримуйтесь цих простих кроків.</p>
+    <div style="display:flex; gap:40px; justify-content:center; margin-top:48px; flex-wrap:wrap;">
+      <div style="max-width:190px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <strong style="font-family:'Sora',sans-serif; font-size:0.9rem;">Створіть акаунт</strong>
+        <p class="card-text" style="text-align:center;">Зареєструйтесь та встановіть головний пароль — єдиний, який вам потрібно запам'ятати.</p>
+      </div>
+      <div style="max-width:190px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <strong style="font-family:'Sora',sans-serif; font-size:0.9rem;">Додайте паролі</strong>
+        <p class="card-text" style="text-align:center;">Імпортуйте або додавайте паролі вручну. Організовуйте їх у групи для зручного доступу.</p>
+      </div>
+      <div style="max-width:190px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <strong style="font-family:'Sora',sans-serif; font-size:0.9rem;">Будьте захищені</strong>
+        <p class="card-text" style="text-align:center;">Дані шифруються локально до того, як покинути ваш пристрій. Повна приватність.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA — останній блок -->
+  <div class="section" style="padding-bottom:80px;">
+    <div class="card" style="border-radius:24px; text-align:center; padding:64px 40px;">
+      <div class="badge" style="margin:0 auto 24px;"><span class="dot"></span>100% БЕЗКОШТОВНО НАЗАВЖДИ</div>
+      <h2 class="section-title" style="font-size:clamp(1.8rem,3.5vw,2.5rem);">Безпека не повинна<br>коштувати грошей.</h2>
+      <p class="sub" style="margin-top:16px;">SafeBox — проєкт, що розвивається спільнотою. Ми вважаємо, що приватність — це право людини, тому всі функції доступні кожному безкоштовно.</p>
+      <div class="grid-3" style="max-width:580px; margin:32px auto;">
+        <div class="card">
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:6px;">Без прихованих платежів</div>
+          <div class="card-text" style="font-size:0.78rem;">Жодних апгрейдів і преміум-рівнів.</div>
+        </div>
+        <div class="card">
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:6px;">Всі функції</div>
+          <div class="card-text" style="font-size:0.78rem;">Синхронізація, 2FA та інше включено.</div>
+        </div>
+        <div class="card">
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:6px;">Без банківської картки</div>
+          <div class="card-text" style="font-size:0.78rem;">Просто зареєструйтесь і користуйтесь.</div>
+        </div>
+      </div>
+      <button class="btn-ghost" style="padding:13px 32px;" onclick="showPage('signup')">Почати безкоштовно</button>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2025 SafeBox. Всі права захищені.</span>
+    <span>Конфіденційність · Умови · Безпека</span>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════
+     ЗАВАНТАЖЕННЯ
+══════════════════════════════════════ -->
+<div id="downloads" class="page">
+
+  <div class="section" style="text-align:center; padding-top:80px; padding-bottom:40px;">
+    <h1 class="hero-title fade-up">Завантажити SafeBox</h1>
+    <p class="sub fade-up d1">Отримайте застосунок SafeBox для вашої платформи. Ваше сховище залишатиметься синхронізованим і захищеним на всіх пристроях.</p>
+  </div>
+
+  <div class="section-sm" style="padding-top:0;">
+    <div class="grid-2" style="max-width:760px; margin:0 auto;">
+
+      <!-- Windows -->
+      <div class="card" style="padding:36px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px;">
+          <div class="icon-box" style="margin-bottom:0;">
+            <svg viewBox="0 0 24 24" style="width:22px; height:22px; fill:var(--text); stroke:none;">
+              <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+            </svg>
+          </div>
+          <span class="badge" style="font-size:0.72rem;">Остання версія</span>
+        </div>
+        <div class="card-title" style="font-size:1.1rem; margin-bottom:10px;">Windows</div>
+        <div class="card-text" style="margin-bottom:28px;">Повноцінний десктопний досвід для Windows 10 і 11. Керуйте своїм сховищем прямо з ПК.</div>
+        <button class="btn-ghost" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:12px;">
+          <svg viewBox="0 0 24 24" style="width:16px; height:16px; stroke:var(--text); fill:none; stroke-width:2;">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Windows x64 (.exe)
+        </button>
+      </div>
+
+      <!-- Мобільний -->
+      <div class="card" style="padding:36px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px;">
+          <div class="icon-box" style="margin-bottom:0;">
+            <svg viewBox="0 0 24 24" style="width:22px; height:22px; stroke:var(--text); fill:none; stroke-width:1.6;">
+              <rect x="5" y="2" width="14" height="20" rx="2"/>
+              <line x1="12" y1="18" x2="12.01" y2="18"/>
+            </svg>
+          </div>
+          <span class="badge" style="font-size:0.72rem;">Остання версія</span>
+        </div>
+        <div class="card-title" style="font-size:1.1rem; margin-bottom:10px;">Мобільний застосунок</div>
+        <div class="card-text" style="margin-bottom:28px;">Доступ до паролів будь-де завдяки нашому захищеному мобільному застосунку для Android.</div>
+        <button class="btn-ghost" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:12px;">
+          <svg viewBox="0 0 24 24" style="width:16px; height:16px; stroke:var(--text); fill:none; stroke-width:2;">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Google Play Store
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <footer style="margin-top:80px;">
+    <span>© 2025 SafeBox. Всі права захищені.</span>
+    <span>Конфіденційність · Умови · Безпека</span>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════
+     БЕЗПЕКА
+══════════════════════════════════════ -->
+<div id="security" class="page">
+
+  <div style="text-align:center; padding:80px 48px 48px;">
+    <h1 class="hero-title fade-up">Ваша безпека —<br><span style="color:rgba(240,244,248,0.6);">наш єдиний пріоритет</span></h1>
+    <p class="sub fade-up d1" style="margin-top:20px; max-width:540px;">
+      SafeBox побудований на архітектурі нульових знань. Ваші дані шифруються головним паролем до того, як покинути пристрій. Ми не можемо їх прочитати — і ніхто інший теж.
+    </p>
+  </div>
+
+  <!-- 4 картки -->
+  <div class="section-sm" style="padding-top:0;">
+    <div class="grid-2">
+      <div class="card">
+        <div class="icon-box"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <div class="card-title">Шифрування AES-256</div>
+        <div class="card-text">Ваші дані шифруються за стандартом AES із 256-бітними ключами — галузевим стандартом захисту конфіденційних даних.</div>
+      </div>
+      <div class="card">
+        <div class="icon-box"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></div>
+        <div class="card-title">Архітектура нульових знань</div>
+        <div class="card-text">Ми ніколи не маємо доступу до вашого головного пароля або ключів шифрування. Все шифрується та дешифрується локально на вашому пристрої.</div>
+      </div>
+      <div class="card">
+        <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="card-title">Деривація ключів Argon2</div>
+        <div class="card-text">Використовуємо Argon2 — переможця конкурсу хешування паролів — для захисту головного пароля від атак перебором.</div>
+      </div>
+      <div class="card">
+        <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <div class="card-title">Захищена синхронізація</div>
+        <div class="card-text">Ваше зашифроване сховище синхронізується між пристроями через TLS 1.3, що захищає від атак типу «людина посередині».</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZK діаграма -->
+  <div class="section-sm" style="padding-bottom:80px;">
+    <h2 class="section-title">Архітектура нульових знань</h2>
+    <p class="sub" style="margin-top:12px;">Ваші дані шифруються до того, як покинути пристрій. Ми зберігаємо лише зашифрований блоб — ніколи паролі чи ключі.</p>
+
+    <div class="zk-diagram">
+      <div class="zk-node">
+        <div class="zk-icon">
+          <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <div class="zk-label">Ваш пристрій</div>
+        <div class="zk-desc">Дані шифруються локально за допомогою головного пароля</div>
+      </div>
+      <div class="zk-line">
+        <div class="zk-dot"></div>
+        <div class="zk-dot"></div>
+        <div class="zk-dot"></div>
+        <div class="zk-lock">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="zk-dot"></div>
+        <div class="zk-dot"></div>
+        <div class="zk-dot"></div>
+      </div>
+      <div class="zk-node">
+        <div class="zk-icon">
+          <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        </div>
+        <div class="zk-label">Наш хмарний сервер</div>
+        <div class="zk-desc">Зберігається лише зашифрований блоб. Ключа у нас немає.</div>
+      </div>
+    </div>
+
+    <div class="tech-stack">
+      <div class="tech-pill"><span class="tp-dot"></span>AES-256-GCM</div>
+      <div class="tech-pill"><span class="tp-dot"></span>Argon2id KDF</div>
+      <div class="tech-pill"><span class="tp-dot"></span>TLS 1.3 при передачі</div>
+      <div class="tech-pill"><span class="tp-dot"></span>Нульові знання</div>
+      <div class="tech-pill"><span class="tp-dot"></span>Відкритий код</div>
+      <div class="tech-pill"><span class="tp-dot"></span>Без телеметрії</div>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2025 SafeBox. Всі права захищені.</span>
+    <span>Конфіденційність · Умови · Безпека</span>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════
+     ПРО НАС
+══════════════════════════════════════ -->
+<div id="about" class="page">
+
+  <div style="text-align:center; padding:80px 48px 40px;">
+    <div class="badge fade-up" style="margin:0 auto 24px;"><span class="dot"></span>Про проєкт</div>
+    <h1 class="hero-title fade-up d1">Студентський проєкт<br>для справжньої приватності</h1>
+    <p class="sub fade-up d2" style="margin-top:16px;">
+      SafeBox — кросплатформний менеджер паролів із хмарною синхронізацією, створений студентом коледжу як перший проєкт такого роду.
+    </p>
+  </div>
+
+  <!-- Текст + статистика -->
+  <div class="section-sm">
+    <div class="about-grid">
+      <div class="about-text">
+        <h3>Навіщо існує SafeBox</h3>
+        <p>Я студент коледжу, і це мій перший проєкт такого роду. Я створив SafeBox, щоб зрозуміти зсередини, як будуються реальні інструменти безпеки — шифрування, хмарна синхронізація, кросплатформна розробка.</p>
+        <p>SafeBox працює на Web, Windows та Android. Усі три версії пов'язані хмарною синхронізацією, тому ваше сховище завжди актуальне на кожному пристрої.</p>
+        <p>Застосунок побудований на моделі нульових знань: головний пароль ніколи не покидає ваш пристрій, а до хмари потрапляють лише зашифровані дані. Навіть я не можу прочитати ваші паролі.</p>
+        <p>Це відкритий і чесний проєкт. Він безкоштовний, постійно розвивається, і кожен відгук робить його кращим.</p>
+      </div>
+      <div class="about-visual">
+        <div class="stat-row"><div class="stat-num">3</div><div class="stat-lbl">Платформи — Web, Windows, Android</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-row"><div class="stat-num">1</div><div class="stat-lbl">Головний пароль для запам'ятовування</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-row"><div class="stat-num">100%</div><div class="stat-lbl">Безкоштовно назавжди</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-row"><div class="stat-num">0</div><div class="stat-lbl">Доступу до ваших паролів з нашого боку</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Платформи -->
+  <div class="section-sm">
+    <h2 class="section-title">Як це побудовано</h2>
+    <p class="sub" style="margin-top:12px;">Три платформи — одне синхронізоване сховище.</p>
+    <div class="grid-3" style="margin-top:40px;">
+      <div class="card" style="text-align:center; padding:36px 24px;">
+        <div class="icon-box" style="margin:0 auto 18px;">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="card-title">Веб-застосунок</div>
+        <div class="card-text">Доступ до сховища з будь-якого браузера. Встановлення не потрібне.</div>
+      </div>
+      <div class="card" style="text-align:center; padding:36px 24px;">
+        <div class="icon-box" style="margin:0 auto 18px;">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <div class="card-title">Windows Десктоп</div>
+        <div class="card-text">Повноцінний десктопний застосунок для Windows 10 і 11 із підтримкою системного трею.</div>
+      </div>
+      <div class="card" style="text-align:center; padding:36px 24px;">
+        <div class="icon-box" style="margin:0 auto 18px;">
+          <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <div class="card-title">Android Застосунок</div>
+        <div class="card-text">Нативний Android-застосунок із розблокуванням відбитком пальця та підтримкою автозаповнення.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Принципи -->
+  <div class="section-sm">
+    <h2 class="section-title">Основні принципи</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:40px;">
+      <div class="card">
+        <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div class="card-title">Прозорість</div>
+        <div class="card-text">Код відкритий. Модель безпеки задокументована. Жодних чорних ящиків.</div>
+      </div>
+      <div class="card">
+        <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="card-title">Приватність з першого дня</div>
+        <div class="card-text">Нульові знання закладені в основу — не додані пізніше для галочки.</div>
+      </div>
+      <div class="card">
+        <div class="icon-box"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <div class="card-title">Безкоштовно для всіх</div>
+        <div class="card-text">Жодних платних стін. Жодних преміум-рівнів. Усі функції доступні кожному.</div>
+      </div>
+      <div class="card">
+        <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <div class="card-title">Постійний розвиток</div>
+        <div class="card-text">Це живий проєкт. Кожен відгук впливає на оновлення та нові функції.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="section-sm" style="padding-bottom:80px; text-align:center;">
+    <div class="card" style="max-width:520px; margin:0 auto; padding:48px 36px; border-radius:20px;">
+      <h3 style="font-family:'Sora',sans-serif; font-size:1.5rem; font-weight:700; letter-spacing:-0.02em; margin-bottom:12px;">Спробуйте самі</h3>
+      <p class="sub" style="margin-top:0; margin-bottom:24px;">Безкоштовно, відкрито і готово до використання — на всіх ваших пристроях.</p>
+      <button class="btn-solid" style="padding:13px 32px; font-size:0.9rem;" onclick="showPage('signup')">Почати безкоштовно</button>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2025 SafeBox. Всі права захищені.</span>
+    <span>Конфіденційність · Умови · Безпека</span>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════
+     РЕЄСТРАЦІЯ
+══════════════════════════════════════ -->
+<div id="signup" class="page auth-page">
+  <div class="auth-wrap">
+
+    <div class="auth-header">
+      <div class="auth-logo-wrap" onclick="showPage('home')">
+        <span class="auth-logo-text">SafeBox</span>
+      </div>
+      <h1>Створіть сховище</h1>
+      <p>Безкоштовно назавжди. Банківська картка не потрібна.</p>
+    </div>
+
+    <div class="auth-card">
+      <div class="form-group">
+        <label>Повне ім'я</label>
+        <input class="form-input" type="text" placeholder="Ваше ім'я" id="su-name">
+      </div>
+      <div class="form-group">
+        <label>Електронна пошта</label>
+        <input class="form-input" type="email" placeholder="ви@приклад.com" id="su-email">
+      </div>
+      <div class="form-group">
+        <label>Головний пароль</label>
+        <input class="form-input" type="password" placeholder="Створіть надійний головний пароль" id="su-pass" oninput="checkStrength(this.value)">
+        <div class="strength-bar">
+          <div class="strength-fill" id="strength-fill" style="width:0%; background:#ef4444;"></div>
+        </div>
+        <div class="strength-label" id="strength-label" style="color:var(--muted);">Введіть головний пароль</div>
+      </div>
+      <div class="form-group">
+        <label>Підтвердіть головний пароль</label>
+        <input class="form-input" type="password" placeholder="Повторіть головний пароль" id="su-pass2">
+      </div>
+      <div class="master-info">
+        <p><strong>⚠ Важливо:</strong> Головний пароль ніколи не надсилається на наші сервери. Якщо ви його забудете, ми не зможемо відновити сховище. Запишіть його та зберігайте в безпечному місці.</p>
+      </div>
+      <label class="cb-wrap">
+        <input type="checkbox" id="terms">
+        <span class="cb-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>
+        <span class="cb-label">Я погоджуюся з <a href="#">Умовами використання</a> та <a href="#">Політикою конфіденційності</a></span>
+      </label>
+      <button class="btn-primary" onclick="handleSignup()">Створити сховище</button>
+    </div>
+
+    <div class="auth-footer">
+      Вже маєте акаунт? <a onclick="showPage('signin')">Увійти</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     ВХІД
+══════════════════════════════════════ -->
+<div id="signin" class="page auth-page">
+  <div class="auth-wrap">
+
+    <div class="auth-header">
+      <div class="auth-logo-wrap" onclick="showPage('home')">
+        <span class="auth-logo-text">SafeBox</span>
+      </div>
+      <h1>З поверненням</h1>
+      <p>Відкрийте своє сховище безпечно.</p>
+    </div>
+
+    <div class="auth-card">
+      <div class="form-group">
+        <label>Електронна пошта</label>
+        <input class="form-input" type="email" placeholder="ви@приклад.com" id="si-email">
+      </div>
+      <div class="form-group">
+        <div class="form-label-row">
+          <label>Головний пароль</label>
+          <a href="#" class="forgot-link">Забули підказку?</a>
+        </div>
+        <input class="form-input" type="password" placeholder="Введіть головний пароль" id="si-pass" style="margin-top:6px;">
+      </div>
+      <label class="cb-wrap" style="margin-bottom:12px;">
+        <input type="checkbox" id="remember" checked>
+        <span class="cb-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>
+        <span class="cb-label">Залишатися в системі на цьому пристрої</span>
+      </label>
+      <label class="cb-wrap" style="margin-bottom:24px;">
+        <input type="checkbox" id="twofa">
+        <span class="cb-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>
+        <span class="cb-label">Використовувати двофакторну автентифікацію (2FA)</span>
+      </label>
+      <button class="btn-primary" onclick="handleSignin()">Відкрити сховище</button>
+
+      <div class="divider-line" style="margin-top:20px;"><span>або продовжити через</span></div>
+      <div style="display:flex; gap:10px;">
+        <!-- Google Identity Services кнопка -->
+        <div id="g_id_onload"
+             data-client_id="260458731697-b5mh8ek1kkm23bmplaflbn1di1kfv2uf.apps.googleusercontent.com"
+             data-callback="handleGoogleSignIn"
+             data-auto_prompt="false">
+        </div>
+        <button class="btn-ghost" id="googleBtn"
+                onclick="triggerGoogleLogin()"
+                style="flex:1; padding:11px; display:flex; align-items:center; justify-content:center; gap:8px; font-size:0.84rem;">
+          <svg viewBox="0 0 24 24" style="width:15px; height:15px; fill:var(--text);">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+          </svg>
+          Google
+        </button>
+      </div>
+    </div>
+
+    <div class="auth-footer">
+      Ще немає акаунту? <a onclick="showPage('signup')">Зареєструватися</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════ -->
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(id);
+    if (target) target.classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    const navEl = document.getElementById('nav-' + id);
+    if (navEl) navEl.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function checkStrength(v) {
+    const fill  = document.getElementById('strength-fill');
+    const label = document.getElementById('strength-label');
+    let score = 0;
+    if (v.length >= 8)          score++;
+    if (v.length >= 14)         score++;
+    if (/[A-Z]/.test(v))        score++;
+    if (/[0-9]/.test(v))        score++;
+    if (/[^A-Za-z0-9]/.test(v)) score++;
+    const levels = [
+      { w: '0%',   c: '#ef4444', t: 'Введіть головний пароль' },
+      { w: '20%',  c: '#ef4444', t: 'Дуже слабкий' },
+      { w: '40%',  c: '#f97316', t: 'Слабкий' },
+      { w: '60%',  c: '#eab308', t: 'Задовільний' },
+      { w: '80%',  c: '#84cc16', t: 'Надійний' },
+      { w: '100%', c: '#4ade80', t: 'Дуже надійний ✓' },
+    ];
+    const idx = v.length === 0 ? 0 : Math.min(score, 5);
+    fill.style.width      = levels[idx].w;
+    fill.style.background = levels[idx].c;
+    label.textContent     = levels[idx].t;
+    label.style.color     = levels[idx].c;
+  }
+
+  /* ── Константи — оголошуємо ПЕРШИМИ ────────────── */
+  const API = 'http://localhost:8000/api/v1';
+  const GOOGLE_CLIENT_ID = '260458731697-b5mh8ek1kkm23bmplaflbn1di1kfv2uf.apps.googleusercontent.com';
+
+  /* ── Збереження токенів ─────────────────────────── */
+  function saveSession(data) {
+    localStorage.setItem('sb_access',    data.access_token);
+    localStorage.setItem('sb_refresh',   data.refresh_token);
+    localStorage.setItem('sb_psk',       data.protected_symmetric_key);
+    localStorage.setItem('sb_kdf_salt',  data.kdf_salt);
+    localStorage.setItem('sb_kdf_iter',  data.kdf_iterations);
+  }
+
+  /* ── Google Login через redirect (надійніший метод) ── */
+  function triggerGoogleLogin() {
+    const btn = document.getElementById('googleBtn');
+    btn.textContent = 'Перехід...';
+    btn.disabled = true;
+
+    const params = new URLSearchParams({
+      client_id:     GOOGLE_CLIENT_ID,
+      redirect_uri:  'http://127.0.0.1:5500/index.html',
+      response_type: 'token',
+      scope:         'email profile openid',
+      prompt:        'select_account',
+    });
+
+    window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + params.toString();
+  }
+
+  /* ── Обробка redirect після Google login ─────────── */
+  async function handleGoogleRedirect() {
+    const hash = window.location.hash;
+    if (!hash.includes('access_token')) return;
+
+    // Витягти access_token з URL hash
+    const params = new URLSearchParams(hash.slice(1));
+    const accessToken = params.get('access_token');
+    if (!accessToken) return;
+
+    // Очистити hash з URL
+    history.replaceState(null, '', window.location.pathname);
+
+    const btn = document.getElementById('googleBtn');
+    if (btn) { btn.textContent = 'Вхід...'; btn.disabled = true; }
+
+    try {
+      // Отримати email через Google API
+      const profileRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: { 'Authorization': 'Bearer ' + accessToken }
+      });
+      const profile = await profileRes.json();
+
+      if (!profile.email) throw new Error('Email не знайдено');
+
+      // Відправити на наш бекенд
+      const res = await fetch(`${API}/auth/google-token`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email:          profile.email,
+          google_id:      profile.sub,
+          name:           profile.name || profile.email.split('@')[0],
+          email_verified: profile.email_verified || false,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        if (btn) { btn.textContent = 'Google'; btn.disabled = false; }
+        alert('Помилка: ' + (data.detail || 'Невідома помилка'));
+        return;
+      }
+
+      saveSession(data);
+      window.location.href = 'app.html';
+
+    } catch(e) {
+      if (btn) { btn.textContent = 'Google'; btn.disabled = false; }
+      alert('Помилка Google входу: ' + e.message);
+    }
+  }
+
+  // Перевірити redirect при завантаженні сторінки
+  window.addEventListener('load', handleGoogleRedirect);
+
+  // handleGoogleSignIn залишаємо для сумісності
+  async function handleGoogleSignIn(googleResponse) {
+    await handleGoogleRedirect();
+  }
+
+  /* ── Показати помилку під кнопкою ───────────────── */
+  function showError(elId, msg) {
+    let el = document.getElementById(elId);
+    if (!el) {
+      el = document.createElement('div');
+      el.id = elId;
+      el.style.cssText = 'color:#ef4444;font-size:0.82rem;margin-top:10px;text-align:center;';
+    }
+    el.textContent = msg;
+    return el;
+  }
+
+  /* ── РЕЄСТРАЦІЯ ─────────────────────────────────── */
+  async function handleSignup() {
+    const name  = document.getElementById('su-name').value.trim();
+    const email = document.getElementById('su-email').value.trim();
+    const pass  = document.getElementById('su-pass').value;
+    const pass2 = document.getElementById('su-pass2').value;
+    const terms = document.getElementById('terms').checked;
+
+    if (!name || !email || !pass) return alert('Будь ласка, заповніть усі поля.');
+    if (pass !== pass2)           return alert('Паролі не збігаються.');
+    if (!terms)                   return alert('Будь ласка, прийміть умови використання.');
+
+    const btn = document.querySelector('#signup .btn-primary');
+    btn.textContent = 'Створення...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(`${API}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          master_password: pass,
+          device_name: navigator.userAgent.includes('Windows') ? 'Windows Browser' : 'Web Browser',
+          device_type: 'web',
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        btn.textContent = 'Створити сховище';
+        btn.disabled = false;
+        return alert('Помилка: ' + (data.detail || 'Невідома помилка'));
+      }
+
+      saveSession(data);
+      // Перейти до менеджера паролів
+      window.location.href = 'app.html';
+
+    } catch (e) {
+      btn.textContent = 'Створити сховище';
+      btn.disabled = false;
+      alert('Не вдалося підключитися до сервера. Переконайся що бекенд запущений на порту 8000.');
+    }
+  }
+
+  /* ── ВХІД ───────────────────────────────────────── */
+  async function handleSignin() {
+    const email = document.getElementById('si-email').value.trim();
+    const pass  = document.getElementById('si-pass').value;
+
+    if (!email || !pass) return alert('Будь ласка, введіть пошту та головний пароль.');
+
+    const btn = document.querySelector('#signin .btn-primary');
+    btn.textContent = 'Відкриття...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(`${API}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          master_password: pass,
+          device_name: 'Web Browser',
+          device_type: 'web',
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        btn.textContent = 'Відкрити сховище';
+        btn.disabled = false;
+        return alert('Помилка: ' + (data.detail || 'Невірний email або пароль'));
+      }
+
+      saveSession(data);
+      window.location.href = 'app.html';
+
+    } catch (e) {
+      btn.textContent = 'Відкрити сховище';
+      btn.disabled = false;
+      alert('Не вдалося підключитися до сервера. Переконайся що бекенд запущений на порту 8000.');
+    }
+  }
+</script>
+
+</body>
+</html>

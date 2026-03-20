@@ -1,0 +1,2079 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SafeBox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   RESET & TOKENS
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* backgrounds */
+  --bg:          #0f1318;
+  --sidebar-bg:  #0b0e13;
+  --surface:     #141a22;
+  --surface2:    #1a2230;
+  --surface3:    #1f2836;
+
+  /* borders */
+  --b1: rgba(255,255,255,0.07);
+  --b2: rgba(255,255,255,0.12);
+
+  /* text */
+  --t1: #dce4f0;
+  --t2: rgba(220,228,240,0.5);
+  --t3: rgba(220,228,240,0.25);
+
+  /* accent */
+  --grn:      #3fe08a;
+  --grn-dim:  rgba(63,224,138,0.12);
+  --grn-glow: rgba(63,224,138,0.22);
+  --amber:    #f5a84a;
+  --red:      #ff6161;
+  --blue:     #5ab0ff;
+
+  /* layout */
+  --sb-w: 280px;
+  --tb-h: 64px;
+}
+
+/* ── Світла тема ─────────────────────────── */
+body.theme-light {
+  --bg:         #f0f2f5;
+  --sidebar-bg: #e4e8ef;
+  --surface:    #ffffff;
+  --surface2:   #f5f7fa;
+  --surface3:   #eef0f4;
+  --b1: rgba(0,0,0,0.08);
+  --b2: rgba(0,0,0,0.14);
+  --t1: #1a2030;
+  --t2: rgba(26,32,48,0.55);
+  --t3: rgba(26,32,48,0.3);
+  --grn:      #22c55e;
+  --grn-dim:  rgba(34,197,94,0.12);
+  --grn-glow: rgba(34,197,94,0.22);
+  --amber:    #d97706;
+  --red:      #dc2626;
+  --blue:     #2563eb;
+}
+body.theme-light ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
+body.theme-light .overlay { background: rgba(0,0,0,0.4); }
+body.theme-light .modal  { box-shadow: 0 8px 40px rgba(0,0,0,0.18); }
+body.theme-light .pw-row:hover { background: rgba(0,0,0,0.03); }
+body.theme-light .sb-nav-item:hover { background: rgba(0,0,0,0.05); }
+body.theme-light .sb-group-item:hover { background: rgba(0,0,0,0.05); }
+body.theme-light .topbar { border-bottom-color: var(--b1); }
+body.theme-light .f-inp, body.theme-light .f-sel, body.theme-light .f-ta { background: #f5f7fa; color: var(--t1); }
+body.theme-light .f-inp::placeholder { color: var(--t3); }
+body.theme-light .tb-icon { color: var(--t2); }
+body.theme-light .tb-icon:hover { background: rgba(0,0,0,0.06); color: var(--t1); }
+
+/* Чекбокси */
+body.theme-light .cb-box {
+  border-color: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.03);
+}
+body.theme-light .cb input:checked + .cb-box svg { stroke: #fff; }
+
+/* Роздільна смуга між рядками */
+body.theme-light .pw-row { border-bottom-color: rgba(0,0,0,0.06); }
+body.theme-light .pw-row:hover { background: rgba(0,0,0,0.03); }
+body.theme-light .pw-row.sel { background: rgba(34,197,94,0.06); }
+body.theme-light .pw-row.sel:hover { background: rgba(34,197,94,0.1); }
+body.theme-light .pw-row-dots:hover { background: rgba(0,0,0,0.06); color: var(--t1); }
+
+/* Лічильники */
+body.theme-light .sb-nav-count { background: rgba(0,0,0,0.08); color: var(--t2); }
+body.theme-light .sb-nav-item.active .sb-nav-count { background: rgba(34,197,94,0.15); color: var(--grn); }
+body.theme-light .sb-group-count { background: rgba(0,0,0,0.08); }
+
+/* Навігаційна панель — секції і розділювачі */
+body.theme-light .sb-nav-section { color: rgba(26,32,48,0.35); }
+body.theme-light .sb-divider { background: rgba(0,0,0,0.08); }
+body.theme-light .sb-nav-item { color: var(--t2); }
+body.theme-light .sb-nav-item:hover { background: rgba(0,0,0,0.05); color: var(--t1); }
+body.theme-light .sb-nav-item.active { background: rgba(34,197,94,0.1); color: var(--grn); }
+body.theme-light .sb-nav-item svg { color: var(--t2); }
+body.theme-light .sb-nav-item.active svg { color: var(--grn); }
+body.theme-light .sb-group-item { color: var(--t2); }
+body.theme-light .sb-group-item:hover { background: rgba(0,0,0,0.05); color: var(--t1); }
+body.theme-light .sb-group-item.active { background: rgba(34,197,94,0.1); color: var(--grn); }
+body.theme-light .sb-new-group { color: rgba(26,32,48,0.4); }
+body.theme-light .sb-new-group:hover { color: var(--t2); }
+body.theme-light .sb-user:hover { background: rgba(0,0,0,0.04); }
+
+/* Пошук */
+body.theme-light .sb-search-inner { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); }
+body.theme-light .sb-search-inner input { color: var(--t1); }
+body.theme-light .sb-search-inner input::placeholder { color: var(--t3); }
+
+/* Модалки */
+body.theme-light .modal { background: #fff; box-shadow: 0 8px 40px rgba(0,0,0,0.15); }
+body.theme-light .modal-close { color: var(--t3); }
+body.theme-light .modal-close:hover { color: var(--t1); }
+
+/* Strength badges */
+body.theme-light .str-badge { background: rgba(0,0,0,0.06); color: var(--t2); }
+
+/* Dropdown */
+body.theme-light #dd { background: #fff; border-color: rgba(0,0,0,0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.12); }
+body.theme-light .dd-item { color: var(--t2); }
+body.theme-light .dd-item:hover { background: rgba(0,0,0,0.04); color: var(--t1); }
+
+/* User menu */
+body.theme-light .user-menu { background: #fff; border-color: rgba(0,0,0,0.12); box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+body.theme-light .um-item { color: var(--t2); }
+body.theme-light .um-item:hover { background: rgba(0,0,0,0.04); color: var(--t1); }
+body.theme-light .um-theme-row { color: var(--t2); }
+body.theme-light .um-theme-row:hover { background: rgba(0,0,0,0.04); color: var(--t1); }
+body.theme-light .um-divider { background: rgba(0,0,0,0.08); }
+body.theme-light .theme-switch { background: rgba(0,0,0,0.15); }
+
+/* Toast */
+body.theme-light .toast { background: #1a2030; }
+
+/* Header рядок таблиці */
+body.theme-light .pw-header { border-bottom-color: rgba(0,0,0,0.08); color: rgba(26,32,48,0.4); }
+
+/* View modal */
+body.theme-light .vf { border-bottom-color: rgba(0,0,0,0.07); }
+body.theme-light .vf-lbl { color: rgba(26,32,48,0.4); }
+body.theme-light .vf-copy:hover { background: rgba(0,0,0,0.06); }
+body.theme-light .v-act { background: rgba(0,0,0,0.05); color: var(--t2); }
+body.theme-light .v-act:hover { background: rgba(0,0,0,0.1); color: var(--t1); }
+body.theme-light .v-act.del { background: rgba(220,38,38,0.08); }
+
+/* Empty state */
+body.theme-light .empty-icon { background: rgba(0,0,0,0.05); }
+body.theme-light .color-dot.selected { border-color: #333; }
+
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--t1);
+  display: flex;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* scrollbars */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+/* ═══════════════════════════════════════════
+   SIDEBAR — mirrors PC design exactly
+═══════════════════════════════════════════ */
+.sidebar {
+  width: var(--sb-w);
+  min-width: var(--sb-w);
+  height: 100vh;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--b1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  z-index: 20;
+  /* very subtle green gradient top-left, like PC version */
+  background-image: radial-gradient(ellipse 260% 45% at 0% 0%, rgba(63,224,138,0.05) 0%, transparent 60%);
+}
+
+/* Logo — shield icon + SafeBox text, like the screenshot */
+.sb-logo {
+  padding: 28px 28px 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.sb-logo-shield {
+  width: 42px; height: 42px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.sb-logo-shield svg {
+  width: 38px; height: 38px;
+  stroke: var(--t1); fill: none; stroke-width: 1.5;
+  filter: drop-shadow(0 0 8px rgba(63,224,138,0.15));
+}
+.sb-logo-name {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.3rem; font-weight: 700; letter-spacing: -0.01em;
+  color: var(--t1);
+}
+
+/* FILTERS label */
+.sb-filters-label {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--t3);
+  padding: 0 28px 8px;
+  flex-shrink: 0;
+}
+.sb-top-divider {
+  height: 1px; background: var(--b1);
+  margin: 0 28px 18px; flex-shrink: 0;
+}
+
+/* Search — exactly like screenshot: rounded pill with search icon */
+.sb-search {
+  padding: 0 16px 18px;
+  flex-shrink: 0;
+}
+.sb-search-inner {
+  display: flex; align-items: center; gap: 9px;
+  background: var(--surface);
+  border: 1px solid var(--b1);
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: border-color .18s, box-shadow .18s;
+}
+.sb-search-inner:focus-within {
+  border-color: rgba(63,224,138,0.3);
+  box-shadow: 0 0 0 3px rgba(63,224,138,0.06);
+}
+.sb-search-inner svg { width: 15px; height: 15px; stroke: var(--t3); fill: none; flex-shrink: 0; stroke-width: 2; }
+.sb-search-inner input {
+  background: none; border: none; outline: none;
+  color: var(--t1); font-size: 0.85rem;
+  font-family: 'DM Sans', sans-serif; width: 100%;
+}
+.sb-search-inner input::placeholder { color: var(--t3); }
+
+/* Nav items */
+.sb-nav { flex: 1; overflow-y: auto; padding: 0 0 8px; }
+.sb-nav::-webkit-scrollbar { width: 0; }
+
+.sb-nav-item {
+  display: flex; align-items: center; gap: 11px;
+  padding: 10px 18px 10px 24px;
+  cursor: pointer;
+  color: var(--t2); font-size: 0.84rem;
+  transition: background .12s, color .12s;
+  user-select: none; position: relative;
+  border-radius: 0;
+}
+.sb-nav-item:hover { background: rgba(255,255,255,0.04); color: var(--t1); }
+.sb-nav-item.active {
+  background: rgba(63,224,138,0.09);
+  color: var(--t1);
+}
+/* left accent line like PC design */
+.sb-nav-item.active::before {
+  content: '';
+  position: absolute; left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 22px;
+  background: var(--grn);
+  border-radius: 0 3px 3px 0;
+}
+.sb-nav-item svg {
+  width: 16px; height: 16px; stroke: currentColor; fill: none;
+  stroke-width: 1.8; flex-shrink: 0; opacity: 0.75;
+}
+.sb-nav-item.active svg { opacity: 1; color: var(--grn); }
+.sb-nav-count {
+  margin-left: auto; font-size: 0.7rem; padding: 2px 8px;
+  border-radius: 20px; background: rgba(255,255,255,0.07); color: var(--t2);
+}
+.sb-nav-item.active .sb-nav-count { background: rgba(63,224,138,0.15); color: var(--grn); }
+
+.sb-nav-section {
+  padding: 14px 24px 5px;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--t3);
+}
+
+.sb-new-group {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 24px; cursor: pointer;
+  color: var(--t3); font-size: 0.82rem;
+  transition: color .12s;
+}
+.sb-new-group:hover { color: var(--t2); }
+.sb-new-group svg { width: 13px; height: 13px; stroke: currentColor; fill: none; }
+
+.color-dot {
+  width: 24px; height: 24px; border-radius: 50%;
+  cursor: pointer; border: 2px solid transparent;
+  transition: transform .15s, border-color .15s;
+}
+.color-dot:hover { transform: scale(1.15); }
+.color-dot.selected { border-color: #fff; transform: scale(1.15); }
+
+.sb-group-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 16px; border-radius: 8px; cursor: pointer;
+  font-size: 0.84rem; color: var(--t2); transition: background .15s;
+  position: relative;
+}
+.sb-group-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+.sb-group-item.active { background: rgba(63,224,138,0.1); color: var(--grn); }
+.sb-group-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.sb-group-count { margin-left: auto; font-size: 0.72rem; background: rgba(255,255,255,0.08); padding: 1px 7px; border-radius: 10px; }
+.sb-group-del { opacity: 0; margin-left: 4px; background: none; border: none; cursor: pointer; color: var(--t3); padding: 2px; }
+.sb-group-item:hover .sb-group-del { opacity: 1; }
+
+.sb-divider { height: 1px; background: var(--b1); margin: 10px 0; }
+
+/* User row at bottom */
+.sb-user-wrap {
+  border-top: 1px solid var(--b1);
+  padding: 14px 16px;
+  flex-shrink: 0;
+}
+.sb-user {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 10px; cursor: pointer;
+  transition: background .12s;
+}
+.sb-user:hover { background: rgba(255,255,255,0.04); }
+.sb-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, rgba(63,224,138,0.22), rgba(20,100,60,0.45));
+  border: 1px solid rgba(63,224,138,0.22);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Sora', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--grn);
+  flex-shrink: 0;
+}
+.sb-user-info { flex: 1; min-width: 0; }
+.sb-user-name  { font-size: 0.82rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sb-user-email { font-size: 0.71rem; color: var(--t3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── User Menu Popup ─────────────────────── */
+.user-menu {
+  position: absolute; bottom: 80px; left: 16px;
+  width: 248px;
+  background: var(--surface); border: 1px solid var(--b2);
+  border-radius: 12px; padding: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.32);
+  z-index: 200; opacity: 0; pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity .15s, transform .15s;
+}
+.user-menu.on { opacity: 1; pointer-events: all; transform: translateY(0); }
+
+.um-header {
+  padding: 10px 12px 12px;
+  border-bottom: 1px solid var(--b1);
+  margin-bottom: 6px;
+}
+.um-name  { font-size: 0.84rem; font-weight: 600; }
+.um-email { font-size: 0.72rem; color: var(--t3); margin-top: 2px; }
+
+.um-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 8px; cursor: pointer;
+  font-size: 0.84rem; color: var(--t2);
+  transition: background .12s, color .12s;
+  border: none; background: none; width: 100%; text-align: left;
+}
+.um-item:hover { background: var(--surface2); color: var(--t1); }
+.um-item svg { width: 15px; height: 15px; stroke: currentColor; fill: none; flex-shrink: 0; opacity: 0.7; }
+.um-item.danger { color: var(--red); }
+.um-item.danger:hover { background: rgba(255,97,97,0.08); }
+.um-item.danger svg { opacity: 1; }
+
+.um-divider { height: 1px; background: var(--b1); margin: 6px 0; }
+
+/* Theme toggle switch */
+.um-theme-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 8px;
+  font-size: 0.84rem; color: var(--t2); cursor: pointer;
+  transition: background .12s;
+}
+.um-theme-row:hover { background: var(--surface2); color: var(--t1); }
+.um-theme-row svg { width: 15px; height: 15px; stroke: currentColor; fill: none; flex-shrink: 0; opacity: 0.7; }
+.theme-switch {
+  margin-left: auto;
+  width: 34px; height: 20px; border-radius: 10px;
+  background: var(--b2); position: relative;
+  transition: background .2s; flex-shrink: 0;
+}
+.theme-switch.on { background: var(--grn); }
+.theme-switch::after {
+  content: ''; position: absolute; top: 3px; left: 3px;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: #fff; transition: transform .2s;
+}
+.theme-switch.on::after { transform: translateX(14px); }
+
+/* ═══════════════════════════════════════════
+   MAIN
+═══════════════════════════════════════════ */
+.main {
+  flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0;
+}
+
+/* Topbar — "Pinned    [New +]  [person]  [menu]" */
+.topbar {
+  height: var(--tb-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px;
+  border-bottom: 1px solid var(--b1);
+  flex-shrink: 0;
+  background: var(--bg);
+  backdrop-filter: blur(16px);
+  position: relative; z-index: 10;
+}
+.topbar-left { display: flex; align-items: center; gap: 20px; }
+.topbar-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.25rem; font-weight: 600; letter-spacing: -0.015em;
+}
+.topbar-right { display: flex; align-items: center; gap: 8px; }
+
+/* "New +" button — pill shape like screenshot */
+.btn-new-pill {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 16px 7px 14px;
+  border: 1px solid var(--b2);
+  border-radius: 50px;
+  background: rgba(255,255,255,0.05);
+  color: var(--t1); font-size: 0.83rem; font-weight: 500;
+  font-family: 'DM Sans', sans-serif; cursor: pointer;
+  transition: background .15s, border-color .15s, box-shadow .15s;
+}
+.btn-new-pill:hover {
+  background: rgba(63,224,138,0.1);
+  border-color: rgba(63,224,138,0.3);
+  box-shadow: 0 0 16px rgba(63,224,138,0.12);
+  color: var(--grn);
+}
+.btn-new-pill svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+.tb-icon {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid var(--b1); background: rgba(255,255,255,0.04);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--t2);
+  transition: background .12s, color .12s;
+}
+.tb-icon:hover { background: rgba(255,255,255,0.08); color: var(--t1); }
+.tb-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.7; }
+
+/* ═══════════════════════════════════════════
+   TABLE AREA
+═══════════════════════════════════════════ */
+.content { flex: 1; overflow-y: auto; overflow-x: hidden; }
+
+/* Table header row — "☐  Name  [stretch]  Password strength  ···" */
+.tbl-header {
+  display: grid;
+  grid-template-columns: 52px 1fr 300px 52px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--b1);
+  position: sticky; top: 0; z-index: 5;
+  background: var(--bg);
+}
+.tbl-hcell {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--t3);
+  padding: 0 12px;
+}
+.tbl-hcell:first-child { padding-left: 28px; }
+.tbl-hcell:last-child  { text-align: center; }
+
+/* Row */
+.pw-row {
+  display: grid;
+  grid-template-columns: 52px 1fr 300px 52px;
+  align-items: center;
+  height: 60px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: background .1s;
+  position: relative;
+}
+.pw-row:hover { background: rgba(255,255,255,0.03); }
+.pw-row:hover .pw-row-dots { opacity: 1; }
+.pw-row.sel   { background: rgba(63,224,138,0.05); }
+.pw-row.sel:hover { background: rgba(63,224,138,0.08); }
+
+.pw-cell { padding: 0 12px; }
+.pw-cell:first-child { padding-left: 28px; }
+.pw-cell:last-child  { display: flex; align-items: center; justify-content: center; }
+
+/* Checkbox */
+.cb { display: flex; align-items: center; cursor: pointer; }
+.cb input { display: none; }
+.cb-box {
+  width: 18px; height: 18px; border-radius: 5px;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.04);
+  display: flex; align-items: center; justify-content: center;
+  transition: background .13s, border-color .13s, box-shadow .13s;
+}
+.cb-box svg { width: 10px; height: 10px; stroke: #080c10; fill: none; stroke-width: 2.5; opacity: 0; transition: opacity .1s; }
+.cb input:checked + .cb-box { background: var(--grn); border-color: var(--grn); box-shadow: 0 0 8px rgba(63,224,138,0.3); }
+.cb input:checked + .cb-box svg { opacity: 1; }
+
+/* Name cell — icon + site + optional subtitle */
+.entry-wrap { display: flex; align-items: center; gap: 13px; }
+.entry-icon {
+  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+  background: var(--surface); border: 1px solid var(--b1);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; font-size: 0.8rem; font-weight: 600; color: var(--t2);
+}
+.entry-icon img { width: 22px; height: 22px; object-fit: contain; }
+.entry-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.entry-name {
+  font-size: 0.88rem; font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  display: flex; align-items: center; gap: 5px;
+}
+.pin-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--grn); flex-shrink: 0;
+  box-shadow: 0 0 5px rgba(63,224,138,0.5);
+}
+.entry-sub { font-size: 0.73rem; color: var(--t3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Password strength cell — bar like screenshot */
+.str-cell { display: flex; align-items: center; gap: 12px; }
+.str-track {
+  flex: 1; max-width: 200px; height: 6px;
+  border-radius: 10px; background: rgba(255,255,255,0.07); overflow: hidden;
+}
+.str-fill { height: 100%; border-radius: 10px; transition: width .35s ease; }
+.str-badge {
+  font-size: 0.69rem; padding: 3px 10px; border-radius: 20px; font-weight: 600;
+  letter-spacing: 0.02em; white-space: nowrap;
+}
+.sb-strong { background: rgba(63,224,138,0.1);  color: var(--grn); }
+.sb-medium { background: rgba(245,168,74,0.12); color: var(--amber); }
+.sb-weak   { background: rgba(255,97,97,0.1);   color: var(--red); }
+
+/* Three-dot button */
+.pw-row-dots {
+  width: 30px; height: 30px; border-radius: 8px;
+  border: none; background: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--t2); opacity: 0; transition: opacity .12s, background .12s, color .12s;
+}
+.pw-row-dots:hover { background: rgba(255,255,255,0.08); color: var(--t1); }
+.pw-row-dots svg { width: 16px; height: 16px; stroke: currentColor; fill: none; }
+
+/* Empty state */
+.empty {
+  display: none; flex-direction: column; align-items: center;
+  justify-content: center; gap: 14px; padding: 80px 40px; text-align: center;
+}
+.empty.on { display: flex; }
+.empty-ico {
+  width: 56px; height: 56px; border-radius: 16px;
+  background: var(--surface); border: 1px solid var(--b1);
+  display: flex; align-items: center; justify-content: center;
+}
+.empty-ico svg { width: 24px; height: 24px; stroke: var(--t2); fill: none; stroke-width: 1.4; }
+.empty-title { font-family: 'Sora', sans-serif; font-size: 1rem; font-weight: 600; }
+.empty-sub   { font-size: 0.83rem; color: var(--t2); max-width: 300px; line-height: 1.65; }
+
+/* ═══════════════════════════════════════════
+   SELECTION BAR (floats at top of content)
+═══════════════════════════════════════════ */
+.sel-bar {
+  display: none; align-items: center; gap: 10px;
+  padding: 8px 28px;
+  background: rgba(63,224,138,0.07);
+  border-bottom: 1px solid rgba(63,224,138,0.15);
+  font-size: 0.8rem; color: var(--grn);
+}
+.sel-bar.on { display: flex; }
+.sel-bar button {
+  background: none; border: none; color: inherit; cursor: pointer;
+  font-size: 0.78rem; font-family: 'DM Sans', sans-serif;
+  padding: 3px 10px; border-radius: 6px;
+  transition: background .1s;
+}
+.sel-bar button:hover { background: rgba(63,224,138,0.15); }
+.sel-bar button.danger { color: var(--red); }
+.sel-bar button.danger:hover { background: rgba(255,97,97,0.1); }
+
+/* ═══════════════════════════════════════════
+   OVERLAYS / MODALS
+═══════════════════════════════════════════ */
+.overlay {
+  display: none; position: fixed; inset: 0; z-index: 1000;
+  background: rgba(5,8,12,0.75); backdrop-filter: blur(8px);
+  align-items: center; justify-content: center; padding: 20px;
+}
+.overlay.on { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--b2); border-radius: 18px;
+  width: 100%; max-width: 460px; max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 32px 90px rgba(0,0,0,0.7);
+  animation: mIn .22s ease;
+}
+.modal::-webkit-scrollbar { width: 3px; }
+@keyframes mIn { from { opacity:0; transform:translateY(14px) scale(.98); } to { opacity:1; transform:none; } }
+
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 24px 18px; border-bottom: 1px solid var(--b1);
+}
+.modal-title { font-family: 'Sora', sans-serif; font-size: 0.95rem; font-weight: 600; }
+.modal-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px 0; }
+.modal-close { background: none; border: none; cursor: pointer; color: var(--t3); padding: 4px; display: flex; align-items: center; }
+.modal-close:hover { color: var(--text); }
+.modal-close svg { width: 18px; height: 18px; stroke: currentColor; fill: none; }
+.modal-x {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: rgba(255,255,255,0.05); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--t2); transition: background .12s, color .12s;
+}
+.modal-x:hover { background: rgba(255,255,255,0.1); color: var(--t1); }
+.modal-x svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+.modal-body { padding: 22px 24px; display: flex; flex-direction: column; gap: 15px; }
+
+.f-row { display: flex; flex-direction: column; gap: 5px; }
+.f-label { font-size: 0.78rem; color: var(--t2); font-weight: 500; }
+.f-inp {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--b1);
+  border-radius: 10px; padding: 11px 14px;
+  color: var(--t1); font-size: 0.87rem; font-family: 'DM Sans', sans-serif;
+  outline: none; transition: border-color .15s, background .15s; width: 100%;
+}
+.f-inp:focus { border-color: rgba(63,224,138,0.35); background: rgba(63,224,138,0.025); }
+.f-inp::placeholder { color: var(--t3); }
+
+.f-pw-wrap { display: flex; gap: 7px; }
+.f-pw-wrap .f-inp { flex: 1; }
+
+.f-eye {
+  width: 40px; border-radius: 10px; border: 1px solid var(--b1);
+  background: rgba(255,255,255,0.03); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--t2); transition: background .12s, color .12s; flex-shrink: 0;
+}
+.f-eye:hover { background: rgba(255,255,255,0.07); color: var(--t1); }
+.f-eye svg { width: 15px; height: 15px; stroke: currentColor; fill: none; }
+
+.f-gen {
+  display: flex; align-items: center; gap: 6px;
+  padding: 0 14px; border-radius: 10px;
+  border: 1px solid rgba(63,224,138,0.25); background: rgba(63,224,138,0.07);
+  color: var(--grn); font-size: 0.76rem; font-weight: 500;
+  cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap;
+  transition: background .12s; flex-shrink: 0;
+}
+.f-gen:hover { background: rgba(63,224,138,0.14); }
+.f-gen svg { width: 12px; height: 12px; stroke: currentColor; fill: none; }
+
+.f-str-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.f-str-track { flex: 1; height: 3px; border-radius: 10px; background: rgba(255,255,255,0.08); overflow: hidden; }
+.f-str-fill  { height: 100%; border-radius: 10px; transition: width .28s, background .28s; }
+.f-str-lbl   { font-size: 0.71rem; color: var(--t2); min-width: 88px; text-align: right; }
+
+.f-sel {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--b1);
+  border-radius: 10px; padding: 11px 14px;
+  color: var(--t1); font-size: 0.87rem; font-family: 'DM Sans', sans-serif;
+  outline: none; width: 100%; cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(220,228,240,0.3)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; background-size: 10px; padding-right: 36px;
+}
+.f-sel:focus { border-color: rgba(63,224,138,0.35); }
+.f-sel option { background: var(--surface2); }
+
+.f-ta {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--b1);
+  border-radius: 10px; padding: 11px 14px;
+  color: var(--t1); font-size: 0.87rem; font-family: 'DM Sans', sans-serif;
+  outline: none; width: 100%; resize: vertical; min-height: 72px;
+}
+.f-ta:focus { border-color: rgba(63,224,138,0.35); }
+.f-ta::placeholder { color: var(--t3); }
+
+.f-cb-row { display: flex; align-items: center; gap: 9px; cursor: pointer; }
+.f-cb-lbl { font-size: 0.81rem; color: var(--t2); }
+
+.modal-foot {
+  display: flex; justify-content: flex-end; gap: 8px;
+  padding: 16px 24px 22px; border-top: 1px solid var(--b1);
+}
+.btn-cancel {
+  padding: 9px 20px; border-radius: 9px; border: 1px solid var(--b1);
+  background: none; color: var(--t2); font-size: 0.82rem;
+  font-family: 'DM Sans', sans-serif; cursor: pointer;
+  transition: background .12s, color .12s;
+}
+.btn-cancel:hover { background: rgba(255,255,255,0.05); color: var(--t1); }
+.btn-save {
+  padding: 9px 24px; border-radius: 9px; border: none;
+  background: var(--grn); color: #06100c; font-size: 0.82rem; font-weight: 600;
+  font-family: 'DM Sans', sans-serif; cursor: pointer;
+  box-shadow: 0 0 16px rgba(63,224,138,0.2);
+  transition: opacity .15s, box-shadow .15s;
+}
+.btn-save:hover { opacity: 0.9; box-shadow: 0 0 24px rgba(63,224,138,0.32); }
+
+/* ═══════════════════════════════════════════
+   VIEW MODAL
+═══════════════════════════════════════════ */
+.view-top { display: flex; align-items: center; gap: 14px; padding-bottom: 6px; }
+.view-icon {
+  width: 50px; height: 50px; border-radius: 13px; flex-shrink: 0;
+  background: var(--surface2); border: 1px solid var(--b1);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; font-size: 1.1rem; font-weight: 600;
+}
+.view-icon img { width: 28px; height: 28px; object-fit: contain; }
+.view-site { font-family: 'Sora', sans-serif; font-size: 1.02rem; font-weight: 600; }
+.view-url  { font-size: 0.75rem; color: var(--t3); margin-top: 3px; }
+
+.vf {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--b1);
+  border-radius: 11px; padding: 13px 15px;
+}
+.vf-lbl { font-size: 0.67rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--t3); margin-bottom: 7px; }
+.vf-val { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 0.88rem; }
+.vf-text { flex: 1; word-break: break-all; }
+.vf-hidden { letter-spacing: 0.14em; color: var(--t2); font-size: 1rem; }
+
+.vf-copy {
+  width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0;
+  background: rgba(255,255,255,0.05); border: 1px solid var(--b1);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--t2);
+  transition: background .1s, color .1s, border-color .1s;
+}
+.vf-copy:hover { background: rgba(63,224,138,0.1); border-color: rgba(63,224,138,0.3); color: var(--grn); }
+.vf-copy svg { width: 12px; height: 12px; stroke: currentColor; fill: none; }
+
+.vf-str-row { display: flex; align-items: center; gap: 8px; margin-top: 9px; }
+.vf-str-track { flex: 1; height: 4px; border-radius: 10px; background: rgba(255,255,255,0.07); overflow: hidden; }
+.vf-str-bar { height: 100%; border-radius: 10px; }
+
+.v-acts { display: flex; gap: 8px; }
+.v-act {
+  flex: 1; padding: 9px 8px; border-radius: 9px;
+  border: 1px solid var(--b1); background: rgba(255,255,255,0.02);
+  color: var(--t2); font-size: 0.79rem; font-family: 'DM Sans', sans-serif; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: background .12s, color .12s, border-color .12s;
+}
+.v-act:hover { background: rgba(255,255,255,0.06); color: var(--t1); }
+.v-act.del:hover { background: rgba(255,97,97,0.07); border-color: rgba(255,97,97,0.25); color: var(--red); }
+.v-act svg { width: 13px; height: 13px; stroke: currentColor; fill: none; }
+
+/* ═══════════════════════════════════════════
+   DROPDOWN MENU  (the "···" click)
+═══════════════════════════════════════════ */
+.dropdown {
+  display: none; position: fixed; z-index: 2000;
+  background: var(--surface2); border: 1px solid var(--b2);
+  border-radius: 11px; padding: 5px;
+  min-width: 170px;
+  box-shadow: 0 14px 50px rgba(0,0,0,0.6);
+  animation: dIn .13s ease;
+}
+.dropdown.on { display: block; }
+@keyframes dIn { from { opacity:0; transform:scale(.94); } to { opacity:1; transform:scale(1); } }
+
+.dd-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 11px; border-radius: 8px; cursor: pointer;
+  color: var(--t2); font-size: 0.82rem;
+  transition: background .1s, color .1s;
+}
+.dd-item:hover { background: rgba(255,255,255,0.07); color: var(--t1); }
+.dd-item.red:hover { background: rgba(255,97,97,0.07); color: var(--red); }
+.dd-item svg { width: 13px; height: 13px; stroke: currentColor; fill: none; }
+.dd-sep { height: 1px; background: var(--b1); margin: 4px 0; }
+
+/* ═══════════════════════════════════════════
+   TOASTS
+═══════════════════════════════════════════ */
+.toasts { position: fixed; bottom: 22px; right: 22px; z-index: 3000; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+.toast {
+  background: var(--surface2); border: 1px solid var(--b2);
+  border-radius: 11px; padding: 11px 16px; font-size: 0.81rem;
+  display: flex; align-items: center; gap: 9px;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.5);
+  animation: tIn .2s ease; pointer-events: all; max-width: 280px;
+}
+.toast.out { animation: tOut .2s ease forwards; }
+@keyframes tIn  { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+@keyframes tOut { from { opacity:1; transform:none; } to { opacity:0; transform:translateY(6px); } }
+.t-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.toast.ok  .t-dot { background: var(--grn); box-shadow: 0 0 6px rgba(63,224,138,0.5); }
+.toast.err .t-dot { background: var(--red); }
+.toast.inf .t-dot { background: var(--blue); }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════
+     SIDEBAR
+══════════════════════════ -->
+<aside class="sidebar">
+
+  <!-- Logo — shield + SafeBox -->
+  <div class="sb-logo">
+    <div class="sb-logo-shield">
+      <!-- Shield SVG that closely matches the screenshot icon -->
+      <svg viewBox="0 0 50 58" xmlns="http://www.w3.org/2000/svg">
+        <path d="M25 2 L46 10 L46 28 C46 42 35 52 25 56 C15 52 4 42 4 28 L4 10 Z"
+              stroke="white" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <span class="sb-logo-name">SafeBox</span>
+  </div>
+
+  <!-- FILTERS label + divider -->
+  <div class="sb-filters-label">Filters</div>
+  <div class="sb-top-divider"></div>
+
+  <!-- Search -->
+  <div class="sb-search">
+    <div class="sb-search-inner">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search" id="gSearch" oninput="doFilter()">
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="sb-nav">
+
+    <!-- My Groups -->
+    <div class="sb-nav-item" onclick="nav('my-groups',this)">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      My Groups
+    </div>
+    <div class="sb-new-group" onclick="openNewGroup()">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      New Group
+    </div>
+
+    <!-- Динамічний список груп -->
+    <div id="groupsList"></div>
+
+    <div class="sb-divider"></div>
+
+    <!-- All Classes section -->
+    <div class="sb-nav-section">All Classes</div>
+
+    <div class="sb-nav-item active" id="nav-pinned" onclick="nav('pinned',this)">
+      <svg viewBox="0 0 24 24"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Pinned
+      <span class="sb-nav-count" id="c-pinned">0</span>
+    </div>
+
+    <div class="sb-nav-item" id="nav-card" onclick="nav('card',this)">
+      <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      Card
+      <span class="sb-nav-count" id="c-card">0</span>
+    </div>
+
+    <div class="sb-nav-item" id="nav-recent" onclick="nav('recent',this)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Recent
+      <span class="sb-nav-count" id="c-recent">0</span>
+    </div>
+
+    <div class="sb-divider"></div>
+
+    <!-- Extra filters like web version -->
+    <div class="sb-nav-section">More</div>
+
+    <div class="sb-nav-item" id="nav-all" onclick="nav('all',this)">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      All Passwords
+      <span class="sb-nav-count" id="c-all">0</span>
+    </div>
+
+    <div class="sb-nav-item" id="nav-weak" onclick="nav('weak',this)">
+      <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Weak Passwords
+      <span class="sb-nav-count" id="c-weak">0</span>
+    </div>
+
+
+  </nav>
+
+  <!-- User -->
+  <div class="sb-user-wrap" style="position:relative;">
+
+    <!-- User Menu Popup -->
+    <div class="user-menu" id="userMenu">
+      <div class="um-header">
+        <div class="um-name" id="umName">—</div>
+        <div class="um-email" id="umEmail">—</div>
+      </div>
+
+      <!-- Тема -->
+      <div class="um-theme-row" onclick="toggleTheme()">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        Світла тема
+        <div class="theme-switch" id="themeSwitch"></div>
+      </div>
+
+      <div class="um-divider"></div>
+
+      <!-- Пристрої -->
+      <button class="um-item" onclick="closeUserMenu();openDevices()">
+        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        Мої пристрої
+      </button>
+
+      <!-- Аудит -->
+      <button class="um-item" onclick="closeUserMenu();openAudit()">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Журнал активності
+      </button>
+
+      <div class="um-divider"></div>
+
+      <!-- Вийти -->
+      <button class="um-item danger" onclick="logout()">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Вийти
+      </button>
+    </div>
+
+    <!-- User row (кнопка) -->
+    <div class="sb-user" onclick="toggleUserMenu()">
+      <div class="sb-avatar" id="uAv">АК</div>
+      <div class="sb-user-info">
+        <div class="sb-user-name" id="uName">—</div>
+        <div class="sb-user-email" id="uEmail">—</div>
+      </div>
+      <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--t3);fill:none;flex-shrink:0;">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+  </div>
+
+</aside>
+
+<!-- ══════════════════════════
+     MAIN
+══════════════════════════ -->
+<div class="main">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title" id="pageTitle">Pinned</div>
+    </div>
+    <div class="topbar-right">
+      <!-- New + pill button — matches screenshot -->
+      <button class="btn-new-pill" onclick="openAdd()">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New
+      </button>
+      <!-- Person icon -->
+      <div class="tb-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <!-- Hamburger icon -->
+      <div class="tb-icon" onclick="logout()" title="Вийти">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Selection bar -->
+  <div class="sel-bar" id="selBar">
+    <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;"><polyline points="20 6 9 17 4 12"/></svg>
+    <span id="selCnt">0</span> вибрано
+    <button onclick="deleteSel()">Видалити</button>
+    <button onclick="clearSel()" class="danger">Скасувати</button>
+  </div>
+
+  <!-- Content -->
+  <div class="content" id="content">
+
+    <!-- Table header — Name + Password strength + ··· -->
+    <div class="tbl-header">
+      <div class="tbl-hcell">
+        <label class="cb">
+          <input type="checkbox" id="cbAll" onchange="toggleAll(this)">
+          <span class="cb-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>
+        </label>
+      </div>
+      <div class="tbl-hcell">Name</div>
+      <div class="tbl-hcell">Password strength</div>
+      <div class="tbl-hcell">
+        <button style="background:none;border:none;cursor:pointer;color:var(--t2);display:flex;align-items:center;" onclick="toast('Більше опцій','inf')">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Rows -->
+    <div id="pwList"></div>
+
+    <!-- Empty -->
+    <div class="empty" id="emptyState">
+      <div class="empty-ico">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div class="empty-title">No passwords found</div>
+      <div class="empty-sub">Try a different search or add a new entry.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ MODAL ADD/EDIT ══ -->
+<div class="overlay" id="addOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="addTitle">New Entry</div>
+      <button class="modal-x" onclick="closeAdd()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="f-row"><label class="f-label">Service Name</label><input class="f-inp" type="text" id="fTitle" placeholder="Google, GitHub, Instagram…"></div>
+      <div class="f-row"><label class="f-label">URL</label><input class="f-inp" type="text" id="fUrl" placeholder="https://google.com"></div>
+      <div class="f-row"><label class="f-label">Login / Email</label><input class="f-inp" type="text" id="fLogin" placeholder="user@example.com"></div>
+      <div class="f-row">
+        <label class="f-label">Password</label>
+        <div class="f-pw-wrap">
+          <input class="f-inp" type="password" id="fPass" placeholder="Enter or generate" oninput="mStr(this.value)">
+          <button class="f-eye" onclick="togglePwV('fPass',this)"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          <button class="f-gen" onclick="genPw()"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Generate</button>
+        </div>
+        <div class="f-str-row">
+          <div class="f-str-track"><div class="f-str-fill" id="msFill" style="width:0%;background:#ff6161;"></div></div>
+          <span class="f-str-lbl" id="msLbl">—</span>
+        </div>
+      </div>
+      <div class="f-row"><label class="f-label">Group</label>
+        <select class="f-sel" id="fGroup">
+          <option value="">— no group —</option>
+          <option value="group-work">Work</option>
+          <option value="group-social">Social</option>
+          <option value="group-finance">Finance</option>
+          <option value="group-dev">Dev</option>
+        </select>
+      </div>
+      <div class="f-row"><label class="f-label">Note <span style="color:var(--t3);font-weight:400;">(optional)</span></label><textarea class="f-ta" id="fNote" placeholder="Additional info…"></textarea></div>
+      <div class="f-cb-row">
+        <label class="cb" style="cursor:pointer;"><input type="checkbox" id="fPin"><span class="cb-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span></label>
+        <span class="f-cb-lbl">Pin this entry</span>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeAdd()">Cancel</button>
+      <button class="btn-save" onclick="saveEntry()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL VIEW ══ -->
+<div class="overlay" id="viewOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Entry Details</div>
+      <button class="modal-x" onclick="closeView()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body" id="viewBody"></div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeView()">Close</button>
+      <button class="btn-save" id="vEditBtn">Edit</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DROPDOWN ══ -->
+<div class="dropdown" id="dd">
+  <div class="dd-item" onclick="ddDo('view')"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>View</div>
+  <div class="dd-item" onclick="ddDo('edit')"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit</div>
+  <div class="dd-item" onclick="ddDo('copyLogin')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Copy Login</div>
+  <div class="dd-item" onclick="ddDo('copyPass')"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Copy Password</div>
+  <div class="dd-item" onclick="ddDo('pin')"><svg viewBox="0 0 24 24"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span id="ddPinLbl">Pin</span></div>
+  <div class="dd-sep"></div>
+  <div class="dd-item red" onclick="ddDo('delete')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>Delete</div>
+</div>
+
+<!-- ══ TOASTS ══ -->
+<div class="toasts" id="toastWrap"></div>
+
+<script>
+/* ════════════════════════════════
+   DATA
+════════════════════════════════ */
+const FAVI = {
+  Google:'https://www.google.com/favicon.ico',
+  Apple:'https://www.apple.com/favicon.ico',
+  Figma:'https://www.figma.com/favicon.ico',
+  Skype:'https://www.skype.com/favicon.ico',
+  Instagram:'https://www.instagram.com/favicon.ico',
+  Facebook:'https://www.facebook.com/favicon.ico',
+  Opera:'https://www.opera.com/favicon.ico',
+  Steam:'https://store.steampowered.com/favicon.ico',
+  Spotify:'https://www.spotify.com/favicon.ico',
+  Discord:'https://discord.com/favicon.ico',
+  Photoshop:'https://www.adobe.com/favicon.ico',
+  Monobank:'https://www.monobank.ua/favicon.ico',
+  GitHub:'https://github.com/favicon.ico',
+};
+
+// ═══════════════════════════════════════════════════════
+//  API LAYER
+// ═══════════════════════════════════════════════════════
+const API = 'http://localhost:8000/api/v1';
+
+function getToken() { return localStorage.getItem('sb_access'); }
+
+async function apiFetch(path, opts={}) {
+  const token = getToken();
+  const res = await fetch(API + path, {
+    ...opts,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { 'Authorization': 'Bearer ' + token } : {}),
+      ...(opts.headers || {}),
+    },
+  });
+  if (res.status === 401) {
+    // Спробувати оновити токен
+    const refreshed = await tryRefresh();
+    if (refreshed) return apiFetch(path, opts); // повторити запит
+    // Якщо не вдалось — повернути на сторінку входу
+    localStorage.clear();
+    window.location.href = 'index.html';
+    return null;
+  }
+  return res;
+}
+
+async function tryRefresh() {
+  const refresh = localStorage.getItem('sb_refresh');
+  if (!refresh) return false;
+  try {
+    const res = await fetch(API + '/auth/refresh', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refresh_token: refresh }),
+    });
+    if (!res.ok) return false;
+    const data = await res.json();
+    localStorage.setItem('sb_access',  data.access_token);
+    localStorage.setItem('sb_refresh', data.refresh_token);
+    return true;
+  } catch { return false; }
+}
+
+// Перевірка авторизації при відкритті сторінки
+if (!getToken()) { window.location.href = 'index.html'; }
+
+// ═══════════════════════════════════════════════════════
+//  ШИФРУВАННЯ (client-side, спрощена версія для Web)
+//  У повній версії тут буде PBKDF2 + AES-256-GCM
+//  Зараз використовуємо Base64 як placeholder
+//  щоб дані зберігались в БД і повертались коректно
+// ═══════════════════════════════════════════════════════
+function encryptField(text) {
+  // Base64 encode (placeholder для AES-256-GCM у продакшні)
+  try {
+    return {
+      encrypted: btoa(unescape(encodeURIComponent(text))),
+      iv:        btoa('iv-' + Math.random().toString(36).slice(2,14)),
+      auth_tag:  btoa('tag-' + Math.random().toString(36).slice(2,14)),
+    };
+  } catch(e) {
+    // Fallback якщо текст містить спецсимволи
+    return {
+      encrypted: btoa(encodeURIComponent(text)),
+      iv:        btoa('iv-fallback'),
+      auth_tag:  btoa('tag-fallback'),
+    };
+  }
+}
+
+function decryptField(encrypted) {
+  if (!encrypted) return '';
+  try {
+    // Спробувати unescape decode (наш основний формат)
+    return decodeURIComponent(escape(atob(encrypted)));
+  } catch(e1) {
+    try {
+      // Fallback: decodeURIComponent після atob
+      return decodeURIComponent(atob(encrypted));
+    } catch(e2) {
+      try {
+        // Останній варіант: просто atob
+        return atob(encrypted);
+      } catch(e3) {
+        // Якщо нічого не спрацювало — повернути як є
+        return encrypted;
+      }
+    }
+  }
+}
+
+// Конвертація API-запису → локальний формат DB
+function apiToLocal(item) {
+  let plainData = {};
+  let name = '';
+
+  try {
+    name = decryptField(item.name_encrypted);
+  } catch(e) {
+    name = item.name_encrypted || 'Unknown';
+  }
+
+  try {
+    const rawData = decryptField(item.data_encrypted);
+    plainData = JSON.parse(rawData);
+  } catch(e) {
+    console.warn('Cannot parse data for item:', item.id, e);
+  }
+
+  return {
+    id:  item.id,
+    t:   name,
+    u:   plainData.url      || '',
+    l:   plainData.username || '',
+    p:   plainData.password || '',
+    n:   plainData.notes    || '',
+    g:   plainData.group    || '',
+    pin: !!item.is_pinned,
+    upd: (item.updated_at||'').slice(0,10),
+    _raw: item,
+  };
+}
+
+// Конвертація локального формату → API payload
+function localToApi(entry) {
+  const nameEnc  = encryptField(entry.t);
+  const dataEnc  = encryptField(JSON.stringify({
+    username: entry.l,
+    password: entry.p,
+    url:      entry.u,
+    notes:    entry.n,
+    group:    entry.g,
+  }));
+  return {
+    name_encrypted: nameEnc.encrypted,
+    name_iv:        nameEnc.iv,
+    name_auth_tag:  nameEnc.auth_tag,
+    data_encrypted: dataEnc.encrypted,
+    data_iv:        dataEnc.iv,
+    auth_tag:       dataEnc.auth_tag,
+    is_pinned:      entry.pin || false,
+    is_favorite:    false,
+    type:           'login',
+    key_version:    1,
+  };
+}
+
+// ═══════════════════════════════════════════════════════
+//  ЗАВАНТАЖЕННЯ ДАНИХ З API
+// ═══════════════════════════════════════════════════════
+let DB = [];
+let nid = 1;
+
+async function loadPasswords() {
+  try {
+    const res = await apiFetch('/passwords');
+    if (!res) return;
+    const items = await res.json();
+    console.log('API повернув записів:', items.length, items);
+    DB = items.map(apiToLocal);
+    console.log('DB після конвертації:', DB);
+    renderGroups();
+    render();
+    updateCounts();
+  } catch(e) {
+    toast('Помилка завантаження даних', 'err');
+    console.error('loadPasswords error:', e);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  ПРОФІЛЬ КОРИСТУВАЧА
+// ═══════════════════════════════════════════════════════
+async function loadProfile() {
+  try {
+    const res = await apiFetch('/users/me');
+    if (!res) return;
+    const user = await res.json();
+    const initials = user.email.slice(0,2).toUpperCase();
+    const name = user.email.split('@')[0];
+    // Сайдбар
+    const avEl    = document.getElementById('uAv');
+    const nameEl  = document.getElementById('uName');
+    const emailEl = document.getElementById('uEmail');
+    if (avEl)    avEl.textContent   = initials;
+    if (nameEl)  nameEl.textContent = name;
+    if (emailEl) emailEl.textContent = user.email;
+    // User menu
+    const umName  = document.getElementById('umName');
+    const umEmail = document.getElementById('umEmail');
+    if (umName)  umName.textContent  = name;
+    if (umEmail) umEmail.textContent = user.email;
+  } catch(e) { console.error('Profile load error:', e); }
+}
+
+// ═══════════════════════════════════════════════════════
+//  ПЕРЕВИЗНАЧЕННЯ: saveEntry → API
+// ═══════════════════════════════════════════════════════
+async function saveEntry() {
+  const t   = document.getElementById('fTitle').value.trim();
+  const u   = document.getElementById('fUrl').value.trim();
+  const l   = document.getElementById('fLogin').value.trim();
+  const p   = document.getElementById('fPass').value;
+  const n   = document.getElementById('fNote').value.trim();
+  const pin = document.getElementById('fPin').checked;
+  const g   = document.getElementById('fGroup').value;
+
+  if (!t) { toast('Введіть назву сервісу', 'err'); return; }
+  if (!l) { toast('Введіть логін', 'err'); return; }
+  if (!p) { toast('Введіть пароль', 'err'); return; }
+
+  const btn = document.querySelector('#addOverlay .btn-save');
+  btn.textContent = 'Збереження...';
+  btn.disabled = true;
+
+  const payload = localToApi({ t, u, l, p, n, g, pin });
+
+  try {
+    let res;
+    if (editId) {
+      res = await apiFetch('/passwords/' + editId, {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+      });
+    } else {
+      res = await apiFetch('/passwords', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+    }
+
+    if (!res || !res.ok) {
+      toast('Помилка збереження', 'err');
+    } else {
+      toast(editId ? 'Запис оновлено' : 'Запис додано', 'ok');
+      closeAdd();
+      await loadPasswords();
+    }
+  } catch(e) {
+    toast('Помилка з\'єднання з сервером', 'err');
+  } finally {
+    btn.textContent = 'Save';
+    btn.disabled = false;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  ПЕРЕВИЗНАЧЕННЯ: deleteOne → API
+// ═══════════════════════════════════════════════════════
+async function deleteOne(id) {
+  try {
+    const res = await apiFetch('/passwords/' + id, { method: 'DELETE' });
+    if (res && res.ok) {
+      DB = DB.filter(e => e.id !== id);
+      selIds.delete(id);
+      updSel();
+      render();
+      toast('Запис видалено', 'inf');
+    } else {
+      toast('Помилка видалення', 'err');
+    }
+  } catch { toast('Помилка з\'єднання', 'err'); }
+}
+
+// ═══════════════════════════════════════════════════════
+//  ПЕРЕВИЗНАЧЕННЯ: togPin → API
+// ═══════════════════════════════════════════════════════
+async function togPin(id) {
+  const e = getE(id);
+  if (!e) return;
+  const newPin = !e.pin;
+  try {
+    const res = await apiFetch('/passwords/' + id, {
+      method: 'PUT',
+      body: JSON.stringify({ is_pinned: newPin }),
+    });
+    if (res && res.ok) {
+      e.pin = newPin;
+      toast(newPin ? 'Закріплено' : 'Відкріплено', 'ok');
+      closeView();
+      render();
+    }
+  } catch { toast('Помилка', 'err'); }
+}
+
+// ═══════════════════════════════════════════════════════
+//  ПЕРЕВИЗНАЧЕННЯ: deleteSel → API (масове видалення)
+// ═══════════════════════════════════════════════════════
+async function deleteSel() {
+  const ids = [...selIds];
+  const n = ids.length;
+  try {
+    await Promise.all(ids.map(id => apiFetch('/passwords/' + id, { method: 'DELETE' })));
+    DB = DB.filter(e => !selIds.has(e.id));
+    selIds.clear();
+    updSel();
+    render();
+    toast(`Видалено ${n} записів`, 'inf');
+  } catch { toast('Помилка видалення', 'err'); }
+}
+
+// ═══════════════════════════════════════════════════════
+//  LOGOUT
+// ═══════════════════════════════════════════════════════
+async function logout() {
+  const refresh = localStorage.getItem('sb_refresh');
+  if (refresh) {
+    try {
+      await fetch(API + '/auth/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refresh_token: refresh }),
+      });
+    } catch {}
+  }
+  localStorage.clear();
+  window.location.href = 'index.html';
+}
+
+// ═══════════════════════════════════════════════════════
+//  USER MENU
+// ═══════════════════════════════════════════════════════
+function toggleUserMenu() {
+  const menu = document.getElementById('userMenu');
+  menu.classList.toggle('on');
+}
+function closeUserMenu() {
+  document.getElementById('userMenu').classList.remove('on');
+}
+// Закрити меню при кліку поза ним
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('userMenu');
+  const wrap = menu && menu.closest('.sb-user-wrap');
+  if (menu && menu.classList.contains('on') && wrap && !wrap.contains(e.target)) {
+    menu.classList.remove('on');
+  }
+});
+
+// ═══════════════════════════════════════════════════════
+//  THEME
+// ═══════════════════════════════════════════════════════
+function applyTheme(light) {
+  document.body.classList.toggle('theme-light', light);
+  const sw = document.getElementById('themeSwitch');
+  if (sw) sw.classList.toggle('on', light);
+  localStorage.setItem('sb_theme', light ? 'light' : 'dark');
+}
+
+function toggleTheme() {
+  const isLight = document.body.classList.contains('theme-light');
+  applyTheme(!isLight);
+}
+
+// Застосувати збережену тему при завантаженні
+(function() {
+  const saved = localStorage.getItem('sb_theme');
+  if (saved === 'light') applyTheme(true);
+})();
+
+// ═══════════════════════════════════════════════════════
+//  DEVICES MODAL
+// ═══════════════════════════════════════════════════════
+async function openDevices() {
+  const res = await apiFetch('/users/me/devices');
+  if (!res) return;
+  const devices = await res.json();
+  const body = devices.map(d => `
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--b1);">
+      <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--t3);fill:none;flex-shrink:0;"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:0.84rem;font-weight:500;">${d.device_name||'Unknown'}</div>
+        <div style="font-size:0.72rem;color:var(--t3);">${d.device_type} · ${d.ip_address||'—'}</div>
+      </div>
+      <div style="font-size:0.7rem;color:var(--t3);">${d.created_at?d.created_at.slice(0,10):''}</div>
+    </div>`).join('');
+  showInfoModal('Мої пристрої', body || '<p style="color:var(--t3);text-align:center;padding:20px;">Немає пристроїв</p>');
+}
+
+// ═══════════════════════════════════════════════════════
+//  AUDIT MODAL
+// ═══════════════════════════════════════════════════════
+async function openAudit() {
+  const res = await apiFetch('/users/me/audit?limit=20');
+  if (!res) return;
+  const logs = await res.json();
+  const icons = { LOGIN_SUCCESS:'🔓', REGISTER:'✅', LOGIN_GOOGLE:'🔵', PASSWORD_CREATED:'➕', PASSWORD_UPDATED:'✏️', PASSWORD_DELETED:'🗑️', SESSION_REVOKED:'🚪', LOGIN_FAILED:'⚠️' };
+  const body = logs.map(l => `
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--b1);font-size:0.82rem;">
+      <span style="font-size:1rem;">${icons[l.action]||'•'}</span>
+      <div style="flex:1;">
+        <span style="color:var(--t1);">${l.action.replace(/_/g,' ')}</span>
+        <span style="color:var(--t3);margin-left:8px;">${l.ip_address||''}</span>
+      </div>
+      <div style="color:var(--t3);font-size:0.7rem;flex-shrink:0;">${(l.created_at||'').slice(0,16).replace('T',' ')}</div>
+    </div>`).join('');
+  showInfoModal('Журнал активності', body || '<p style="color:var(--t3);text-align:center;padding:20px;">Немає записів</p>');
+}
+
+// Загальна модалка для інфо
+function showInfoModal(title, bodyHtml) {
+  let modal = document.getElementById('infoModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'infoModal';
+    modal.className = 'overlay';
+    modal.innerHTML = `
+      <div class="modal" style="max-width:460px;">
+        <div class="modal-header">
+          <span class="modal-title" id="infoModalTitle"></span>
+          <button class="modal-close" onclick="document.getElementById('infoModal').classList.remove('on')">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div id="infoModalBody" style="padding:16px 24px 24px;max-height:400px;overflow-y:auto;"></div>
+      </div>`;
+    document.body.appendChild(modal);
+  }
+  document.getElementById('infoModalTitle').textContent = title;
+  document.getElementById('infoModalBody').innerHTML = bodyHtml;
+  modal.classList.add('on');
+}
+
+// ═══════════════════════════════════════════════════════
+//  GROUPS SYSTEM
+// ═══════════════════════════════════════════════════════
+let GROUPS = JSON.parse(localStorage.getItem('sb_groups') || '[]');
+// Дефолтні групи якщо ще немає
+if (GROUPS.length === 0) {
+  GROUPS = [
+    { id: 'group-work',    name: 'Work',    color: '#60a5fa' },
+    { id: 'group-social',  name: 'Social',  color: '#f472b6' },
+    { id: 'group-finance', name: 'Finance', color: '#fbbf24' },
+    { id: 'group-dev',     name: 'Dev',     color: '#a78bfa' },
+  ];
+  saveGroups();
+}
+
+function saveGroups() {
+  localStorage.setItem('sb_groups', JSON.stringify(GROUPS));
+}
+
+function renderGroups() {
+  const container = document.getElementById('groupsList');
+  if (!container) return;
+  container.innerHTML = '';
+  GROUPS.forEach(g => {
+    const cnt = DB.filter(e => e.g === g.id).length;
+    const div = document.createElement('div');
+    div.className = 'sb-group-item' + (curF === g.id ? ' active' : '');
+    div.id = 'nav-' + g.id;
+    div.innerHTML =
+      '<div class="sb-group-dot" style="background:' + g.color + '"></div>' +
+      '<span style="flex:1">' + g.name + '</span>' +
+      '<span class="sb-group-count">' + cnt + '</span>' +
+      '<button class="sb-group-del" onclick="event.stopPropagation();deleteGroup(\'' + g.id + '\')" title="Delete group">' +
+      '<svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" fill="none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+      '</button>';
+    div.onclick = function() { nav(g.id, div); };
+    container.appendChild(div);
+  });
+
+  // Оновити select у формі
+  const sel = document.getElementById('fGroup');
+  if (sel) {
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">— no group —</option>';
+    GROUPS.forEach(g => {
+      const opt = document.createElement('option');
+      opt.value = g.id; opt.textContent = g.name;
+      if (g.id === cur) opt.selected = true;
+      sel.appendChild(opt);
+    });
+  }
+}
+
+let selectedColor = '#4ade80';
+
+function openNewGroup() {
+  document.getElementById('gName').value = '';
+  selectedColor = '#4ade80';
+  document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('selected'));
+  const first = document.querySelector('.color-dot');
+  if (first) first.classList.add('selected');
+  document.getElementById('groupOverlay').classList.add('on');
+  setTimeout(() => document.getElementById('gName').focus(), 100);
+}
+
+function closeNewGroup() {
+  document.getElementById('groupOverlay').classList.remove('on');
+}
+
+function pickColor(el) {
+  document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedColor = el.dataset.color;
+}
+
+function saveNewGroup() {
+  const name = document.getElementById('gName').value.trim();
+  if (!name) { toast('Введіть назву групи', 'err'); return; }
+  if (GROUPS.find(g => g.name.toLowerCase() === name.toLowerCase())) {
+    toast('Група з такою назвою вже існує', 'err'); return;
+  }
+  const id = 'group-' + name.toLowerCase().replace(/[^a-z0-9]/g, '-') + '-' + Date.now();
+  GROUPS.push({ id, name, color: selectedColor });
+  saveGroups();
+  renderGroups();
+  closeNewGroup();
+  toast('Групу "' + name + '" створено', 'ok');
+}
+
+function deleteGroup(id) {
+  const g = GROUPS.find(g => g.id === id);
+  if (!g) return;
+  if (!confirm('Видалити групу "' + g.name + '"? Записи залишаться без групи.')) return;
+  GROUPS = GROUPS.filter(g => g.id !== id);
+  saveGroups();
+  if (curF === id) { curF = 'all'; }
+  renderGroups();
+  render();
+  toast('Групу видалено', 'inf');
+}
+
+// Закрити модалку групи по Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeNewGroup();
+});
+
+
+async function init() {
+  // Очистити пошук при завантаженні
+  const searchEl = document.getElementById('gSearch');
+  if (searchEl) { searchEl.value = ''; q = ''; }
+  renderGroups();
+  await loadProfile();
+  await loadPasswords();
+}
+
+/* ════════════════════════════════
+   STATE
+════════════════════════════════ */
+let curF   = 'all';
+let q      = '';
+let selIds = new Set();
+let editId = null;
+let ddId   = null;
+let viewId = null;
+let pvVis  = false;
+
+const MO = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const NAV_TITLE = {
+  pinned:'Pinned', card:'Card', recent:'Recent', all:'All Passwords',
+  weak:'Weak Passwords','group-work':'Work','group-social':'Social',
+  'group-finance':'Finance','group-dev':'Dev','my-groups':'My Groups',
+};
+
+/* ════════════════════════════════
+   STRENGTH
+════════════════════════════════ */
+function calcStr(p){
+  if(!p) return {s:0,lbl:'—',cls:'',pct:0,col:'#ff6161'};
+  let s=0;
+  if(p.length>=8)s++; if(p.length>=14)s++;
+  if(/[A-Z]/.test(p))s++; if(/[0-9]/.test(p))s++; if(/[^A-Za-z0-9]/.test(p))s++;
+  const L=[
+    {lbl:'Very Weak',  cls:'sb-weak',  pct:12, col:'#ff6161'},
+    {lbl:'Weak',       cls:'sb-weak',  pct:28, col:'#ff6161'},
+    {lbl:'Fair',       cls:'sb-medium',pct:52, col:'#f5a84a'},
+    {lbl:'Good',       cls:'sb-medium',pct:72, col:'#f5a84a'},
+    {lbl:'Strong',     cls:'sb-strong',pct:90, col:'#3fe08a'},
+    {lbl:'Excellent',  cls:'sb-strong',pct:100,col:'#3fe08a'},
+  ];
+  return {s,...L[Math.min(s,5)]};
+}
+const isWeak = p => calcStr(p).s <= 2;
+const fmtD   = s => { const d=new Date(s); return `${d.getDate()} ${MO[d.getMonth()]}`; };
+const fav    = t => FAVI[t]?`<img src="${FAVI[t]}" onerror="this.parentElement.innerHTML='${t[0]}'" alt="">`:t[0];
+
+/* ════════════════════════════════
+   FILTER
+════════════════════════════════ */
+function getRows(){
+  let a=[...DB];
+  if(curF==='pinned')       a=a.filter(e=>e.pin);
+  else if(curF==='card')    a=a.filter(e=>e.g==='group-finance');
+  else if(curF==='recent')  a=[...DB].sort((x,y)=>y.upd.localeCompare(x.upd)).slice(0,6);
+  else if(curF==='weak')    a=a.filter(e=>isWeak(e.p));
+  else if(curF==='my-groups') a=[];
+  else if(curF.startsWith('group-')) a=a.filter(e=>e.g===curF);
+  if(q){ const lq=q.toLowerCase(); a=a.filter(e=>e.t.toLowerCase().includes(lq)||e.l.toLowerCase().includes(lq)||e.u.toLowerCase().includes(lq)); }
+  return a;
+}
+function getE(id){ return DB.find(e=>e.id===id); }
+
+/* ════════════════════════════════
+   RENDER
+════════════════════════════════ */
+function render(){
+  const rows=getRows();
+  const list=document.getElementById('pwList');
+  const empty=document.getElementById('emptyState');
+
+  if(!rows.length){ list.innerHTML=''; empty.classList.add('on'); return; }
+  empty.classList.remove('on');
+
+  list.innerHTML = rows.map(e=>{
+    const st=calcStr(e.p);
+    const sel=selIds.has(e.id);
+    return `
+    <div class="pw-row${sel?' sel':''}" onclick="rowClick(event,'${e.id}')">
+      <!-- Checkbox -->
+      <div class="pw-cell">
+        <label class="cb" onclick="event.stopPropagation()">
+          <input type="checkbox" ${sel?'checked':''} onchange="toggleSel('${e.id}',this)">
+          <span class="cb-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>
+        </label>
+      </div>
+      <!-- Name -->
+      <div class="pw-cell">
+        <div class="entry-wrap">
+          <div class="entry-icon">${fav(e.t)}</div>
+          <div class="entry-meta">
+            <div class="entry-name">
+              ${e.t}
+              ${e.pin?'<span class="pin-dot"></span>':''}
+            </div>
+            <div class="entry-sub">${e.l}</div>
+          </div>
+        </div>
+      </div>
+      <!-- Strength — bar + badge, matching the PC screenshot style -->
+      <div class="pw-cell">
+        <div class="str-cell">
+          <div class="str-track">
+            <div class="str-fill" style="width:${st.pct}%;background:${st.col};"></div>
+          </div>
+          <span class="str-badge ${st.cls}">${st.lbl}</span>
+        </div>
+      </div>
+      <!-- ··· button -->
+      <div class="pw-cell">
+        <button class="pw-row-dots" onclick="event.stopPropagation();openDd(event,'${e.id}')" title="More">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+
+  updateCounts();
+}
+
+function updateCounts(){
+  const active = DB.filter(e=>!e.is_deleted);
+  document.getElementById('c-all').textContent    = active.length;
+  document.getElementById('c-pinned').textContent = active.filter(e=>e.pin).length;
+  document.getElementById('c-recent').textContent = Math.min(active.length,6);
+  document.getElementById('c-weak').textContent   = active.filter(e=>isWeak(e.p)).length;
+  const cCard = document.getElementById('c-card');
+  if(cCard) cCard.textContent = active.filter(e=>e.g==='group-finance').length;
+  // Динамічні групи
+  renderGroups();
+}
+
+/* ════════════════════════════════
+   NAVIGATION
+════════════════════════════════ */
+function nav(f, el){
+  curF=f;
+  // Знімаємо active з усіх елементів навігації (включно з динамічними групами)
+  document.querySelectorAll('.sb-nav-item, .sb-group-item').forEach(i=>i.classList.remove('active'));
+  if(el) el.classList.add('active');
+  // Оновити заголовок
+  const g = GROUPS.find(g=>g.id===f);
+  document.getElementById('pageTitle').textContent = g ? g.name : (NAV_TITLE[f]||f);
+  clearSel();
+  render();
+}
+
+function doFilter(){
+  q=document.getElementById('gSearch').value;
+  render();
+}
+
+/* ════════════════════════════════
+   SELECTION
+════════════════════════════════ */
+function toggleSel(id,cb){
+  cb.checked ? selIds.add(id) : selIds.delete(id);
+  updSel(); render();
+}
+function toggleAll(cb){
+  getRows().forEach(e=>cb.checked?selIds.add(e.id):selIds.delete(e.id));
+  updSel(); render();
+}
+function clearSel(){
+  selIds.clear();
+  const cb=document.getElementById('cbAll'); if(cb) cb.checked=false;
+  updSel(); render();
+}
+function updSel(){
+  const b=document.getElementById('selBar');
+  document.getElementById('selCnt').textContent=selIds.size;
+  selIds.size>0?b.classList.add('on'):b.classList.remove('on');
+}
+
+/* ════════════════════════════════
+   ROW CLICK → VIEW
+════════════════════════════════ */
+function rowClick(ev,id){
+  if(ev.target.closest('.cb')||ev.target.closest('.pw-row-dots')) return;
+  openView(id);
+}
+
+/* ════════════════════════════════
+   ADD / EDIT MODAL
+════════════════════════════════ */
+function openAdd(eid=null){
+  editId=eid;
+  document.getElementById('addTitle').textContent = eid?'Edit Entry':'New Entry';
+  if(eid){
+    const e=getE(eid);
+    document.getElementById('fTitle').value=e.t;
+    document.getElementById('fUrl').value=e.u;
+    document.getElementById('fLogin').value=e.l;
+    document.getElementById('fPass').value=e.p; document.getElementById('fPass').type='password';
+    document.getElementById('fGroup').value=e.g;
+    document.getElementById('fNote').value=e.n;
+    document.getElementById('fPin').checked=e.pin;
+    mStr(e.p);
+  } else {
+    ['fTitle','fUrl','fLogin','fNote'].forEach(x=>document.getElementById(x).value='');
+    document.getElementById('fPass').value=''; document.getElementById('fPass').type='password';
+    document.getElementById('fGroup').value='';
+    document.getElementById('fPin').checked=false;
+    mStr('');
+  }
+  document.getElementById('addOverlay').classList.add('on');
+}
+function closeAdd(){ document.getElementById('addOverlay').classList.remove('on'); editId=null; }
+
+/* ════════════════════════════════
+   VIEW MODAL
+════════════════════════════════ */
+function openView(id){
+  viewId=id; pvVis=false;
+  const e=getE(id);
+  if(!e){ console.error('Entry not found:', id); return; }
+  const st=calcStr(e.p);
+
+  // Будуємо DOM напряму — без innerHTML та escape-проблем
+  const body = document.getElementById('viewBody');
+  body.innerHTML = '';
+
+  // Заголовок
+  const top = document.createElement('div'); top.className='view-top';
+  const icon = document.createElement('div'); icon.className='view-icon';
+  if(FAVI[e.t]){ const img=document.createElement('img'); img.src=FAVI[e.t]; img.onerror=function(){this.parentElement.textContent=e.t[0];}; icon.appendChild(img); } else { icon.textContent=e.t[0]; }
+  const info = document.createElement('div');
+  info.innerHTML='<div class="view-site">'+e.t+'</div><div class="view-url">'+(e.u||'—')+'</div>';
+  top.appendChild(icon); top.appendChild(info); body.appendChild(top);
+
+  // Login
+  const vfL = document.createElement('div'); vfL.className='vf';
+  vfL.innerHTML='<div class="vf-lbl">Login / Email</div>';
+  const valL = document.createElement('div'); valL.className='vf-val';
+  const spanL = document.createElement('span'); spanL.className='vf-text'; spanL.textContent=e.l;
+  const btnL = document.createElement('button'); btnL.className='vf-copy';
+  btnL.innerHTML='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+  btnL.onclick=function(){ cp(e.l,'Login copied'); };
+  valL.appendChild(spanL); valL.appendChild(btnL); vfL.appendChild(valL); body.appendChild(vfL);
+
+  // Password
+  const vfP = document.createElement('div'); vfP.className='vf';
+  vfP.innerHTML='<div class="vf-lbl">Password</div>';
+  const valP = document.createElement('div'); valP.className='vf-val';
+  const spanP = document.createElement('span'); spanP.id='vPw'; spanP.className='vf-text vf-hidden'; spanP.textContent='••••••••••••';
+  const btnEye = document.createElement('button'); btnEye.className='vf-copy';
+  btnEye.innerHTML='<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  btnEye.onclick=function(){ pvVis=!pvVis; spanP.textContent=pvVis?e.p:'••••••••••••'; spanP.className=pvVis?'vf-text':'vf-text vf-hidden'; };
+  const btnCpP = document.createElement('button'); btnCpP.className='vf-copy';
+  btnCpP.innerHTML='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+  btnCpP.onclick=function(){ cp(e.p,'Password copied'); };
+  const strRow = document.createElement('div'); strRow.className='vf-str-row';
+  strRow.innerHTML='<div class="vf-str-track"><div class="vf-str-bar" style="width:'+st.pct+'%;background:'+st.col+';"></div></div><span class="str-badge '+st.cls+'" style="font-size:0.68rem;">'+st.lbl+'</span>';
+  valP.appendChild(spanP); valP.appendChild(btnEye); valP.appendChild(btnCpP); vfP.appendChild(valP); vfP.appendChild(strRow); body.appendChild(vfP);
+
+  // URL
+  if(e.u){
+    const vfU = document.createElement('div'); vfU.className='vf';
+    vfU.innerHTML='<div class="vf-lbl">Website</div>';
+    const valU = document.createElement('div'); valU.className='vf-val';
+    const a = document.createElement('a'); a.href='https://'+e.u; a.target='_blank';
+    a.style.cssText='color:var(--blue);text-decoration:none;font-size:0.85rem;'; a.textContent=e.u;
+    valU.appendChild(a); vfU.appendChild(valU); body.appendChild(vfU);
+  }
+
+  // Note
+  if(e.n){
+    const vfN = document.createElement('div'); vfN.className='vf';
+    vfN.innerHTML='<div class="vf-lbl">Note</div>';
+    const valN = document.createElement('div'); valN.className='vf-val';
+    const spanN = document.createElement('span'); spanN.className='vf-text';
+    spanN.style.cssText='color:var(--t2);font-size:0.84rem;'; spanN.textContent=e.n;
+    valN.appendChild(spanN); vfN.appendChild(valN); body.appendChild(vfN);
+  }
+
+  // Updated
+  const upd = document.createElement('div');
+  upd.style.cssText='font-size:0.73rem;color:var(--t3);'; upd.textContent='Updated '+fmtD(e.upd);
+  body.appendChild(upd);
+
+  // Actions
+  const acts = document.createElement('div'); acts.className='v-acts';
+  const btnEdit = document.createElement('button'); btnEdit.className='v-act';
+  btnEdit.innerHTML='<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit';
+  btnEdit.onclick=function(){ closeView(); openAdd(id); };
+  const btnPin = document.createElement('button'); btnPin.className='v-act';
+  btnPin.innerHTML='<svg viewBox="0 0 24 24"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>'+(e.pin?'Unpin':'Pin');
+  btnPin.onclick=function(){ togPin(id); };
+  const btnDel = document.createElement('button'); btnDel.className='v-act del';
+  btnDel.innerHTML='<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Delete';
+  btnDel.onclick=function(){ closeView(); deleteOne(id); };
+  acts.appendChild(btnEdit); acts.appendChild(btnPin); acts.appendChild(btnDel);
+  body.appendChild(acts);
+
+  document.getElementById('vEditBtn').onclick=function(){ closeView(); openAdd(id); };
+  document.getElementById('viewOverlay').classList.add('on');
+}
+function closeView(){ document.getElementById('viewOverlay').classList.remove('on'); }
+
+function togVPw(id){
+  pvVis=!pvVis;
+  const el=document.getElementById('vPw');
+  if(el){ const e=getE(id); el.textContent=pvVis?e.p:'••••••••••••'; el.className=pvVis?'vf-text':'vf-text vf-hidden'; }
+}
+
+/* ════════════════════════════════
+   DROPDOWN (··· menu)
+════════════════════════════════ */
+function openDd(ev, id){
+  ddId=id;
+  const e=getE(id);
+  document.getElementById('ddPinLbl').textContent=e.pin?'Unpin':'Pin';
+  const dd=document.getElementById('dd');
+  dd.classList.add('on');
+  dd.style.left=ev.clientX+'px'; dd.style.top=ev.clientY+'px';
+  setTimeout(()=>{
+    const r=dd.getBoundingClientRect();
+    if(r.right>window.innerWidth)  dd.style.left=(ev.clientX-r.width)+'px';
+    if(r.bottom>window.innerHeight) dd.style.top=(ev.clientY-r.height)+'px';
+  },0);
+}
+function closeDd(){ document.getElementById('dd').classList.remove('on'); }
+
+function ddDo(a){
+  closeDd();
+  if(a==='view')      openView(ddId);
+  else if(a==='edit') openAdd(ddId);
+  else if(a==='copyLogin') cp(getE(ddId).l,'Login copied');
+  else if(a==='copyPass')  cp(getE(ddId).p,'Password copied');
+  else if(a==='pin')   togPin(ddId);
+  else if(a==='delete') deleteOne(ddId);
+}
+
+/* ════════════════════════════════
+   HELPERS
+════════════════════════════════ */
+function cp(text, msg){
+  navigator.clipboard.writeText(text).then(()=>toast(msg,'ok')).catch(()=>toast('Copy failed','err'));
+}
+function togglePwV(fid, btn){
+  const inp=document.getElementById(fid);
+  inp.type=inp.type==='password'?'text':'password';
+  btn.style.color=inp.type==='text'?'var(--grn)':'';
+}
+function genPw(){
+  const c='ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$%&*';
+  let pw=''; for(let i=0;i<18;i++) pw+=c[Math.floor(Math.random()*c.length)];
+  const inp=document.getElementById('fPass'); inp.value=pw; inp.type='text';
+  mStr(pw); toast('Password generated','ok');
+}
+function mStr(v){
+  const st=calcStr(v);
+  const f=document.getElementById('msFill'), l=document.getElementById('msLbl');
+  f.style.width=st.pct+'%'; f.style.background=st.col;
+  l.textContent=v?st.lbl:'—'; l.style.color=st.col;
+}
+
+/* Global close */
+document.addEventListener('click', closeDd);
+document.addEventListener('keydown', ev=>{
+  if(ev.key==='Escape'){
+    closeDd();
+    document.getElementById('addOverlay').classList.remove('on');
+    closeView();
+  }
+});
+
+/* ════════════════════════════════
+   TOAST
+════════════════════════════════ */
+function toast(msg, type='inf'){
+  const wrap=document.getElementById('toastWrap');
+  const el=document.createElement('div');
+  el.className=`toast ${type}`;
+  el.innerHTML=`<div class="t-dot"></div>${msg}`;
+  wrap.appendChild(el);
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(),220); }, 2600);
+}
+
+
+init();
+</script>
+<!-- ══ NEW GROUP MODAL ══ -->
+<div class="overlay" id="groupOverlay">
+  <div class="modal" style="max-width:380px;">
+    <div class="modal-header">
+      <span class="modal-title">New Group</span>
+      <button class="modal-close" onclick="closeNewGroup()">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div style="padding:20px 24px 24px;">
+      <div class="f-row">
+        <label class="f-label">Group Name</label>
+        <input class="f-inp" type="text" id="gName" placeholder="Work, Social, Finance…" maxlength="40">
+      </div>
+      <div class="f-row" style="margin-top:4px;">
+        <label class="f-label">Color</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;" id="colorPicker">
+          <div class="color-dot selected" data-color="#4ade80" style="background:#4ade80;" onclick="pickColor(this)"></div>
+          <div class="color-dot" data-color="#60a5fa" style="background:#60a5fa;" onclick="pickColor(this)"></div>
+          <div class="color-dot" data-color="#f472b6" style="background:#f472b6;" onclick="pickColor(this)"></div>
+          <div class="color-dot" data-color="#fb923c" style="background:#fb923c;" onclick="pickColor(this)"></div>
+          <div class="color-dot" data-color="#a78bfa" style="background:#a78bfa;" onclick="pickColor(this)"></div>
+          <div class="color-dot" data-color="#34d399" style="background:#34d399;" onclick="pickColor(this)"></div>
+          <div class="color-dot" data-color="#fbbf24" style="background:#fbbf24;" onclick="pickColor(this)"></div>
+          <div class="color-dot" data-color="#f87171" style="background:#f87171;" onclick="pickColor(this)"></div>
+        </div>
+      </div>
+      <button class="btn-save" style="margin-top:20px;width:100%;" onclick="saveNewGroup()">Create Group</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
