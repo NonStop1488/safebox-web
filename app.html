@@ -347,7 +347,95 @@ body {
 .sb-user-name  { font-size: 0.82rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sb-user-email { font-size: 0.71rem; color: var(--t3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* ── User Menu Popup ─────────────────────── */
+/* ── 10 тем ──────────────────────────────────────────── */
+/* ТЕМНІ */
+body.theme-midnight { --bg:#0a0d14; --sidebar-bg:#070a10; --surface:#111827; --surface2:#1a2235; --surface3:#1f2940; --b1:rgba(255,255,255,0.07); --b2:rgba(255,255,255,0.13); --t1:#e2e8f5; --t2:rgba(226,232,245,0.5); --t3:rgba(226,232,245,0.22); --grn:#4f8ef7; --grn-dim:rgba(79,142,247,0.12); --grn-glow:rgba(79,142,247,0.22); }
+body.theme-forest   { --bg:#0d1610; --sidebar-bg:#091209; --surface:#142018; --surface2:#1a2e1f; --surface3:#1f3624; --b1:rgba(255,255,255,0.07); --b2:rgba(255,255,255,0.13); --t1:#d4f0d4; --t2:rgba(212,240,212,0.5); --t3:rgba(212,240,212,0.22); --grn:#4ade80; --grn-dim:rgba(74,222,128,0.12); --grn-glow:rgba(74,222,128,0.22); }
+body.theme-violet   { --bg:#0e0b1a; --sidebar-bg:#0a0814; --surface:#16122a; --surface2:#1e1838; --surface3:#251e42; --b1:rgba(255,255,255,0.08); --b2:rgba(255,255,255,0.14); --t1:#ede9ff; --t2:rgba(237,233,255,0.5); --t3:rgba(237,233,255,0.22); --grn:#a78bfa; --grn-dim:rgba(167,139,250,0.12); --grn-glow:rgba(167,139,250,0.22); }
+body.theme-crimson  { --bg:#130a0a; --sidebar-bg:#0f0707; --surface:#1e1010; --surface2:#2a1515; --surface3:#311a1a; --b1:rgba(255,255,255,0.07); --b2:rgba(255,255,255,0.13); --t1:#ffe4e4; --t2:rgba(255,228,228,0.5); --t3:rgba(255,228,228,0.22); --grn:#f87171; --grn-dim:rgba(248,113,113,0.12); --grn-glow:rgba(248,113,113,0.22); }
+body.theme-ocean    { --bg:#060f18; --sidebar-bg:#040c14; --surface:#0d1e2e; --surface2:#122840; --surface3:#16314e; --b1:rgba(255,255,255,0.07); --b2:rgba(255,255,255,0.13); --t1:#d0eeff; --t2:rgba(208,238,255,0.5); --t3:rgba(208,238,255,0.22); --grn:#38bdf8; --grn-dim:rgba(56,189,248,0.12); --grn-glow:rgba(56,189,248,0.22); }
+/* СВІТЛІ */
+body.theme-snow     { --bg:#f5f7fa; --sidebar-bg:#edf0f5; --surface:#ffffff; --surface2:#f0f3f8; --surface3:#e8ecf2; --b1:rgba(0,0,0,0.08); --b2:rgba(0,0,0,0.14); --t1:#1a2030; --t2:rgba(26,32,48,0.55); --t3:rgba(26,32,48,0.3); --grn:#16a34a; --grn-dim:rgba(22,163,74,0.1); --grn-glow:rgba(22,163,74,0.2); }
+body.theme-sand     { --bg:#f5f0e8; --sidebar-bg:#ede8df; --surface:#fffdf8; --surface2:#f5f0e6; --surface3:#ede7da; --b1:rgba(0,0,0,0.08); --b2:rgba(0,0,0,0.14); --t1:#2d2416; --t2:rgba(45,36,22,0.55); --t3:rgba(45,36,22,0.3); --grn:#b45309; --grn-dim:rgba(180,83,9,0.1); --grn-glow:rgba(180,83,9,0.2); }
+body.theme-rose     { --bg:#fff5f7; --sidebar-bg:#fdeef1; --surface:#ffffff; --surface2:#fde8ec; --surface3:#fbd5dd; --b1:rgba(0,0,0,0.07); --b2:rgba(0,0,0,0.13); --t1:#2d0f18; --t2:rgba(45,15,24,0.55); --t3:rgba(45,15,24,0.3); --grn:#e11d48; --grn-dim:rgba(225,29,72,0.1); --grn-glow:rgba(225,29,72,0.2); }
+body.theme-sky      { --bg:#f0f7ff; --sidebar-bg:#e5f0fb; --surface:#ffffff; --surface2:#e8f2fc; --surface3:#ddeaf8; --b1:rgba(0,0,0,0.07); --b2:rgba(0,0,0,0.13); --t1:#0f1f35; --t2:rgba(15,31,53,0.55); --t3:rgba(15,31,53,0.3); --grn:#2563eb; --grn-dim:rgba(37,99,235,0.1); --grn-glow:rgba(37,99,235,0.2); }
+body.theme-mint     { --bg:#f0faf4; --sidebar-bg:#e4f5ea; --surface:#ffffff; --surface2:#e8f7ee; --surface3:#daf0e3; --b1:rgba(0,0,0,0.07); --b2:rgba(0,0,0,0.13); --t1:#0f2d1e; --t2:rgba(15,45,30,0.55); --t3:rgba(15,45,30,0.3); --grn:#059669; --grn-dim:rgba(5,150,105,0.1); --grn-glow:rgba(5,150,105,0.2); }
+
+/* Світлі теми — спільні стилі */
+body.theme-snow, body.theme-sand, body.theme-rose, body.theme-sky, body.theme-mint {
+  --red:#dc2626; --blue:#2563eb; --amber:#d97706;
+}
+body.theme-snow ::-webkit-scrollbar-thumb, body.theme-sand ::-webkit-scrollbar-thumb,
+body.theme-rose ::-webkit-scrollbar-thumb, body.theme-sky ::-webkit-scrollbar-thumb,
+body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
+
+/* ── Profile Popup ───────────────────────────────────── */
+.profile-popup {
+  position: absolute; top: calc(var(--tb-h) + 6px); right: 8px;
+  width: 280px; background: var(--surface);
+  border: 1px solid var(--b2); border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  z-index: 300; opacity: 0; pointer-events: none;
+  transform: translateY(-8px) scale(.97);
+  transition: opacity .15s, transform .15s;
+}
+.profile-popup.on { opacity: 1; pointer-events: all; transform: none; }
+
+.pp-header {
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid var(--b1);
+  display: flex; align-items: center; gap: 12px;
+}
+.pp-avatar {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--grn-dim), var(--grn-glow));
+  border: 1px solid var(--grn-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Sora', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--grn);
+}
+.pp-name  { font-size: 0.88rem; font-weight: 600; }
+.pp-email { font-size: 0.72rem; color: var(--t3); margin-top: 2px; }
+
+.pp-section { padding: 10px 10px 4px; }
+.pp-section-label {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--t3); padding: 0 6px; margin-bottom: 6px;
+}
+
+.theme-grid {
+  display: grid; grid-template-columns: repeat(5,1fr); gap: 6px;
+  padding: 0 6px 8px;
+}
+.theme-dot {
+  aspect-ratio: 1; border-radius: 8px; cursor: pointer;
+  border: 2px solid transparent; transition: transform .15s, border-color .15s;
+  position: relative; overflow: hidden;
+}
+.theme-dot:hover { transform: scale(1.1); }
+.theme-dot.active { border-color: var(--grn); }
+.theme-dot::after {
+  content: attr(data-name);
+  position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+  font-size: 0.6rem; color: var(--t2); white-space: nowrap;
+  transition: bottom .15s;
+}
+.theme-dot:hover::after { bottom: 2px; }
+
+.pp-divider { height: 1px; background: var(--b1); margin: 4px 10px; }
+
+.pp-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  font-size: 0.83rem; color: var(--t2); margin: 2px 6px;
+  transition: background .12s, color .12s;
+  border: none; background: none; width: calc(100% - 12px); text-align: left;
+}
+.pp-item:hover { background: var(--surface2); color: var(--t1); }
+.pp-item svg { width: 14px; height: 14px; stroke: currentColor; fill: none; flex-shrink: 0; opacity: 0.7; }
+.pp-item.danger { color: var(--red); }
+.pp-item.danger:hover { background: rgba(220,38,38,0.08); }
+.pp-item.danger svg { opacity: 1; }
+.pp-footer { padding: 6px 6px 8px; }
 .user-menu {
   position: absolute; bottom: 80px; left: 16px;
   width: 248px;
@@ -974,18 +1062,67 @@ body {
       <div class="topbar-title" id="pageTitle">Pinned</div>
     </div>
     <div class="topbar-right">
-      <!-- New + pill button — matches screenshot -->
+      <!-- New + pill button -->
       <button class="btn-new-pill" onclick="openAdd()">
         <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         New
       </button>
-      <!-- Person icon -->
-      <div class="tb-icon">
+      <!-- Profile icon -->
+      <div class="tb-icon" onclick="toggleProfilePopup()" title="Профіль" id="profileBtn">
         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </div>
-      <!-- Hamburger icon -->
+      <!-- Logout icon -->
       <div class="tb-icon" onclick="logout()" title="Вийти">
         <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </div>
+
+      <!-- Profile Popup -->
+      <div class="profile-popup" id="profilePopup">
+        <!-- Header -->
+        <div class="pp-header">
+          <div class="pp-avatar" id="ppAvatar">АК</div>
+          <div>
+            <div class="pp-name" id="ppName">—</div>
+            <div class="pp-email" id="ppEmail">—</div>
+          </div>
+        </div>
+
+        <!-- Теми -->
+        <div class="pp-section">
+          <div class="pp-section-label">Тема</div>
+          <div class="theme-grid" id="themeGrid">
+            <!-- Темні -->
+            <div class="theme-dot" data-theme="dark"     data-name="Dark"     style="background:linear-gradient(135deg,#0f1318,#3fe08a40)" onclick="setTheme('dark')"     title="Dark"></div>
+            <div class="theme-dot" data-theme="midnight" data-name="Midnight" style="background:linear-gradient(135deg,#0a0d14,#4f8ef740)" onclick="setTheme('midnight')" title="Midnight"></div>
+            <div class="theme-dot" data-theme="forest"   data-name="Forest"   style="background:linear-gradient(135deg,#0d1610,#4ade8040)" onclick="setTheme('forest')"   title="Forest"></div>
+            <div class="theme-dot" data-theme="violet"   data-name="Violet"   style="background:linear-gradient(135deg,#0e0b1a,#a78bfa40)" onclick="setTheme('violet')"   title="Violet"></div>
+            <div class="theme-dot" data-theme="crimson"  data-name="Crimson"  style="background:linear-gradient(135deg,#130a0a,#f8717140)" onclick="setTheme('crimson')"  title="Crimson"></div>
+            <!-- Світлі -->
+            <div class="theme-dot" data-theme="snow"  data-name="Snow"  style="background:linear-gradient(135deg,#f5f7fa,#16a34a40)" onclick="setTheme('snow')"  title="Snow"></div>
+            <div class="theme-dot" data-theme="sand"  data-name="Sand"  style="background:linear-gradient(135deg,#f5f0e8,#b4530940)" onclick="setTheme('sand')"  title="Sand"></div>
+            <div class="theme-dot" data-theme="rose"  data-name="Rose"  style="background:linear-gradient(135deg,#fff5f7,#e11d4840)" onclick="setTheme('rose')"  title="Rose"></div>
+            <div class="theme-dot" data-theme="sky"   data-name="Sky"   style="background:linear-gradient(135deg,#f0f7ff,#2563eb40)" onclick="setTheme('sky')"   title="Sky"></div>
+            <div class="theme-dot" data-theme="mint"  data-name="Mint"  style="background:linear-gradient(135deg,#f0faf4,#05966940)" onclick="setTheme('mint')"  title="Mint"></div>
+          </div>
+        </div>
+
+        <div class="pp-divider"></div>
+
+        <!-- Дії -->
+        <div class="pp-footer">
+          <button class="pp-item" onclick="closeProfilePopup();openDevices()">
+            <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            Мої пристрої
+          </button>
+          <button class="pp-item" onclick="closeProfilePopup();openAudit()">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Журнал активності
+          </button>
+          <button class="pp-item danger" onclick="logout()">
+            <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Вийти
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -1318,6 +1455,13 @@ async function loadProfile() {
     const umEmail = document.getElementById('umEmail');
     if (umName)  umName.textContent  = name;
     if (umEmail) umEmail.textContent = user.email;
+    // Profile popup
+    const ppAvatar = document.getElementById('ppAvatar');
+    const ppName   = document.getElementById('ppName');
+    const ppEmail  = document.getElementById('ppEmail');
+    if (ppAvatar) ppAvatar.textContent = initials;
+    if (ppName)   ppName.textContent   = name;
+    if (ppEmail)  ppEmail.textContent  = user.email;
   } catch(e) { console.error('Profile load error:', e); }
 }
 
@@ -1465,24 +1609,70 @@ document.addEventListener('click', function(e) {
 });
 
 // ═══════════════════════════════════════════════════════
-//  THEME
+//  PROFILE POPUP
 // ═══════════════════════════════════════════════════════
-function applyTheme(light) {
-  document.body.classList.toggle('theme-light', light);
+function toggleProfilePopup() {
+  document.getElementById('profilePopup').classList.toggle('on');
+}
+function closeProfilePopup() {
+  document.getElementById('profilePopup').classList.remove('on');
+}
+document.addEventListener('click', function(e) {
+  const popup = document.getElementById('profilePopup');
+  const btn   = document.getElementById('profileBtn');
+  if (popup && popup.classList.contains('on') && !popup.contains(e.target) && !btn.contains(e.target)) {
+    popup.classList.remove('on');
+  }
+});
+
+// ═══════════════════════════════════════════════════════
+//  THEME SYSTEM — 10 тем
+// ═══════════════════════════════════════════════════════
+const DARK_THEMES  = ['dark','midnight','forest','violet','crimson','ocean'];
+const LIGHT_THEMES = ['snow','sand','rose','sky','mint'];
+
+function setTheme(theme) {
+  // Знімаємо всі теми
+  const all = [...DARK_THEMES, ...LIGHT_THEMES];
+  all.forEach(t => document.body.classList.remove('theme-' + t));
+
+  // Застосовуємо нову
+  if (theme !== 'dark') {
+    document.body.classList.add('theme-' + theme);
+  }
+
+  // Оновлюємо theme-light для сумісності
+  const isLight = LIGHT_THEMES.includes(theme);
+  document.body.classList.toggle('theme-light', isLight);
+
+  // Зберігаємо
+  localStorage.setItem('sb_theme', theme);
+
+  // Оновлюємо активну крапку
+  document.querySelectorAll('.theme-dot').forEach(d => {
+    d.classList.toggle('active', d.dataset.theme === theme);
+  });
+
+  // Оновлюємо switch у sidebar якщо є
   const sw = document.getElementById('themeSwitch');
-  if (sw) sw.classList.toggle('on', light);
-  localStorage.setItem('sb_theme', light ? 'light' : 'dark');
+  if (sw) sw.classList.toggle('on', isLight);
+}
+
+function applyTheme(light) {
+  // Сумісність зі старим кодом
+  setTheme(light ? 'snow' : 'dark');
 }
 
 function toggleTheme() {
-  const isLight = document.body.classList.contains('theme-light');
-  applyTheme(!isLight);
+  const isLight = LIGHT_THEMES.some(t => document.body.classList.contains('theme-' + t));
+  setTheme(isLight ? 'dark' : 'snow');
 }
 
 // Застосувати збережену тему при завантаженні
 (function() {
   const saved = localStorage.getItem('sb_theme');
-  if (saved === 'light') applyTheme(true);
+  if (saved) setTheme(saved);
+  else setTheme('dark');
 })();
 
 // ═══════════════════════════════════════════════════════
