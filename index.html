@@ -571,7 +571,7 @@
   }
 
   /* ── Константи — оголошуємо ПЕРШИМИ ────────────── */
-  const API = 'http://localhost:8000/api/v1';
+  const API = 'https://safebox-backend-rynv.onrender.com/api/v1';
   const GOOGLE_CLIENT_ID = '260458731697-b5mh8ek1kkm23bmplaflbn1di1kfv2uf.apps.googleusercontent.com';
 
   /* ── Збереження токенів ─────────────────────────── */
@@ -591,7 +591,7 @@
 
     const params = new URLSearchParams({
       client_id:     GOOGLE_CLIENT_ID,
-      redirect_uri:  'http://127.0.0.1:5500/index.html',
+      redirect_uri:  'https://safebox-web.vercel.app/index.html',
       response_type: 'token',
       scope:         'email profile openid',
       prompt:        'select_account',
