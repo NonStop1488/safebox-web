@@ -853,8 +853,8 @@ body {
   <nav class="sb-nav">
 
     <!-- My Groups -->
-    <div class="sb-nav-item" onclick="nav('my-groups',this)">
-      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <div class="sb-nav-section" style="display:flex;align-items:center;gap:8px;padding:14px 24px 5px;">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;opacity:0.5;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       My Groups
     </div>
     <div class="sb-new-group" onclick="openNewGroup()">
@@ -1001,7 +1001,7 @@ body {
   <!-- Content -->
   <div class="content" id="content">
 
-    <!-- Table header — Name + Password strength + ··· -->
+    <!-- Table header — Name + Password strength -->
     <div class="tbl-header">
       <div class="tbl-hcell">
         <label class="cb">
@@ -1011,11 +1011,7 @@ body {
       </div>
       <div class="tbl-hcell">Name</div>
       <div class="tbl-hcell">Password strength</div>
-      <div class="tbl-hcell">
-        <button style="background:none;border:none;cursor:pointer;color:var(--t2);display:flex;align-items:center;" onclick="toast('Більше опцій','inf')">
-          <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
-        </button>
-      </div>
+      <div class="tbl-hcell"></div>
     </div>
 
     <!-- Rows -->
