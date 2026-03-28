@@ -471,6 +471,15 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
 
 .um-divider { height: 1px; background: var(--b1); margin: 6px 0; }
 
+/* Кнопки мови */
+.lang-btn {
+  padding: 2px 8px; border-radius: 5px; border: 1px solid var(--b2);
+  background: none; color: var(--t2); font-size: 0.72rem; font-weight: 600;
+  cursor: pointer; transition: all .12s; font-family: inherit;
+}
+.lang-btn:hover { background: var(--surface2); color: var(--t1); }
+.lang-btn.active { background: var(--grn-dim); border-color: var(--grn); color: var(--grn); }
+
 /* Theme toggle switch */
 .um-theme-row {
   display: flex; align-items: center; gap: 10px;
@@ -1006,28 +1015,47 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
         <div class="um-email" id="umEmail">—</div>
       </div>
 
-      <!-- Тема -->
-      <div class="um-theme-row" onclick="toggleTheme()">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-        Світла тема
-        <div class="theme-switch" id="themeSwitch"></div>
+      <div class="um-divider"></div>
+
+      <!-- Статистика -->
+      <button class="um-item" onclick="closeUserMenu();openStats()">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Статистика
+      </button>
+
+      <!-- Зміна пароля -->
+      <button class="um-item" onclick="closeUserMenu();openChangePassword()">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Змінити пароль
+      </button>
+
+      <!-- Експорт -->
+      <button class="um-item" onclick="closeUserMenu();exportPasswords()">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Експорт паролів
+      </button>
+
+      <div class="um-divider"></div>
+
+      <!-- Мова -->
+      <div class="um-item" style="cursor:default;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Мова
+        </div>
+        <div style="display:flex;gap:4px;">
+          <button class="lang-btn" id="langUA" onclick="setLang('uk')">UA</button>
+          <button class="lang-btn" id="langEN" onclick="setLang('en')">EN</button>
+        </div>
       </div>
 
       <div class="um-divider"></div>
 
-      <!-- Пристрої -->
-      <button class="um-item" onclick="closeUserMenu();openDevices()">
+      <!-- Вийти з усіх пристроїв -->
+      <button class="um-item danger" onclick="logoutAllDevices()">
         <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-        Мої пристрої
+        Вийти з усіх пристроїв
       </button>
-
-      <!-- Аудит -->
-      <button class="um-item" onclick="closeUserMenu();openAudit()">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Журнал активності
-      </button>
-
-      <div class="um-divider"></div>
 
       <!-- Вийти -->
       <button class="um-item danger" onclick="logout()">
@@ -1595,9 +1623,166 @@ async function logout() {
 function toggleUserMenu() {
   const menu = document.getElementById('userMenu');
   menu.classList.toggle('on');
+  if (menu.classList.contains('on')) updateLangButtons();
 }
 function closeUserMenu() {
   document.getElementById('userMenu').classList.remove('on');
+}
+
+// ── Мова ─────────────────────────────────────────────
+const TRANSLATIONS = {
+  uk: {
+    'All Passwords':'Всі паролі', 'Weak Passwords':'Слабкі паролі',
+    'Pinned':'Закріплені', 'Recent':'Недавні', 'Card':'Картки',
+    'My Groups':'Мої групи', 'New Group':'Нова група',
+    'All Classes':'Всі класи', 'More':'Більше', 'Filters':'Фільтри',
+    'Search':'Пошук', 'Name':'Назва', 'Password strength':'Надійність пароля',
+    'New':'Нове', 'Save':'Зберегти', 'Cancel':'Скасувати',
+    'Work':'Робота', 'Social':'Соцмережі', 'Finance':'Фінанси', 'Dev':'Розробка',
+  },
+  en: {
+    'Всі паролі':'All Passwords', 'Слабкі паролі':'Weak Passwords',
+    'Закріплені':'Pinned', 'Недавні':'Recent', 'Картки':'Card',
+    'Мої групи':'My Groups', 'Нова група':'New Group',
+    'Всі класи':'All Classes', 'Більше':'More', 'Фільтри':'Filters',
+    'Пошук':'Search', 'Назва':'Name', 'Надійність пароля':'Password strength',
+    'Нове':'New', 'Зберегти':'Save', 'Скасувати':'Cancel',
+    'Робота':'Work', 'Соцмережі':'Social', 'Фінанси':'Finance', 'Розробка':'Dev',
+  }
+};
+
+let currentLang = localStorage.getItem('sb_lang') || 'uk';
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('sb_lang', lang);
+  updateLangButtons();
+  toast(lang === 'uk' ? 'Мова: Українська' : 'Language: English', 'ok');
+}
+
+function updateLangButtons() {
+  const ua = document.getElementById('langUA');
+  const en = document.getElementById('langEN');
+  if (ua) ua.classList.toggle('active', currentLang === 'uk');
+  if (en) en.classList.toggle('active', currentLang === 'en');
+}
+
+// ── Статистика ────────────────────────────────────────
+function openStats() {
+  const total   = DB.length;
+  const weak    = DB.filter(e => isWeak(e.p)).length;
+  const strong  = DB.filter(e => { const s = calcStr(e.p); return s.pct >= 80; }).length;
+  const pinned  = DB.filter(e => e.pin).length;
+  const groups  = [...new Set(DB.map(e => e.g).filter(Boolean))].length;
+  const cards   = DB.filter(e => e.type === 'card').length;
+
+  const pct = total ? Math.round((strong / total) * 100) : 0;
+  const barColor = pct >= 70 ? 'var(--grn)' : pct >= 40 ? 'var(--amber)' : 'var(--red)';
+
+  const body = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+      <div style="background:var(--surface2);border-radius:10px;padding:14px;text-align:center;">
+        <div style="font-size:1.8rem;font-weight:700;color:var(--grn);">${total}</div>
+        <div style="font-size:0.75rem;color:var(--t2);margin-top:2px;">Всього паролів</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:10px;padding:14px;text-align:center;">
+        <div style="font-size:1.8rem;font-weight:700;color:var(--red);">${weak}</div>
+        <div style="font-size:0.75rem;color:var(--t2);margin-top:2px;">Слабких</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:10px;padding:14px;text-align:center;">
+        <div style="font-size:1.8rem;font-weight:700;color:var(--t1);">${pinned}</div>
+        <div style="font-size:0.75rem;color:var(--t2);margin-top:2px;">Закріплених</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:10px;padding:14px;text-align:center;">
+        <div style="font-size:1.8rem;font-weight:700;color:var(--t1);">${cards}</div>
+        <div style="font-size:0.75rem;color:var(--t2);margin-top:2px;">Карток</div>
+      </div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:0.8rem;">
+        <span style="color:var(--t2);">Загальна надійність</span>
+        <span style="color:${barColor};font-weight:600;">${pct}%</span>
+      </div>
+      <div style="height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;">
+        <div style="height:100%;width:${pct}%;background:${barColor};border-radius:4px;transition:width .5s;"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:0.72rem;color:var(--t3);">
+        <span>${strong} надійних</span><span>${weak} слабких</span>
+      </div>
+    </div>
+    <div style="background:var(--surface2);border-radius:10px;padding:12px;font-size:0.82rem;color:var(--t2);">
+      <div style="display:flex;justify-content:space-between;padding:4px 0;">
+        <span>Груп</span><span style="color:var(--t1);font-weight:500;">${groups}</span>
+      </div>
+    </div>`;
+  showInfoModal('Статистика', body);
+}
+
+// ── Зміна пароля ─────────────────────────────────────
+function openChangePassword() {
+  const body = `
+    <div class="f-row"><label class="f-label">Поточний пароль</label>
+      <input class="f-inp" type="password" id="cpCurrent" placeholder="Введіть поточний пароль"></div>
+    <div class="f-row"><label class="f-label">Новий пароль</label>
+      <input class="f-inp" type="password" id="cpNew" placeholder="Мінімум 8 символів"></div>
+    <div class="f-row"><label class="f-label">Підтвердити</label>
+      <input class="f-inp" type="password" id="cpConfirm" placeholder="Повторіть новий пароль"></div>
+    <div id="cpError" style="color:var(--red);font-size:0.78rem;min-height:16px;margin-top:4px;"></div>
+    <button class="btn-save" style="width:100%;margin-top:8px;" onclick="submitChangePassword()">Змінити пароль</button>`;
+  showInfoModal('Змінити пароль', body);
+}
+
+async function submitChangePassword() {
+  const current = document.getElementById('cpCurrent')?.value;
+  const newPass = document.getElementById('cpNew')?.value;
+  const confirm = document.getElementById('cpConfirm')?.value;
+  const err = document.getElementById('cpError');
+  if (!current || !newPass || !confirm) { err.textContent = 'Заповніть всі поля'; return; }
+  if (newPass.length < 8) { err.textContent = 'Мінімум 8 символів'; return; }
+  if (newPass !== confirm) { err.textContent = 'Паролі не збігаються'; return; }
+  err.textContent = '';
+  toast('Функція зміни пароля буде доступна в наступному оновленні', 'inf');
+  document.getElementById('infoModal').classList.remove('on');
+}
+
+// ── Експорт паролів ──────────────────────────────────
+function exportPasswords() {
+  const data = DB.map(e => ({
+    name:     e.t,
+    url:      e.u,
+    username: e.l,
+    password: e.p,
+    group:    e.g,
+    notes:    e.n,
+    pinned:   e.pin,
+    type:     e.type || 'login',
+  }));
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'safebox-export-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Експорт завершено — ' + data.length + ' записів', 'ok');
+}
+
+// ── Вийти з усіх пристроїв ───────────────────────────
+async function logoutAllDevices() {
+  if (!confirm('Вийти з усіх пристроїв? Вам потрібно буде увійти знову.')) return;
+  try {
+    const res = await apiFetch('/users/me/devices');
+    if (!res) return;
+    const devices = await res.json();
+    await Promise.all(devices.map(d =>
+      apiFetch('/users/me/devices/' + d.id, { method: 'DELETE' })
+    ));
+    toast('Вихід з усіх пристроїв виконано', 'ok');
+    setTimeout(() => logout(), 1500);
+  } catch(e) {
+    toast('Помилка виходу', 'err');
+  }
 }
 // Закрити меню при кліку поза ним
 document.addEventListener('click', function(e) {
