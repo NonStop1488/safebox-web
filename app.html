@@ -942,7 +942,7 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
   <div class="sb-search">
     <div class="sb-search-inner">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" placeholder="Search" data-i18n-placeholder="Search" id="gSearch" oninput="doFilter()">
+      <input type="text" placeholder="Search" id="gSearch" oninput="doFilter()">
     </div>
   </div>
 
@@ -950,13 +950,13 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
   <nav class="sb-nav">
 
     <!-- My Groups -->
-    <div class="sb-nav-section" data-i18n="My Groups" style="display:flex;align-items:center;gap:8px;padding:14px 24px 5px;">
+    <div class="sb-nav-section" style="display:flex;align-items:center;gap:8px;padding:14px 24px 5px;">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;opacity:0.5;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       My Groups
     </div>
     <div class="sb-new-group" onclick="openNewGroup()">
       <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      <span data-i18n="New Group">New Group</span>
+      New Group
     </div>
 
     <!-- Динамічний список груп -->
@@ -965,40 +965,40 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
     <div class="sb-divider"></div>
 
     <!-- All Classes section -->
-    <div class="sb-nav-section" data-i18n="All Classes">All Classes</div>
+    <div class="sb-nav-section">All Classes</div>
 
     <div class="sb-nav-item active" id="nav-pinned" onclick="nav('pinned',this)">
       <svg viewBox="0 0 24 24"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <span data-i18n="Pinned">Pinned</span>
+      Pinned
       <span class="sb-nav-count" id="c-pinned">0</span>
     </div>
 
     <div class="sb-nav-item" id="nav-card" onclick="nav('card',this)">
       <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-      <span data-i18n="Card">Card</span>
+      Card
       <span class="sb-nav-count" id="c-card">0</span>
     </div>
 
     <div class="sb-nav-item" id="nav-recent" onclick="nav('recent',this)">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      <span data-i18n="Recent">Recent</span>
+      Recent
       <span class="sb-nav-count" id="c-recent">0</span>
     </div>
 
     <div class="sb-divider"></div>
 
     <!-- Extra filters like web version -->
-    <div class="sb-nav-section" data-i18n="More">More</div>
+    <div class="sb-nav-section">More</div>
 
     <div class="sb-nav-item" id="nav-all" onclick="nav('all',this)">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-      <span data-i18n="All Passwords">All Passwords</span>
+      All Passwords
       <span class="sb-nav-count" id="c-all">0</span>
     </div>
 
     <div class="sb-nav-item" id="nav-weak" onclick="nav('weak',this)">
       <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      <span data-i18n="Weak Passwords">Weak Passwords</span>
+      Weak Passwords
       <span class="sb-nav-count" id="c-weak">0</span>
     </div>
 
@@ -1093,7 +1093,7 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
       <!-- New + pill button -->
       <button class="btn-new-pill" onclick="openAdd()">
         <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        <span data-i18n="New">New</span>
+        New
       </button>
       <!-- Profile icon -->
       <div class="tb-icon" onclick="toggleProfilePopup()" title="Профіль" id="profileBtn">
@@ -1174,8 +1174,8 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
           <span class="cb-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>
         </label>
       </div>
-      <div class="tbl-hcell" data-i18n="Name">Name</div>
-      <div class="tbl-hcell" data-i18n="Password strength">Password strength</div>
+      <div class="tbl-hcell">Name</div>
+      <div class="tbl-hcell">Password strength</div>
       <div class="tbl-hcell"></div>
     </div>
 
@@ -1233,8 +1233,8 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn-cancel" onclick="closeAdd()"><span data-i18n="Cancel">Cancel</span></button>
-      <button class="btn-save" onclick="saveEntry()"><span data-i18n="Save">Save</span></button>
+      <button class="btn-cancel" onclick="closeAdd()">Cancel</button>
+      <button class="btn-save" onclick="saveEntry()">Save</button>
     </div>
   </div>
 </div>
@@ -1630,44 +1630,91 @@ function closeUserMenu() {
 }
 
 // ── Мова ─────────────────────────────────────────────
-const TRANSLATIONS = {
+// ═══════════════════════════════════════════════════════
+//  TRANSLATION SYSTEM
+// ═══════════════════════════════════════════════════════
+// Всі ключі — англійські (оригінал). Словник лише для UK перекладу.
+const I18N = {
   uk: {
-    'All Passwords':'Всі паролі', 'Weak Passwords':'Слабкі паролі',
-    'Pinned':'Закріплені', 'Recent':'Недавні', 'Card':'Картки',
-    'My Groups':'Мої групи', 'New Group':'+ Нова група',
-    'All Classes':'Всі класи', 'More':'Більше', 'Filters':'Фільтри',
-    'Search':'Пошук', 'Name':'Назва', 'Password strength':'Надійність пароля',
-    'New':'Нове', 'Save':'Зберегти', 'Cancel':'Скасувати',
-    'Work':'Робота', 'Social':'Соцмережі', 'Finance':'Фінанси', 'Dev':'Розробка',
-    'No passwords found':'Паролів не знайдено',
-    'Try a different search or add a new entry.':'Спробуйте інший пошук або додайте новий запис.',
-    'Pin this entry':'Закріпити запис',
-    'Service Name':'Назва сервісу', 'Login / Email':'Логін / Email',
-    'Password':'Пароль', 'Group':'Група', 'Note':'Нотатка',
-    'Generate':'Генерувати', 'Entry Details':'Деталі запису',
-    'Edit':'Редагувати', 'Delete':'Видалити', 'Unpin':'Відкріпити', 'Pin':'Закріпити',
-    'Website':'Сайт', 'Updated':'Оновлено',
-  },
-  en: {
-    'Всі паролі':'All Passwords', 'Слабкі паролі':'Weak Passwords',
-    'Закріплені':'Pinned', 'Недавні':'Recent', 'Картки':'Card',
-    'Мої групи':'My Groups', '+ Нова група':'New Group',
-    'Всі класи':'All Classes', 'Більше':'More', 'Фільтри':'Filters',
-    'Пошук':'Search', 'Назва':'Name', 'Надійність пароля':'Password strength',
-    'Нове':'New', 'Зберегти':'Save', 'Скасувати':'Cancel',
-    'Робота':'Work', 'Соцмережі':'Social', 'Фінанси':'Finance', 'Розробка':'Dev',
-    'Паролів не знайдено':'No passwords found',
-    'Спробуйте інший пошук або додайте новий запис.':'Try a different search or add a new entry.',
-    'Закріпити запис':'Pin this entry',
-    'Назва сервісу':'Service Name', 'Логін / Email':'Login / Email',
-    'Пароль':'Password', 'Група':'Group', 'Нотатка':'Note',
-    'Генерувати':'Generate', 'Деталі запису':'Entry Details',
-    'Редагувати':'Edit', 'Видалити':'Delete', 'Відкріпити':'Unpin', 'Закріпити':'Pin',
-    'Сайт':'Website', 'Оновлено':'Updated',
+    'All Passwords':    'Всі паролі',
+    'Weak Passwords':   'Слабкі паролі',
+    'Pinned':           'Закріплені',
+    'Recent':           'Недавні',
+    'Card':             'Картки',
+    'My Groups':        'Мої групи',
+    'New Group':        'Нова група',
+    'All Classes':      'Всі класи',
+    'More':             'Більше',
+    'Filters':          'Фільтри',
+    'Search':           'Пошук',
+    'Name':             'Назва',
+    'Password strength':'Надійність пароля',
+    'New':              'Нове',
+    'Save':             'Зберегти',
+    'Cancel':           'Скасувати',
+    'Work':             'Робота',
+    'Social':           'Соцмережі',
+    'Finance':          'Фінанси',
+    'Dev':              'Розробка',
+    'No passwords found':                          'Паролів не знайдено',
+    'Try a different search or add a new entry.':  'Інший пошук або додай новий запис.',
+    'Pin this entry':   'Закріпити запис',
+    'Service Name':     'Назва сервісу',
+    'Login / Email':    'Логін / Email',
+    'Password':         'Пароль',
+    'Group':            'Група',
+    'Note':             'Нотатка',
+    'Generate':         'Генерувати',
+    'Entry Details':    'Деталі запису',
+    'Edit':             'Редагувати',
+    'Delete':           'Видалити',
+    'Unpin':            'Відкріпити',
+    'Pin':              'Закріпити',
+    'Website':          'Сайт',
+    'Updated':          'Оновлено',
   }
 };
 
-let currentLang = localStorage.getItem('sb_lang') || 'uk';
+let currentLang = localStorage.getItem('sb_lang') || 'en';
+
+function t(key) {
+  if (currentLang === 'uk' && I18N.uk[key]) return I18N.uk[key];
+  return key;
+}
+
+function applyTranslations() {
+  // Елементи з data-i18n — завжди беремо ключ з атрибута
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const val = t(key);
+    if (el.classList.contains('sb-nav-section')) {
+      el.textContent = val.toUpperCase();
+    } else {
+      el.textContent = val;
+    }
+  });
+
+  // Плейсхолдери
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+  });
+
+  // Empty state
+  const emptyTitle = document.querySelector('.empty-title');
+  const emptyDesc  = document.querySelector('.empty-desc');
+  if (emptyTitle) emptyTitle.textContent = t('No passwords found');
+  if (emptyDesc)  emptyDesc.textContent  = t('Try a different search or add a new entry.');
+
+  // Page title
+  const titleEl = document.getElementById('pageTitle');
+  if (titleEl) {
+    // Знаходимо EN ключ для поточного тексту
+    const cur = titleEl.textContent;
+    // Шукаємо зворотній ключ якщо поточна мова змінюється
+    const enKey = Object.entries(I18N.uk).find(([k,v]) => v === cur)?.[0] || cur;
+    titleEl.textContent = t(enKey);
+  }
+}
 
 function setLang(lang) {
   currentLang = lang;
@@ -1677,54 +1724,6 @@ function setLang(lang) {
   toast(lang === 'uk' ? 'Мова: Українська 🇺🇦' : 'Language: English 🇬🇧', 'ok');
 }
 
-function applyTranslations() {
-  const t = TRANSLATIONS[currentLang] || {};
-
-  // Перекласти всі елементи з data-i18n
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    const val = t[key];
-    if (val) {
-      // Для секцій зберігаємо uppercase
-      if (el.classList.contains('sb-nav-section')) {
-        el.textContent = val.toUpperCase();
-      } else {
-        el.textContent = val;
-      }
-    }
-  });
-
-  // Плейсхолдери
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const key = el.getAttribute('data-i18n-placeholder');
-    const val = t[key];
-    if (val) el.placeholder = val;
-  });
-
-  // Форма додавання — лейбли
-  const formLabels = {
-    'fTitle': { uk:'Назва сервісу', en:'Service Name' },
-    'fUrl':   { uk:'URL', en:'URL' },
-    'fLogin': { uk:'Логін / Email', en:'Login / Email' },
-    'fPass':  { uk:'Пароль', en:'Password' },
-    'fGroup': { uk:'Група', en:'Group' },
-    'fNote':  { uk:'Нотатка', en:'Note' },
-  };
-  // Empty state
-  const emptyTitle = document.querySelector('.empty-title');
-  const emptyDesc  = document.querySelector('.empty-desc');
-  if (emptyTitle) emptyTitle.textContent = currentLang === 'uk' ? 'Паролів не знайдено' : 'No passwords found';
-  if (emptyDesc)  emptyDesc.textContent  = currentLang === 'uk' ? 'Спробуй інший пошук або додай новий запис.' : 'Try a different search or add a new entry.';
-
-  // NAV_TITLE оновлення
-  const navTitleEl = document.getElementById('pageTitle');
-  if (navTitleEl) {
-    const cur = navTitleEl.textContent;
-    const val = t[cur];
-    if (val) navTitleEl.textContent = val;
-  }
-}
-
 function updateLangButtons() {
   const ua = document.getElementById('langUA');
   const en = document.getElementById('langEN');
@@ -1732,11 +1731,10 @@ function updateLangButtons() {
   if (en) en.classList.toggle('active', currentLang === 'en');
 }
 
-// Застосувати мову при старті
+// Застосувати мову при завантаженні
 (function() {
-  const saved = localStorage.getItem('sb_lang');
-  if (saved && saved !== 'uk') { currentLang = saved; applyTranslations(); }
   updateLangButtons();
+  if (currentLang === 'uk') applyTranslations();
 })();
 
 // ── Статистика ────────────────────────────────────────
