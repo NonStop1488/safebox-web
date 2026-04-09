@@ -1201,21 +1201,46 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
       <div class="modal-title" id="addTitle">New Entry</div>
       <button class="modal-x" onclick="closeAdd()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
+    <!-- Type switcher -->
+    <div style="display:flex;gap:6px;padding:0 24px 4px;">
+      <button class="type-tab active" id="tabLogin" onclick="switchType('login')">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Пароль
+      </button>
+      <button class="type-tab" id="tabCard" onclick="switchType('card')">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        Картка
+      </button>
+    </div>
     <div class="modal-body">
-      <div class="f-row"><label class="f-label">Service Name</label><input class="f-inp" type="text" id="fTitle" placeholder="Google, GitHub, Instagram…"></div>
-      <div class="f-row"><label class="f-label">URL</label><input class="f-inp" type="text" id="fUrl" placeholder="https://google.com"></div>
-      <div class="f-row"><label class="f-label">Login / Email</label><input class="f-inp" type="text" id="fLogin" placeholder="user@example.com"></div>
-      <div class="f-row">
-        <label class="f-label">Password</label>
-        <div class="f-pw-wrap">
-          <input class="f-inp" type="password" id="fPass" placeholder="Enter or generate" oninput="mStr(this.value)">
-          <button class="f-eye" onclick="togglePwV('fPass',this)"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-          <button class="f-gen" onclick="genPw()"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Generate</button>
+      <!-- Login fields -->
+      <div id="fieldsLogin">
+        <div class="f-row"><label class="f-label">Service Name</label><input class="f-inp" type="text" id="fTitle" placeholder="Google, GitHub, Instagram…"></div>
+        <div class="f-row"><label class="f-label">URL</label><input class="f-inp" type="text" id="fUrl" placeholder="https://google.com"></div>
+        <div class="f-row"><label class="f-label">Login / Email</label><input class="f-inp" type="text" id="fLogin" placeholder="user@example.com"></div>
+        <div class="f-row">
+          <label class="f-label">Password</label>
+          <div class="f-pw-wrap">
+            <input class="f-inp" type="password" id="fPass" placeholder="Enter or generate" oninput="mStr(this.value)">
+            <button class="f-eye" onclick="togglePwV('fPass',this)"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            <button class="f-gen" onclick="genPw()"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Generate</button>
+          </div>
+          <div class="f-str-row">
+            <div class="f-str-track"><div class="f-str-fill" id="msFill" style="width:0%;background:#ff6161;"></div></div>
+            <span class="f-str-lbl" id="msLbl">—</span>
+          </div>
         </div>
-        <div class="f-str-row">
-          <div class="f-str-track"><div class="f-str-fill" id="msFill" style="width:0%;background:#ff6161;"></div></div>
-          <span class="f-str-lbl" id="msLbl">—</span>
+      </div>
+      <!-- Card fields -->
+      <div id="fieldsCard" style="display:none;">
+        <div class="f-row"><label class="f-label">Назва картки</label><input class="f-inp" type="text" id="fCardName" placeholder="Monobank, PrivatBank…"></div>
+        <div class="f-row"><label class="f-label">Номер картки</label><input class="f-inp" type="text" id="fCardNumber" placeholder="0000 0000 0000 0000" maxlength="19" oninput="formatCardNum(this)"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="f-row"><label class="f-label">Дійсна до</label><input class="f-inp" type="text" id="fCardExp" placeholder="MM/YY" maxlength="5" oninput="formatCardExp(this)"></div>
+          <div class="f-row"><label class="f-label">CVV</label><input class="f-inp" type="password" id="fCardCvv" placeholder="•••" maxlength="4"></div>
         </div>
+        <div class="f-row"><label class="f-label">Ім'я власника</label><input class="f-inp" type="text" id="fCardHolder" placeholder="IVAN PETRENKO" style="text-transform:uppercase;"></div>
+        <div class="f-row"><label class="f-label">PIN-код</label><input class="f-inp" type="password" id="fCardPin" placeholder="••••" maxlength="6"></div>
       </div>
       <div class="f-row"><label class="f-label">Group</label>
         <select class="f-sel" id="fGroup">
@@ -1387,43 +1412,64 @@ function apiToLocal(item) {
   let plainData = {};
   let name = '';
 
-  try {
-    name = decryptField(item.name_encrypted);
-  } catch(e) {
-    name = item.name_encrypted || 'Unknown';
-  }
+  try { name = decryptField(item.name_encrypted); }
+  catch(e) { name = item.name_encrypted || 'Unknown'; }
 
   try {
     const rawData = decryptField(item.data_encrypted);
     plainData = JSON.parse(rawData);
-  } catch(e) {
-    console.warn('Cannot parse data for item:', item.id, e);
-  }
+  } catch(e) { console.warn('Cannot parse data for item:', item.id, e); }
+
+  const isCard = item.type === 'card' || plainData.type === 'card';
 
   return {
-    id:  item.id,
-    t:   name,
-    u:   plainData.url      || '',
-    l:   plainData.username || '',
-    p:   plainData.password || '',
-    n:   plainData.notes    || '',
-    g:   plainData.group    || '',
-    pin: !!item.is_pinned,
-    upd: (item.updated_at||'').slice(0,10),
+    id:   item.id,
+    type: isCard ? 'card' : 'login',
+    t:    name,
+    u:    plainData.url      || '',
+    l:    isCard ? (plainData.cardHolder || '') : (plainData.username || ''),
+    p:    isCard ? (plainData.cardCvv    || '') : (plainData.password || ''),
+    n:    plainData.notes    || '',
+    g:    plainData.group    || '',
+    pin:  !!item.is_pinned,
+    upd:  (item.updated_at||'').slice(0,10),
+    card: isCard ? {
+      number: plainData.cardNumber || '',
+      exp:    plainData.cardExp    || '',
+      cvv:    plainData.cardCvv    || '',
+      holder: plainData.cardHolder || '',
+      pin:    plainData.cardPin    || '',
+    } : null,
     _raw: item,
   };
 }
 
 // Конвертація локального формату → API payload
 function localToApi(entry) {
-  const nameEnc  = encryptField(entry.t);
-  const dataEnc  = encryptField(JSON.stringify({
-    username: entry.l,
-    password: entry.p,
-    url:      entry.u,
-    notes:    entry.n,
-    group:    entry.g,
-  }));
+  const nameEnc = encryptField(entry.t);
+  let dataObj;
+  if (entry.type === 'card' && entry.card) {
+    dataObj = {
+      type:       'card',
+      cardNumber: entry.card.number,
+      cardExp:    entry.card.exp,
+      cardCvv:    entry.card.cvv,
+      cardHolder: entry.card.holder,
+      cardPin:    entry.card.pin,
+      notes:      entry.n,
+      group:      entry.g,
+    };
+  } else {
+    dataObj = {
+      type:     'login',
+      username: entry.l,
+      password: entry.p,
+      url:      entry.u,
+      notes:    entry.n,
+      group:    entry.g,
+    };
+  }
+  const dataEnc = encryptField(JSON.stringify(dataObj));
   return {
     name_encrypted: nameEnc.encrypted,
     name_iv:        nameEnc.iv,
@@ -1433,7 +1479,7 @@ function localToApi(entry) {
     auth_tag:       dataEnc.auth_tag,
     is_pinned:      entry.pin || false,
     is_favorite:    false,
-    type:           'login',
+    type:           entry.type === 'card' ? 'card' : 'login',
     key_version:    1,
   };
 }
@@ -1496,52 +1542,71 @@ async function loadProfile() {
 // ═══════════════════════════════════════════════════════
 //  ПЕРЕВИЗНАЧЕННЯ: saveEntry → API
 // ═══════════════════════════════════════════════════════
+
+// ── Card type switching ──────────────────────────────
+let currentType = 'login';
+
+function switchType(type) {
+  currentType = type;
+  document.getElementById('fieldsLogin').style.display = type === 'login' ? '' : 'none';
+  document.getElementById('fieldsCard').style.display  = type === 'card'  ? '' : 'none';
+  document.getElementById('tabLogin').classList.toggle('active', type === 'login');
+  document.getElementById('tabCard').classList.toggle('active',  type === 'card');
+}
+
+function formatCardNum(el) {
+  let v = el.value.replace(/\D/g,'').slice(0,16);
+  el.value = v.replace(/(.{4})/g,'$1 ').trim();
+}
+function formatCardExp(el) {
+  let v = el.value.replace(/\D/g,'');
+  if (v.length >= 2) v = v.slice(0,2) + '/' + v.slice(2,4);
+  el.value = v;
+}
 async function saveEntry() {
-  const t   = document.getElementById('fTitle').value.trim();
-  const u   = document.getElementById('fUrl').value.trim();
-  const l   = document.getElementById('fLogin').value.trim();
-  const p   = document.getElementById('fPass').value;
-  const n   = document.getElementById('fNote').value.trim();
   const pin = document.getElementById('fPin').checked;
   const g   = document.getElementById('fGroup').value;
+  const n   = document.getElementById('fNote').value.trim();
+  let entry;
 
-  if (!t) { toast('Введіть назву сервісу', 'err'); return; }
-  if (!l) { toast('Введіть логін', 'err'); return; }
-  if (!p) { toast('Введіть пароль', 'err'); return; }
+  if (currentType === 'card') {
+    const cardName = document.getElementById('fCardName').value.trim();
+    if (!cardName) { toast('Введіть назву картки', 'err'); return; }
+    entry = {
+      t: cardName, u: '', l: '', p: '', n, g, pin, type: 'card',
+      card: {
+        number: document.getElementById('fCardNumber').value.trim(),
+        exp:    document.getElementById('fCardExp').value.trim(),
+        cvv:    document.getElementById('fCardCvv').value.trim(),
+        holder: document.getElementById('fCardHolder').value.trim(),
+        pin:    document.getElementById('fCardPin').value.trim(),
+      },
+    };
+  } else {
+    const t = document.getElementById('fTitle').value.trim();
+    const u = document.getElementById('fUrl').value.trim();
+    const l = document.getElementById('fLogin').value.trim();
+    const p = document.getElementById('fPass').value;
+    if (!t) { toast('Введіть назву сервісу', 'err'); return; }
+    if (!l) { toast('Введіть логін', 'err'); return; }
+    if (!p) { toast('Введіть пароль', 'err'); return; }
+    entry = { t, u, l, p, n, g, pin, type: 'login' };
+  }
 
   const btn = document.querySelector('#addOverlay .btn-save');
-  btn.textContent = 'Збереження...';
-  btn.disabled = true;
-
-  const payload = localToApi({ t, u, l, p, n, g, pin });
-
+  btn.textContent = 'Збереження...'; btn.disabled = true;
+  const payload = localToApi(entry);
   try {
     let res;
     if (editId) {
-      res = await apiFetch('/passwords/' + editId, {
-        method: 'PUT',
-        body: JSON.stringify(payload),
-      });
+      res = await apiFetch('/passwords/' + editId, { method: 'PUT', body: JSON.stringify(payload) });
     } else {
-      res = await apiFetch('/passwords', {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      });
+      res = await apiFetch('/passwords', { method: 'POST', body: JSON.stringify(payload) });
     }
-
-    if (!res || !res.ok) {
-      toast('Помилка збереження', 'err');
-    } else {
-      toast(editId ? 'Запис оновлено' : 'Запис додано', 'ok');
-      closeAdd();
-      await loadPasswords();
-    }
-  } catch(e) {
-    toast('Помилка з\'єднання з сервером', 'err');
-  } finally {
-    btn.textContent = 'Save';
-    btn.disabled = false;
-  }
+    if (!res || !res.ok) { toast('Помилка збереження', 'err'); }
+    else { toast(editId ? 'Запис оновлено' : 'Запис додано', 'ok'); closeAdd(); await loadPasswords(); }
+  } catch(e) { toast('Помилка з'єднання з сервером', 'err'); }
+  finally { btn.textContent = 'Save'; btn.disabled = false; }
 }
 
 // ═══════════════════════════════════════════════════════
@@ -2288,23 +2353,37 @@ function rowClick(ev,id){
    ADD / EDIT MODAL
 ════════════════════════════════ */
 function openAdd(eid=null){
-  editId=eid;
-  document.getElementById('addTitle').textContent = eid?'Edit Entry':'New Entry';
-  if(eid){
-    const e=getE(eid);
-    document.getElementById('fTitle').value=e.t;
-    document.getElementById('fUrl').value=e.u;
-    document.getElementById('fLogin').value=e.l;
-    document.getElementById('fPass').value=e.p; document.getElementById('fPass').type='password';
-    document.getElementById('fGroup').value=e.g;
-    document.getElementById('fNote').value=e.n;
-    document.getElementById('fPin').checked=e.pin;
-    mStr(e.p);
+  editId = eid;
+  if (eid) {
+    const e = getE(eid);
+    if (e.type === 'card') {
+      switchType('card');
+      document.getElementById('fCardName').value   = e.t;
+      document.getElementById('fCardNumber').value = e.card?.number || '';
+      document.getElementById('fCardExp').value    = e.card?.exp    || '';
+      document.getElementById('fCardCvv').value    = e.card?.cvv    || '';
+      document.getElementById('fCardHolder').value = e.card?.holder || '';
+      document.getElementById('fCardPin').value    = e.card?.pin    || '';
+    } else {
+      switchType('login');
+      document.getElementById('fTitle').value = e.t;
+      document.getElementById('fUrl').value   = e.u;
+      document.getElementById('fLogin').value = e.l;
+      document.getElementById('fPass').value  = e.p;
+      document.getElementById('fPass').type   = 'password';
+      mStr(e.p);
+    }
+    document.getElementById('fGroup').value    = e.g;
+    document.getElementById('fNote').value     = e.n;
+    document.getElementById('fPin').checked    = e.pin;
   } else {
-    ['fTitle','fUrl','fLogin','fNote'].forEach(x=>document.getElementById(x).value='');
-    document.getElementById('fPass').value=''; document.getElementById('fPass').type='password';
-    document.getElementById('fGroup').value='';
-    document.getElementById('fPin').checked=false;
+    switchType('login');
+    ['fTitle','fUrl','fLogin','fNote'].forEach(x => document.getElementById(x).value = '');
+    ['fCardName','fCardNumber','fCardExp','fCardCvv','fCardHolder','fCardPin'].forEach(x => document.getElementById(x).value = '');
+    document.getElementById('fPass').value = '';
+    document.getElementById('fPass').type  = 'password';
+    document.getElementById('fGroup').value = '';
+    document.getElementById('fPin').checked = false;
     mStr('');
   }
   document.getElementById('addOverlay').classList.add('on');
@@ -2315,88 +2394,111 @@ function closeAdd(){ document.getElementById('addOverlay').classList.remove('on'
    VIEW MODAL
 ════════════════════════════════ */
 function openView(id){
-  viewId=id; pvVis=false;
-  const e=getE(id);
-  if(!e){ console.error('Entry not found:', id); return; }
-  const st=calcStr(e.p);
+  viewId = id; pvVis = false;
+  const e = getE(id);
+  if (!e) { console.error('Entry not found:', id); return; }
 
-  // Будуємо DOM напряму — без innerHTML та escape-проблем
   const body = document.getElementById('viewBody');
   body.innerHTML = '';
 
-  // Заголовок
-  const top = document.createElement('div'); top.className='view-top';
-  const icon = document.createElement('div'); icon.className='view-icon';
-  if(FAVI[e.t]){ const img=document.createElement('img'); img.src=FAVI[e.t]; img.onerror=function(){this.parentElement.textContent=e.t[0];}; icon.appendChild(img); } else { icon.textContent=e.t[0]; }
+  // Header
+  const top = document.createElement('div'); top.className = 'view-top';
+  const icon = document.createElement('div'); icon.className = 'view-icon';
+  if (FAVI[e.t]) { const img = document.createElement('img'); img.src = FAVI[e.t]; img.onerror = function(){this.parentElement.textContent=e.t[0];}; icon.appendChild(img); }
+  else { icon.textContent = e.type === 'card' ? '💳' : e.t[0]; }
   const info = document.createElement('div');
-  info.innerHTML='<div class="view-site">'+e.t+'</div><div class="view-url">'+(e.u||'—')+'</div>';
+  info.innerHTML = '<div class="view-site">'+e.t+'</div><div class="view-url">'+(e.type==='card'?'Банківська картка':(e.u||'—'))+'</div>';
   top.appendChild(icon); top.appendChild(info); body.appendChild(top);
 
-  // Login
-  const vfL = document.createElement('div'); vfL.className='vf';
-  vfL.innerHTML='<div class="vf-lbl">Login / Email</div>';
-  const valL = document.createElement('div'); valL.className='vf-val';
-  const spanL = document.createElement('span'); spanL.className='vf-text'; spanL.textContent=e.l;
-  const btnL = document.createElement('button'); btnL.className='vf-copy';
-  btnL.innerHTML='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
-  btnL.onclick=function(){ cp(e.l,'Login copied'); };
-  valL.appendChild(spanL); valL.appendChild(btnL); vfL.appendChild(valL); body.appendChild(vfL);
+  if (e.type === 'card' && e.card) {
+    // Card preview
+    const prev = document.createElement('div'); prev.className = 'card-preview';
+    prev.innerHTML =
+      '<div class="card-chip"></div>' +
+      '<div class="card-num">'+(e.card.number||'•••• •••• •••• ••••')+'</div>' +
+      '<div class="card-bottom">' +
+        '<div><div class="card-label">Власник</div><div class="card-value">'+(e.card.holder||'—')+'</div></div>' +
+        '<div><div class="card-label">Дійсна до</div><div class="card-value">'+(e.card.exp||'—')+'</div></div>' +
+      '</div>';
+    body.appendChild(prev);
 
-  // Password
-  const vfP = document.createElement('div'); vfP.className='vf';
-  vfP.innerHTML='<div class="vf-lbl">Password</div>';
-  const valP = document.createElement('div'); valP.className='vf-val';
-  const spanP = document.createElement('span'); spanP.id='vPw'; spanP.className='vf-text vf-hidden'; spanP.textContent='••••••••••••';
-  const btnEye = document.createElement('button'); btnEye.className='vf-copy';
-  btnEye.innerHTML='<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
-  btnEye.onclick=function(){ pvVis=!pvVis; spanP.textContent=pvVis?e.p:'••••••••••••'; spanP.className=pvVis?'vf-text':'vf-text vf-hidden'; };
-  const btnCpP = document.createElement('button'); btnCpP.className='vf-copy';
-  btnCpP.innerHTML='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
-  btnCpP.onclick=function(){ cp(e.p,'Password copied'); };
-  const strRow = document.createElement('div'); strRow.className='vf-str-row';
-  strRow.innerHTML='<div class="vf-str-track"><div class="vf-str-bar" style="width:'+st.pct+'%;background:'+st.col+';"></div></div><span class="str-badge '+st.cls+'" style="font-size:0.68rem;">'+st.lbl+'</span>';
-  valP.appendChild(spanP); valP.appendChild(btnEye); valP.appendChild(btnCpP); vfP.appendChild(valP); vfP.appendChild(strRow); body.appendChild(vfP);
+    [{label:'Номер картки',val:e.card.number||'—',copy:true},{label:'CVV',val:e.card.cvv||'—',hidden:true},{label:'PIN-код',val:e.card.pin||'—',hidden:true}].forEach(function(f){
+      const vf = document.createElement('div'); vf.className = 'vf';
+      vf.innerHTML = '<div class="vf-lbl">'+f.label+'</div>';
+      const val = document.createElement('div'); val.className = 'vf-val';
+      const span = document.createElement('span'); span.className = f.hidden?'vf-text vf-hidden':'vf-text';
+      span.textContent = f.hidden ? '••••' : f.val; val.appendChild(span);
+      if (f.hidden) {
+        const eye = document.createElement('button'); eye.className = 'vf-copy';
+        eye.innerHTML = '<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+        eye.onclick = function(){ const vis = span.textContent !== '••••'; span.textContent = vis?'••••':f.val; span.className = vis?'vf-text vf-hidden':'vf-text'; };
+        val.appendChild(eye);
+      }
+      if (f.copy) {
+        const cp = document.createElement('button'); cp.className = 'vf-copy';
+        cp.innerHTML = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+        cp.onclick = function(){ navigator.clipboard?.writeText(f.val); toast(f.label+' скопійовано','ok'); };
+        val.appendChild(cp);
+      }
+      vf.appendChild(val); body.appendChild(vf);
+    });
+  } else {
+    // Login fields
+    const st = calcStr(e.p);
+    const vfL = document.createElement('div'); vfL.className = 'vf';
+    vfL.innerHTML = '<div class="vf-lbl">Login / Email</div>';
+    const valL = document.createElement('div'); valL.className = 'vf-val';
+    const spanL = document.createElement('span'); spanL.className = 'vf-text'; spanL.textContent = e.l;
+    const btnL = document.createElement('button'); btnL.className = 'vf-copy';
+    btnL.innerHTML = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    btnL.onclick = function(){ navigator.clipboard?.writeText(e.l); toast('Login copied','ok'); };
+    valL.appendChild(spanL); valL.appendChild(btnL); vfL.appendChild(valL); body.appendChild(vfL);
 
-  // URL
-  if(e.u){
-    const vfU = document.createElement('div'); vfU.className='vf';
-    vfU.innerHTML='<div class="vf-lbl">Website</div>';
-    const valU = document.createElement('div'); valU.className='vf-val';
-    const a = document.createElement('a'); a.href='https://'+e.u; a.target='_blank';
-    a.style.cssText='color:var(--blue);text-decoration:none;font-size:0.85rem;'; a.textContent=e.u;
-    valU.appendChild(a); vfU.appendChild(valU); body.appendChild(vfU);
+    const vfP = document.createElement('div'); vfP.className = 'vf';
+    vfP.innerHTML = '<div class="vf-lbl">Password</div>';
+    const valP = document.createElement('div'); valP.className = 'vf-val';
+    const spanP = document.createElement('span'); spanP.id = 'vPw'; spanP.className = 'vf-text vf-hidden'; spanP.textContent = '••••••••••••';
+    const btnEye = document.createElement('button'); btnEye.className = 'vf-copy';
+    btnEye.innerHTML = '<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+    btnEye.onclick = function(){ pvVis=!pvVis; spanP.textContent=pvVis?e.p:'••••••••••••'; spanP.className=pvVis?'vf-text':'vf-text vf-hidden'; };
+    const btnCpP = document.createElement('button'); btnCpP.className = 'vf-copy';
+    btnCpP.innerHTML = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    btnCpP.onclick = function(){ navigator.clipboard?.writeText(e.p); toast('Password copied','ok'); };
+    const strRow = document.createElement('div'); strRow.className = 'vf-str-row';
+    strRow.innerHTML = '<div class="vf-str-track"><div class="vf-str-bar" style="width:'+st.pct+'%;background:'+st.col+';"></div></div><span class="str-badge '+st.cls+'" style="font-size:0.68rem;">'+st.lbl+'</span>';
+    valP.appendChild(spanP); valP.appendChild(btnEye); valP.appendChild(btnCpP); vfP.appendChild(valP); vfP.appendChild(strRow); body.appendChild(vfP);
+
+    if (e.u) {
+      const vfU = document.createElement('div'); vfU.className = 'vf';
+      vfU.innerHTML = '<div class="vf-lbl">Website</div><div class="vf-val"><a href="https://'+e.u+'" target="_blank" style="color:var(--blue);text-decoration:none;font-size:0.85rem;">'+e.u+'</a></div>';
+      body.appendChild(vfU);
+    }
   }
 
-  // Note
-  if(e.n){
-    const vfN = document.createElement('div'); vfN.className='vf';
-    vfN.innerHTML='<div class="vf-lbl">Note</div>';
-    const valN = document.createElement('div'); valN.className='vf-val';
-    const spanN = document.createElement('span'); spanN.className='vf-text';
-    spanN.style.cssText='color:var(--t2);font-size:0.84rem;'; spanN.textContent=e.n;
-    valN.appendChild(spanN); vfN.appendChild(valN); body.appendChild(vfN);
+  if (e.n) {
+    const vfN = document.createElement('div'); vfN.className = 'vf';
+    vfN.innerHTML = '<div class="vf-lbl">Note</div><div class="vf-val"><span class="vf-text" style="color:var(--t2);font-size:0.84rem;">'+e.n+'</span></div>';
+    body.appendChild(vfN);
   }
 
-  // Updated
   const upd = document.createElement('div');
-  upd.style.cssText='font-size:0.73rem;color:var(--t3);'; upd.textContent='Updated '+fmtD(e.upd);
+  upd.style.cssText = 'font-size:0.73rem;color:var(--t3);'; upd.textContent = 'Updated '+fmtD(e.upd);
   body.appendChild(upd);
 
-  // Actions
-  const acts = document.createElement('div'); acts.className='v-acts';
-  const btnEdit = document.createElement('button'); btnEdit.className='v-act';
-  btnEdit.innerHTML='<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit';
-  btnEdit.onclick=function(){ closeView(); openAdd(id); };
-  const btnPin = document.createElement('button'); btnPin.className='v-act';
-  btnPin.innerHTML='<svg viewBox="0 0 24 24"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>'+(e.pin?'Unpin':'Pin');
-  btnPin.onclick=function(){ togPin(id); };
-  const btnDel = document.createElement('button'); btnDel.className='v-act del';
-  btnDel.innerHTML='<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Delete';
-  btnDel.onclick=function(){ closeView(); deleteOne(id); };
+  const acts = document.createElement('div'); acts.className = 'v-acts';
+  const btnEdit = document.createElement('button'); btnEdit.className = 'v-act';
+  btnEdit.innerHTML = '<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit';
+  btnEdit.onclick = function(){ closeView(); openAdd(id); };
+  const btnPin = document.createElement('button'); btnPin.className = 'v-act';
+  btnPin.innerHTML = '<svg viewBox="0 0 24 24"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>'+(e.pin?'Unpin':'Pin');
+  btnPin.onclick = function(){ togPin(id); };
+  const btnDel = document.createElement('button'); btnDel.className = 'v-act del';
+  btnDel.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Delete';
+  btnDel.onclick = function(){ closeView(); deleteOne(id); };
   acts.appendChild(btnEdit); acts.appendChild(btnPin); acts.appendChild(btnDel);
   body.appendChild(acts);
 
-  document.getElementById('vEditBtn').onclick=function(){ closeView(); openAdd(id); };
+  document.getElementById('vEditBtn').onclick = function(){ closeView(); openAdd(id); };
   document.getElementById('viewOverlay').classList.add('on');
 }
 function closeView(){ document.getElementById('viewOverlay').classList.remove('on'); }
