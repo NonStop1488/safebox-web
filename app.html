@@ -942,7 +942,7 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
   <div class="sb-search">
     <div class="sb-search-inner">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" placeholder="Search" id="gSearch" oninput="doFilter()">
+      <input type="text" placeholder="Search" data-i18n-placeholder="Search" id="gSearch" oninput="doFilter()">
     </div>
   </div>
 
@@ -952,11 +952,11 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
     <!-- My Groups -->
     <div class="sb-nav-section" style="display:flex;align-items:center;gap:8px;padding:14px 24px 5px;">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;opacity:0.5;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      My Groups
+      <span data-i18n="My Groups">My Groups</span>
     </div>
     <div class="sb-new-group" onclick="openNewGroup()">
       <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      New Group
+      <span data-i18n="New Group">New Group</span>
     </div>
 
     <!-- Динамічний список груп -->
@@ -965,40 +965,40 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
     <div class="sb-divider"></div>
 
     <!-- All Classes section -->
-    <div class="sb-nav-section">All Classes</div>
+    <div class="sb-nav-section" data-i18n="All Classes">All Classes</div>
 
     <div class="sb-nav-item active" id="nav-pinned" onclick="nav('pinned',this)">
       <svg viewBox="0 0 24 24"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      Pinned
+      <span data-i18n="Pinned">Pinned</span>
       <span class="sb-nav-count" id="c-pinned">0</span>
     </div>
 
     <div class="sb-nav-item" id="nav-card" onclick="nav('card',this)">
       <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-      Card
+      <span data-i18n="Card">Card</span>
       <span class="sb-nav-count" id="c-card">0</span>
     </div>
 
     <div class="sb-nav-item" id="nav-recent" onclick="nav('recent',this)">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      Recent
+      <span data-i18n="Recent">Recent</span>
       <span class="sb-nav-count" id="c-recent">0</span>
     </div>
 
     <div class="sb-divider"></div>
 
     <!-- Extra filters like web version -->
-    <div class="sb-nav-section">More</div>
+    <div class="sb-nav-section" data-i18n="More">More</div>
 
     <div class="sb-nav-item" id="nav-all" onclick="nav('all',this)">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-      All Passwords
+      <span data-i18n="All Passwords">All Passwords</span>
       <span class="sb-nav-count" id="c-all">0</span>
     </div>
 
     <div class="sb-nav-item" id="nav-weak" onclick="nav('weak',this)">
       <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      Weak Passwords
+      <span data-i18n="Weak Passwords">Weak Passwords</span>
       <span class="sb-nav-count" id="c-weak">0</span>
     </div>
 
@@ -1093,7 +1093,7 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
       <!-- New + pill button -->
       <button class="btn-new-pill" onclick="openAdd()">
         <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        New
+        <span data-i18n="New">New</span>
       </button>
       <!-- Profile icon -->
       <div class="tb-icon" onclick="toggleProfilePopup()" title="Профіль" id="profileBtn">
@@ -1174,8 +1174,8 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
           <span class="cb-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>
         </label>
       </div>
-      <div class="tbl-hcell">Name</div>
-      <div class="tbl-hcell">Password strength</div>
+      <div class="tbl-hcell" data-i18n="Name">Name</div>
+      <div class="tbl-hcell" data-i18n="Password strength">Password strength</div>
       <div class="tbl-hcell"></div>
     </div>
 
@@ -1187,8 +1187,8 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
       <div class="empty-ico">
         <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       </div>
-      <div class="empty-title">No passwords found</div>
-      <div class="empty-sub">Try a different search or add a new entry.</div>
+      <div class="empty-title" data-i18n="No passwords found">No passwords found</div>
+      <div class="empty-sub" data-i18n="Try a different search or add a new entry.">Try a different search or add a new entry.</div>
     </div>
 
   </div>
@@ -1213,6 +1213,7 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
       </button>
     </div>
     <div class="modal-body">
+<<<<<<< HEAD
       <!-- Login fields -->
       <div id="fieldsLogin">
         <div class="f-row"><label class="f-label">Service Name</label><input class="f-inp" type="text" id="fTitle" placeholder="Google, GitHub, Instagram…"></div>
@@ -1229,6 +1230,17 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
             <div class="f-str-track"><div class="f-str-fill" id="msFill" style="width:0%;background:#ff6161;"></div></div>
             <span class="f-str-lbl" id="msLbl">—</span>
           </div>
+=======
+      <div class="f-row"><label class="f-label" data-i18n="Service Name">Service Name</label><input class="f-inp" type="text" id="fTitle" placeholder="Google, GitHub, Instagram…"></div>
+      <div class="f-row"><label class="f-label" data-i18n="URL">URL</label><input class="f-inp" type="text" id="fUrl" placeholder="https://google.com"></div>
+      <div class="f-row"><label class="f-label" data-i18n="Login / Email">Login / Email</label><input class="f-inp" type="text" id="fLogin" placeholder="user@example.com"></div>
+      <div class="f-row">
+        <label class="f-label" data-i18n="Password">Password</label>
+        <div class="f-pw-wrap">
+          <input class="f-inp" type="password" id="fPass" placeholder="Enter or generate" oninput="mStr(this.value)">
+          <button class="f-eye" onclick="togglePwV('fPass',this)"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          <button class="f-gen" onclick="genPw()"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg><span data-i18n="Generate">Generate</span></button>
+>>>>>>> 4fef9d63e5702a73f22f24a2e6e9d7569fb67184
         </div>
       </div>
       <!-- Card fields -->
@@ -1242,7 +1254,7 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
         <div class="f-row"><label class="f-label">Ім'я власника</label><input class="f-inp" type="text" id="fCardHolder" placeholder="IVAN PETRENKO" style="text-transform:uppercase;"></div>
         <div class="f-row"><label class="f-label">PIN-код</label><input class="f-inp" type="password" id="fCardPin" placeholder="••••" maxlength="6"></div>
       </div>
-      <div class="f-row"><label class="f-label">Group</label>
+      <div class="f-row"><label class="f-label" data-i18n="Group">Group</label>
         <select class="f-sel" id="fGroup">
           <option value="">— no group —</option>
           <option value="group-work">Work</option>
@@ -1251,15 +1263,15 @@ body.theme-mint ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
           <option value="group-dev">Dev</option>
         </select>
       </div>
-      <div class="f-row"><label class="f-label">Note <span style="color:var(--t3);font-weight:400;">(optional)</span></label><textarea class="f-ta" id="fNote" placeholder="Additional info…"></textarea></div>
+      <div class="f-row"><label class="f-label"><span data-i18n="Note">Note</span> <span style="color:var(--t3);font-weight:400;"><span data-i18n="optional">(optional)</span></label><textarea class="f-ta" id="fNote" placeholder="Additional info…"></textarea></div>
       <div class="f-cb-row">
         <label class="cb" style="cursor:pointer;"><input type="checkbox" id="fPin"><span class="cb-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span></label>
-        <span class="f-cb-lbl">Pin this entry</span>
+        <span class="f-cb-lbl" data-i18n="Pin this entry">Pin this entry</span>
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn-cancel" onclick="closeAdd()">Cancel</button>
-      <button class="btn-save" onclick="saveEntry()">Save</button>
+      <button class="btn-cancel" onclick="closeAdd()"><span data-i18n="Cancel">Cancel</span></button>
+      <button class="btn-save" onclick="saveEntry()"><span data-i18n="Save">Save</span></button>
     </div>
   </div>
 </div>
@@ -1605,7 +1617,7 @@ async function saveEntry() {
     }
     if (!res || !res.ok) { toast('Помилка збереження', 'err'); }
     else { toast(editId ? 'Запис оновлено' : 'Запис додано', 'ok'); closeAdd(); await loadPasswords(); }
-  } catch(e) { toast('Помилка з'єднання з сервером', 'err'); }
+  } catch(e) { toast('Помилка зʼєднання з сервером', 'err'); }
   finally { btn.textContent = 'Save'; btn.disabled = false; }
 }
 
@@ -1737,6 +1749,28 @@ const I18N = {
     'Pin':              'Закріпити',
     'Website':          'Сайт',
     'Updated':          'Оновлено',
+    'URL':              'URL',
+    'optional':         'необов\'язково',
+    'Password tab':     'Пароль',
+    'Card tab':         'Картка',
+    'Card name':        'Назва картки',
+    'Card number':      'Номер картки',
+    'Valid until':      'Дійсна до',
+    'CVV':              'CVV',
+    'Cardholder':       "Ім'я власника",
+    'PIN code':         'PIN-код',
+    'Group Name':       'Назва групи',
+    'Color':            'Колір',
+    'Create Group':     'Створити групу',
+    'New Entry':        'Новий запис',
+    'Edit Entry':       'Редагувати запис',
+    'New Card':         'Нова картка',
+    'Edit Card':        'Редагувати картку',
+    'Login / Email':    'Логін / Email',
+    'Enter or generate':'Введіть або згенеруйте',
+    'no group':         'без групи',
+    'Additional info…': 'Додаткова інформація…',
+    'Try a different search or add a new entry.': 'Інший пошук або додай запис.',
   }
 };
 
@@ -1766,16 +1800,20 @@ function applyTranslations() {
 
   // Empty state
   const emptyTitle = document.querySelector('.empty-title');
-  const emptyDesc  = document.querySelector('.empty-desc');
+  const emptyDesc  = document.querySelector('.empty-sub');
   if (emptyTitle) emptyTitle.textContent = t('No passwords found');
   if (emptyDesc)  emptyDesc.textContent  = t('Try a different search or add a new entry.');
+
+  // Form placeholders
+  const fPass = document.getElementById('fPass');
+  if (fPass) fPass.placeholder = t('Enter or generate');
+  const fNote = document.getElementById('fNote');
+  if (fNote) fNote.placeholder = t('Additional info\u2026');
 
   // Page title
   const titleEl = document.getElementById('pageTitle');
   if (titleEl) {
-    // Знаходимо EN ключ для поточного тексту
-    const cur = titleEl.textContent;
-    // Шукаємо зворотній ключ якщо поточна мова змінюється
+    const cur = titleEl.textContent.trim();
     const enKey = Object.entries(I18N.uk).find(([k,v]) => v === cur)?.[0] || cur;
     titleEl.textContent = t(enKey);
   }
@@ -2597,11 +2635,11 @@ init();
     </div>
     <div style="padding:20px 24px 24px;">
       <div class="f-row">
-        <label class="f-label">Group Name</label>
+        <label class="f-label" data-i18n="Group Name">Group Name</label>
         <input class="f-inp" type="text" id="gName" placeholder="Work, Social, Finance…" maxlength="40">
       </div>
       <div class="f-row" style="margin-top:4px;">
-        <label class="f-label">Color</label>
+        <label class="f-label" data-i18n="Color">Color</label>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;" id="colorPicker">
           <div class="color-dot selected" data-color="#4ade80" style="background:#4ade80;" onclick="pickColor(this)"></div>
           <div class="color-dot" data-color="#60a5fa" style="background:#60a5fa;" onclick="pickColor(this)"></div>
@@ -2613,7 +2651,7 @@ init();
           <div class="color-dot" data-color="#f87171" style="background:#f87171;" onclick="pickColor(this)"></div>
         </div>
       </div>
-      <button class="btn-save" style="margin-top:20px;width:100%;" onclick="saveNewGroup()">Create Group</button>
+      <button class="btn-save" style="margin-top:20px;width:100%;" onclick="saveNewGroup()"><span data-i18n="Create Group">Create Group</span></button>
     </div>
   </div>
 </div>
