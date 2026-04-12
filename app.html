@@ -939,6 +939,112 @@ body.theme-mint .type-tab { background: #fff; }
 .toast.ok  .t-dot { background: var(--grn); box-shadow: 0 0 6px rgba(63,224,138,0.5); }
 .toast.err .t-dot { background: var(--red); }
 .toast.inf .t-dot { background: var(--blue); }
+
+/* ═══════════════════════════════════════════
+   MOBILE RESPONSIVE (≤768px)
+═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  :root { --sb-w: 280px; --tb-h: 52px; }
+
+  /* App layout */
+  .app-wrap { position: relative; overflow: hidden; }
+
+  /* Sidebar — прихований за межею екрану */
+  .sidebar {
+    position: fixed !important;
+    left: calc(-1 * var(--sb-w) - 2px);
+    top: 0; bottom: 0;
+    height: 100dvh !important;
+    z-index: 200;
+    transition: left .28s cubic-bezier(.4,0,.2,1);
+    box-shadow: none;
+  }
+  .sidebar.mob-open {
+    left: 0;
+    box-shadow: 4px 0 32px rgba(0,0,0,0.5);
+  }
+
+  /* Overlay під сайдбаром */
+  .mob-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 199;
+    backdrop-filter: blur(2px);
+  }
+  .mob-overlay.on { display: block; }
+
+  /* Main займає весь екран */
+  .main { width: 100%; }
+
+  /* Topbar */
+  .topbar { padding: 0 12px 0 8px; }
+  .topbar-title { font-size: 1rem; }
+
+  /* Hamburger кнопка */
+  .mob-menu-btn {
+    display: flex !important;
+    align-items: center; justify-content: center;
+    width: 38px; height: 38px; border-radius: 10px;
+    background: none; border: none; cursor: pointer;
+    color: var(--t2); flex-shrink: 0;
+    transition: background .12s;
+  }
+  .mob-menu-btn:active { background: rgba(255,255,255,0.06); }
+  .mob-menu-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  /* Приховати деякі елементи topbar на мобільному */
+  .topbar-left { gap: 8px; }
+
+  /* Password list — більші картки для тачу */
+  .pw-row { padding: 14px 16px; }
+  .entry-name { font-size: 0.88rem; }
+
+  /* Modal — повноекранний на мобільному */
+  .overlay { align-items: flex-end; padding: 0; }
+  .modal {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 20px 20px 0 0 !important;
+    max-height: 92dvh;
+    overflow-y: auto;
+  }
+  .modal-body { padding: 16px 20px; }
+  .modal-head { padding: 16px 20px 12px; }
+  .modal-foot { padding: 12px 20px 20px; }
+
+  /* Profile popup — повноширинний */
+  .profile-popup {
+    right: 8px; left: 8px; width: auto !important;
+  }
+
+  /* User menu */
+  .user-menu { left: 8px; right: 8px; width: auto !important; }
+
+  /* View modal */
+  .vf { padding: 12px 0; }
+  .vf-lbl { font-size: 0.7rem; }
+  .vf-text { font-size: 0.88rem; }
+
+  /* Info modal */
+  #infoModal .modal { border-radius: 20px 20px 0 0 !important; }
+
+  /* Sel bar */
+  .sel-bar { padding: 8px 16px; font-size: 0.8rem; }
+
+  /* Toast position */
+  .toasts { bottom: 16px; right: 12px; left: 12px; }
+  .toast { font-size: 0.82rem; }
+
+  /* Hide some topbar buttons on very small screens */
+  .tb-icon { width: 34px; height: 34px; }
+}
+
+@media (max-width: 400px) {
+  .topbar-title { font-size: 0.9rem; }
+  .btn-new-pill { padding: 7px 12px; font-size: 0.78rem; }
+}
+
 </style>
 </head>
 <body>
@@ -946,7 +1052,8 @@ body.theme-mint .type-tab { background: #fff; }
 <!-- ══════════════════════════
      SIDEBAR
 ══════════════════════════ -->
-<aside class="sidebar">
+<div class="mob-overlay" id="mobOverlay" onclick="closeMobSidebar()"></div>
+<aside class="sidebar" id="sidebar">
 
   <!-- Logo — shield + SafeBox -->
   <div class="sb-logo">
@@ -993,19 +1100,19 @@ body.theme-mint .type-tab { background: #fff; }
     <!-- All Classes section -->
     <div class="sb-nav-section" data-i18n="All Classes">All Classes</div>
 
-    <div class="sb-nav-item active" id="nav-pinned" onclick="nav('pinned',this)">
+    <div class="sb-nav-item active" id="nav-pinned" onclick="if(typeof isMobile!=='undefined'&&isMobile())closeMobSidebar();nav('pinned',this)">
       <svg viewBox="0 0 24 24"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       <span data-i18n="Pinned">Pinned</span>
       <span class="sb-nav-count" id="c-pinned">0</span>
     </div>
 
-    <div class="sb-nav-item" id="nav-card" onclick="nav('card',this)">
+    <div class="sb-nav-item" id="nav-card" onclick="if(typeof isMobile!=='undefined'&&isMobile())closeMobSidebar();nav('card',this)">
       <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
       <span data-i18n="Card">Card</span>
       <span class="sb-nav-count" id="c-card">0</span>
     </div>
 
-    <div class="sb-nav-item" id="nav-recent" onclick="nav('recent',this)">
+    <div class="sb-nav-item" id="nav-recent" onclick="if(typeof isMobile!=='undefined'&&isMobile())closeMobSidebar();nav('recent',this)">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       <span data-i18n="Recent">Recent</span>
       <span class="sb-nav-count" id="c-recent">0</span>
@@ -1016,13 +1123,13 @@ body.theme-mint .type-tab { background: #fff; }
     <!-- Extra filters like web version -->
     <div class="sb-nav-section" data-i18n="More">More</div>
 
-    <div class="sb-nav-item" id="nav-all" onclick="nav('all',this)">
+    <div class="sb-nav-item" id="nav-all" onclick="if(typeof isMobile!=='undefined'&&isMobile())closeMobSidebar();nav('all',this)">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       <span data-i18n="All Passwords">All Passwords</span>
       <span class="sb-nav-count" id="c-all">0</span>
     </div>
 
-    <div class="sb-nav-item" id="nav-weak" onclick="nav('weak',this)">
+    <div class="sb-nav-item" id="nav-weak" onclick="if(typeof isMobile!=='undefined'&&isMobile())closeMobSidebar();nav('weak',this)">
       <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       <span data-i18n="Weak Passwords">Weak Passwords</span>
       <span class="sb-nav-count" id="c-weak">0</span>
@@ -1113,6 +1220,9 @@ body.theme-mint .type-tab { background: #fff; }
   <!-- Topbar -->
   <div class="topbar">
     <div class="topbar-left">
+      <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobSidebar()" style="display:none;" title="Меню">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
       <div class="topbar-title" id="pageTitle">Pinned</div>
     </div>
     <div class="topbar-right">
