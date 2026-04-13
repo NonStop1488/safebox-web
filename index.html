@@ -642,6 +642,34 @@
       });
 
       const data = await res.json();
+	  
+	  const data = await res.json();
+
+if (res.ok) {
+
+  const EXTENSION_ID = "lggeponbhhknooajlpbmpamgnfgdlcim";
+
+  if (window.chrome?.runtime?.sendMessage) {
+    chrome.runtime.sendMessage(
+      EXTENSION_ID,
+      {
+        type: "SET_TOKENS",
+        access_token: data.access_token,
+        refresh_token: data.refresh_token
+      },
+      (response) => {
+        console.log("Extension response:", response);
+
+        if (chrome.runtime.lastError) {
+          console.warn("Extension error:", chrome.runtime.lastError.message);
+        }
+      }
+    );
+  }
+
+  // ⬇️ тут вже твоя логіка
+  // redirect / showPage('app') / і т.д.
+}
 
       if (!res.ok) {
         if (btn) { btn.textContent = 'Google'; btn.disabled = false; }
