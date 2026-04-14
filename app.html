@@ -966,6 +966,9 @@ body.theme-mint .type-tab { background: #fff; }
 .toast.err .t-dot { background: var(--red); }
 .toast.inf .t-dot { background: var(--blue); }
 
+/* Mobile strength row — hidden on desktop, shown on mobile */
+.mob-str-row { display: none; }
+
 /* ═══════════════════════════════════════════
    MOBILE RESPONSIVE (≤768px)
 ═══════════════════════════════════════════ */
@@ -1022,9 +1025,54 @@ body.theme-mint .type-tab { background: #fff; }
   /* Приховати деякі елементи topbar на мобільному */
   .topbar-left { gap: 8px; }
 
-  /* Password list — більші картки для тачу */
-  .pw-row { padding: 14px 16px; }
-  .entry-name { font-size: 0.88rem; }
+  /* ── TABLE: мобільна адаптація ────────────────── */
+  /* Заголовок таблиці: чекбокс | Name | Strength */
+  .tbl-header {
+    grid-template-columns: 44px 1fr auto;
+    padding: 10px 0;
+  }
+  /* Приховати колонку "···" в заголовку */
+  .tbl-header .tbl-hcell:last-child { display: none; }
+
+  /* Рядок паролю: чекбокс | Name+Strength (вертикально) | ··· */
+  .pw-row {
+    grid-template-columns: 44px 1fr 40px;
+    height: auto;
+    min-height: 60px;
+    padding: 10px 0;
+    align-items: center;
+  }
+
+  /* Name cell */
+  .pw-cell:first-child { padding-left: 12px; }
+  .pw-cell { padding: 0 8px; }
+  .pw-cell:last-child { padding-right: 8px; }
+
+  /* Завжди показувати три крапки на мобільному */
+  .pw-row-dots { opacity: 1 !important; }
+
+  /* Name + Strength клітинка — об'єднати в одну з flex колонкою */
+  /* Перша data-cell (name) займає нормальне місце */
+  .entry-name { font-size: 0.85rem; }
+  .entry-sub  { font-size: 0.7rem; }
+  .entry-icon { width: 32px; height: 32px; border-radius: 8px; }
+  .entry-wrap { gap: 10px; }
+
+  /* Strength cell — перенести під name через wrapper-trick */
+  /* Колонка Strength стає невидимою в grid і рендериться як підрядок у name */
+  .str-cell-col {
+    display: none; /* приховуємо окрему колонку strength */
+  }
+
+  /* Показуємо strength всередині name-клітинки (додається через JS або inline) */
+  .mob-str-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .mob-str-row .str-track { flex: 1; max-width: 120px; height: 4px; }
+  .mob-str-row .str-badge { font-size: 0.62rem; padding: 2px 7px; }
 
   /* Modal — повноекранний на мобільному */
   .overlay { align-items: flex-end; padding: 0; }
@@ -2460,11 +2508,15 @@ function render(){
               ${e.pin?'<span class="pin-dot"></span>':''}
             </div>
             <div class="entry-sub">${e.l}</div>
+            <div class="mob-str-row">
+              <div class="str-track"><div class="str-fill" style="width:${st.pct}%;background:${st.col};"></div></div>
+              <span class="str-badge ${st.cls}">${st.lbl}</span>
+            </div>
           </div>
         </div>
       </div>
-      <!-- Strength — bar + badge, matching the PC screenshot style -->
-      <div class="pw-cell">
+      <!-- Strength — bar + badge (hidden on mobile) -->
+      <div class="pw-cell str-cell-col">
         <div class="str-cell">
           <div class="str-track">
             <div class="str-fill" style="width:${st.pct}%;background:${st.col};"></div>
