@@ -578,13 +578,25 @@
   const API = 'https://safebox-backend-rynv.onrender.com/api/v1';
   const GOOGLE_CLIENT_ID = '260458731697-b5mh8ek1kkm23bmplaflbn1di1kfv2uf.apps.googleusercontent.com';
 
-  /* ── Збереження токенів ─────────────────────────── */
+  /* ── ID розширення SafeBox ──────────────────────── */
+  const EXTENSION_ID = 'lggeponbhhknooajlpbmpamgnfgdlcim';
+
+  /* ── Збереження токенів + передача в розширення ─── */
   function saveSession(data) {
     localStorage.setItem('sb_access',    data.access_token);
     localStorage.setItem('sb_refresh',   data.refresh_token);
     localStorage.setItem('sb_psk',       data.protected_symmetric_key);
     localStorage.setItem('sb_kdf_salt',  data.kdf_salt);
     localStorage.setItem('sb_kdf_iter',  data.kdf_iterations);
+
+    // Передати токени в розширення SafeBox
+    if (window.chrome?.runtime?.sendMessage) {
+      chrome.runtime.sendMessage(
+        EXTENSION_ID,
+        { type: 'SB_SET_TOKEN', access_token: data.access_token, refresh_token: data.refresh_token },
+        () => { if (chrome.runtime?.lastError) {} }
+      );
+    }
   }
 
   /* ── Google Login через redirect (надійніший метод) ── */
@@ -642,34 +654,6 @@
       });
 
       const data = await res.json();
-	  
-	  const data = await res.json();
-
-if (res.ok) {
-
-  const EXTENSION_ID = "lggeponbhhknooajlpbmpamgnfgdlcim";
-
-  if (window.chrome?.runtime?.sendMessage) {
-    chrome.runtime.sendMessage(
-      EXTENSION_ID,
-      {
-        type: "SET_TOKENS",
-        access_token: data.access_token,
-        refresh_token: data.refresh_token
-      },
-      (response) => {
-        console.log("Extension response:", response);
-
-        if (chrome.runtime.lastError) {
-          console.warn("Extension error:", chrome.runtime.lastError.message);
-        }
-      }
-    );
-  }
-
-  // ⬇️ тут вже твоя логіка
-  // redirect / showPage('app') / і т.д.
-}
 
       if (!res.ok) {
         if (btn) { btn.textContent = 'Google'; btn.disabled = false; }
