@@ -582,26 +582,27 @@
   const EXTENSION_ID = 'lggeponbhhknooajlpbmpamgnfgdlcim';
 
   /* ── Збереження токенів + передача в розширення ─── */
-  function saveSession(data, onDone) {
-    localStorage.setItem('sb_access',    data.access_token);
-    localStorage.setItem('sb_refresh',   data.refresh_token);
-    localStorage.setItem('sb_psk',       data.protected_symmetric_key);
-    localStorage.setItem('sb_kdf_salt',  data.kdf_salt);
-    localStorage.setItem('sb_kdf_iter',  data.kdf_iterations);
+const EXTENSION_ID = 'lggeponbhhknooajlpbmpamgnfgdlcim';
 
-    // Передати токени в розширення, і тільки потім робити redirect
-    const proceed = () => { if (onDone) { const fn = onDone; onDone = null; fn(); } };
-    if (window.chrome?.runtime?.sendMessage) {
-      chrome.runtime.sendMessage(
-        EXTENSION_ID,
-        { type: 'SB_SET_TOKEN', access_token: data.access_token, refresh_token: data.refresh_token },
-        () => { if (chrome.runtime?.lastError) {} proceed(); }
-      );
-      setTimeout(proceed, 400); // запасний таймаут
-    } else {
-      proceed();
-    }
+function saveSession(data, onDone) {
+  localStorage.setItem('sb_access',    data.access_token);
+  localStorage.setItem('sb_refresh',   data.refresh_token);
+  localStorage.setItem('sb_psk',       data.protected_symmetric_key);
+  localStorage.setItem('sb_kdf_salt',  data.kdf_salt);
+  localStorage.setItem('sb_kdf_iter',  data.kdf_iterations);
+
+  const proceed = () => { if (onDone) { const fn = onDone; onDone = null; fn(); } };
+  if (window.chrome?.runtime?.sendMessage) {
+    chrome.runtime.sendMessage(
+      EXTENSION_ID,
+      { type: 'SB_SET_TOKEN', access_token: data.access_token, refresh_token: data.refresh_token },
+      () => { if (chrome.runtime?.lastError) {} proceed(); }
+    );
+    setTimeout(proceed, 400);
+  } else {
+    proceed();
   }
+}
 
   /* ── Google Login через redirect (надійніший метод) ── */
   function triggerGoogleLogin() {
