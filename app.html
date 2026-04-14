@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<link rel="manifest" href="/manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="/icons/icon-180.png">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SafeBox</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SafeBox">
 <link rel="apple-touch-icon" href="/icons/icon-180.png">
 <link rel="apple-touch-startup-image" href="/icons/icon-512.png">
 <link rel="manifest" href="/manifest.json">
+<title>SafeBox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
 
 html, body {
@@ -969,6 +964,9 @@ body.theme-mint .type-tab { background: #fff; }
 /* Mobile strength row — hidden on desktop, shown on mobile */
 .mob-str-row { display: none; }
 
+/* Hamburger — hidden on desktop */
+.mob-menu-btn { display: none; }
+
 /* ═══════════════════════════════════════════
    MOBILE RESPONSIVE (≤768px)
 ═══════════════════════════════════════════ */
@@ -1174,19 +1172,19 @@ body.theme-mint .type-tab { background: #fff; }
     <!-- All Classes section -->
     <div class="sb-nav-section" data-i18n="All Classes">All Classes</div>
 
-    <div class="sb-nav-item active" id="nav-pinned" onclick="if(typeof isMobile!=='undefined'&&isMobile())closeMobSidebar();nav('pinned',this)">
+    <div class="sb-nav-item active" id="nav-pinned" onclick="if(isMobile())closeMobSidebar();nav('pinned',this)">
       <svg viewBox="0 0 24 24"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       <span data-i18n="Pinned">Pinned</span>
       <span class="sb-nav-count" id="c-pinned">0</span>
     </div>
 
-    <div class="sb-nav-item" id="nav-card" onclick="if(typeof isMobile!=='undefined'&&isMobile())closeMobSidebar();nav('card',this)">
+    <div class="sb-nav-item" id="nav-card" onclick="if(isMobile())closeMobSidebar();nav('card',this)">
       <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
       <span data-i18n="Card">Card</span>
       <span class="sb-nav-count" id="c-card">0</span>
     </div>
 
-    <div class="sb-nav-item" id="nav-recent" onclick="if(typeof isMobile!=='undefined'&&isMobile())closeMobSidebar();nav('recent',this)">
+    <div class="sb-nav-item" id="nav-recent" onclick="if(isMobile())closeMobSidebar();nav('recent',this)">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       <span data-i18n="Recent">Recent</span>
       <span class="sb-nav-count" id="c-recent">0</span>
@@ -1197,13 +1195,13 @@ body.theme-mint .type-tab { background: #fff; }
     <!-- Extra filters like web version -->
     <div class="sb-nav-section" data-i18n="More">More</div>
 
-    <div class="sb-nav-item" id="nav-all" onclick="if(typeof isMobile!=='undefined'&&isMobile())closeMobSidebar();nav('all',this)">
+    <div class="sb-nav-item" id="nav-all" onclick="if(isMobile())closeMobSidebar();nav('all',this)">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       <span data-i18n="All Passwords">All Passwords</span>
       <span class="sb-nav-count" id="c-all">0</span>
     </div>
 
-    <div class="sb-nav-item" id="nav-weak" onclick="if(typeof isMobile!=='undefined'&&isMobile())closeMobSidebar();nav('weak',this)">
+    <div class="sb-nav-item" id="nav-weak" onclick="if(isMobile())closeMobSidebar();nav('weak',this)">
       <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       <span data-i18n="Weak Passwords">Weak Passwords</span>
       <span class="sb-nav-count" id="c-weak">0</span>
@@ -1294,7 +1292,7 @@ body.theme-mint .type-tab { background: #fff; }
   <!-- Topbar -->
   <div class="topbar">
     <div class="topbar-left">
-      <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobSidebar()" style="display:none;" title="Меню">
+      <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobSidebar()" title="Меню">
         <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
       <div class="topbar-title" id="pageTitle">Pinned</div>
@@ -2832,6 +2830,39 @@ function toast(msg, type='inf'){
   setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(),220); }, 2600);
 }
 
+
+/* ════════════════════════════════
+   MOBILE SIDEBAR
+════════════════════════════════ */
+function isMobile() {
+  return window.innerWidth <= 768;
+}
+
+function openMobSidebar() {
+  document.getElementById('sidebar').classList.add('mob-open');
+  document.getElementById('mobOverlay').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMobSidebar() {
+  document.getElementById('sidebar').classList.remove('mob-open');
+  document.getElementById('mobOverlay').classList.remove('on');
+  document.body.style.overflow = '';
+}
+
+function toggleMobSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar.classList.contains('mob-open')) {
+    closeMobSidebar();
+  } else {
+    openMobSidebar();
+  }
+}
+
+// Закрити сайдбар при зміні орієнтації на десктоп
+window.addEventListener('resize', function() {
+  if (window.innerWidth > 768) closeMobSidebar();
+});
 
 init();
 </script>
