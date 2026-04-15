@@ -168,67 +168,234 @@
 ══════════════════════════════════════ -->
 <div id="downloads" class="page">
 
-  <div class="section" style="text-align:center; padding-top:80px; padding-bottom:40px;">
-    <h1 class="hero-title fade-up">Завантажити SafeBox</h1>
-    <p class="sub fade-up d1">Отримайте застосунок SafeBox для вашої платформи. Ваше сховище залишатиметься синхронізованим і захищеним на всіх пристроях.</p>
+  <div class="section" style="text-align:center; padding-top:80px; padding-bottom:48px;">
+    <div class="badge fade-up" style="margin:0 auto 24px;"><span class="dot"></span>Всі платформи</div>
+    <h1 class="hero-title fade-up d1">SafeBox скрізь,<br>де ви є</h1>
+    <p class="sub fade-up d2">Встановіть SafeBox на будь-який пристрій. Всі платформи синхронізовані в одному сховищі.</p>
   </div>
 
+  <!-- ── Великі картки платформ ── -->
   <div class="section-sm" style="padding-top:0;">
-    <div class="grid-2" style="max-width:760px; margin:0 auto;">
+    <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:20px; max-width:860px; margin:0 auto;">
 
       <!-- Windows -->
-      <div class="card" style="padding:36px;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px;">
-          <div class="icon-box" style="margin-bottom:0;">
-            <svg viewBox="0 0 24 24" style="width:22px; height:22px; fill:var(--text); stroke:none;">
+      <div class="card dl-card" style="padding:36px; position:relative; overflow:hidden;">
+        <div class="dl-platform-glow" style="background:radial-gradient(circle at 10% 10%, rgba(0,120,212,0.12) 0%, transparent 60%);"></div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
+          <div class="icon-box" style="margin-bottom:0; background:rgba(0,120,212,0.1); border-color:rgba(0,120,212,0.2);">
+            <svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:var(--text); stroke:none;">
               <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
             </svg>
           </div>
-          <span class="badge" style="font-size:0.72rem;">Остання версія</span>
+          <span class="badge" style="font-size:0.7rem; background:rgba(0,120,212,0.1); border-color:rgba(0,120,212,0.2); color:rgba(240,244,248,0.7);">Windows</span>
         </div>
-        <div class="card-title" style="font-size:1.1rem; margin-bottom:10px;">Windows</div>
-        <div class="card-text" style="margin-bottom:28px;">Повноцінний десктопний досвід для Windows 10 і 11. Керуйте своїм сховищем прямо з ПК.</div>
-        <button class="btn-ghost" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:12px;">
-          <svg viewBox="0 0 24 24" style="width:16px; height:16px; stroke:var(--text); fill:none; stroke-width:2;">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
+        <div class="card-title" style="font-size:1.1rem; margin-bottom:8px;">ПК Застосунок</div>
+        <div class="card-text" style="margin-bottom:8px;">Повноцінний десктопний досвід для Windows 10 і 11. Підтримка системного трею, автозаповнення та швидкий доступ з клавіатури.</div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:24px;">
+          <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">Windows 10/11</span>
+          <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">64-bit</span>
+          <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">~45 MB</span>
+        </div>
+        <button class="btn-ghost dl-btn" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:12px;" onclick="dlClick('windows')">
+          <svg viewBox="0 0 24 24" style="width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0;">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
-          Windows x64 (.exe)
+          Завантажити .exe
         </button>
       </div>
 
-      <!-- Мобільний -->
-      <div class="card" style="padding:36px;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px;">
-          <div class="icon-box" style="margin-bottom:0;">
-            <svg viewBox="0 0 24 24" style="width:22px; height:22px; stroke:var(--text); fill:none; stroke-width:1.6;">
-              <rect x="5" y="2" width="14" height="20" rx="2"/>
-              <line x1="12" y1="18" x2="12.01" y2="18"/>
+      <!-- Android -->
+      <div class="card dl-card" style="padding:36px; position:relative; overflow:hidden;">
+        <div class="dl-platform-glow" style="background:radial-gradient(circle at 10% 10%, rgba(61,220,132,0.1) 0%, transparent 60%);"></div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
+          <div class="icon-box" style="margin-bottom:0; background:rgba(61,220,132,0.08); border-color:rgba(61,220,132,0.18);">
+            <svg viewBox="0 0 24 24" style="width:20px; height:20px; stroke:var(--text); fill:none; stroke-width:1.6;">
+              <path d="M5 16H4a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1m14 8h1a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-1"/>
+              <rect x="5" y="3" width="14" height="18" rx="2"/>
+              <line x1="9" y1="3" x2="7" y2="1"/><line x1="15" y1="3" x2="17" y2="1"/>
+              <line x1="12" y1="19" x2="12.01" y2="19"/>
             </svg>
           </div>
-          <span class="badge" style="font-size:0.72rem;">Остання версія</span>
+          <span class="badge" style="font-size:0.7rem; background:rgba(61,220,132,0.08); border-color:rgba(61,220,132,0.18); color:rgba(240,244,248,0.7);">Android</span>
         </div>
-        <div class="card-title" style="font-size:1.1rem; margin-bottom:10px;">Мобільний застосунок</div>
-        <div class="card-text" style="margin-bottom:28px;">Доступ до паролів будь-де завдяки нашому захищеному мобільному застосунку для Android.</div>
-        <button class="btn-ghost" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:12px;">
-          <svg viewBox="0 0 24 24" style="width:16px; height:16px; stroke:var(--text); fill:none; stroke-width:2;">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          Google Play Store
-        </button>
+        <div class="card-title" style="font-size:1.1rem; margin-bottom:8px;">Android Застосунок</div>
+        <div class="card-text" style="margin-bottom:8px;">Нативний застосунок із розблокуванням відбитком пальця, автозаповненням та офлайн-доступом до сховища.</div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:24px;">
+          <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">Android 8+</span>
+          <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">ARM / x86</span>
+          <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">~18 MB</span>
+        </div>
+        <div style="display:flex; gap:8px; flex-direction:column;">
+          <button class="btn-ghost dl-btn" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:12px;" onclick="dlClick('android-play')">
+            <svg viewBox="0 0 24 24" style="width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0;">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="m10 8 6 4-6 4V8z" fill="currentColor" stroke="none"/>
+            </svg>
+            Google Play Store
+          </button>
+          <button class="btn-ghost dl-btn" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:11px; font-size:0.82rem; opacity:0.7;" onclick="dlClick('android-apk')">
+            <svg viewBox="0 0 24 24" style="width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0;">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Завантажити APK
+          </button>
+        </div>
+      </div>
+
+      <!-- iOS -->
+      <div class="card dl-card" style="padding:36px; position:relative; overflow:hidden;">
+        <div class="dl-platform-glow" style="background:radial-gradient(circle at 10% 10%, rgba(255,255,255,0.06) 0%, transparent 60%);"></div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
+          <div class="icon-box" style="margin-bottom:0; background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.12);">
+            <svg viewBox="0 0 24 24" style="width:20px; height:20px; stroke:var(--text); fill:none; stroke-width:1.6;">
+              <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/>
+              <path d="M12 8c-1.5 0-2.5 1-2.5 2.5 0 2 1.5 3.5 2.5 5 1-1.5 2.5-3 2.5-5C14.5 9 13.5 8 12 8z"/>
+              <circle cx="12" cy="7" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <span style="font-size:0.66rem; padding:3px 8px; border-radius:20px; background:rgba(255,214,0,0.1); color:rgba(255,214,0,0.8); border:1px solid rgba(255,214,0,0.2);">Незабаром</span>
+            <span class="badge" style="font-size:0.7rem;">iOS</span>
+          </div>
+        </div>
+        <div class="card-title" style="font-size:1.1rem; margin-bottom:8px;">iOS Застосунок</div>
+        <div class="card-text" style="margin-bottom:8px;">Нативний застосунок для iPhone та iPad із підтримкою Face ID, автозаповнення паролів та iCloud синхронізації.</div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:24px;">
+          <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">iOS 15+</span>
+          <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">iPhone / iPad</span>
+          <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">Face ID</span>
+        </div>
+        <div style="display:flex; gap:8px; flex-direction:column;">
+          <button class="btn-ghost dl-btn" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:12px; opacity:0.45; cursor:default;" disabled>
+            <svg viewBox="0 0 24 24" style="width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0;">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="m10 8 6 4-6 4V8z" fill="currentColor" stroke="none"/>
+            </svg>
+            App Store — Незабаром
+          </button>
+          <button class="dl-btn-secondary" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:11px; font-size:0.82rem; background:none; border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:rgba(240,244,248,0.5); cursor:pointer; font-family:inherit; transition:all .15s;" onclick="dlClick('ios-pwa')">
+            <svg viewBox="0 0 24 24" style="width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0;">
+              <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            Відкрити Web-версію
+          </button>
+        </div>
+      </div>
+
+      <!-- Розширення браузера -->
+      <div class="card dl-card" style="padding:36px; position:relative; overflow:hidden;">
+        <div class="dl-platform-glow" style="background:radial-gradient(circle at 10% 10%, rgba(250,130,50,0.1) 0%, transparent 60%);"></div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
+          <div class="icon-box" style="margin-bottom:0; background:rgba(250,130,50,0.08); border-color:rgba(250,130,50,0.18);">
+            <svg viewBox="0 0 24 24" style="width:20px; height:20px; stroke:var(--text); fill:none; stroke-width:1.6;">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              <path d="M12 7v5l3 3" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <span class="badge" style="font-size:0.7rem; background:rgba(250,130,50,0.08); border-color:rgba(250,130,50,0.18); color:rgba(240,244,248,0.7);">Розширення</span>
+        </div>
+        <div class="card-title" style="font-size:1.1rem; margin-bottom:8px;">Розширення браузера</div>
+        <div class="card-text" style="margin-bottom:8px;">Автозаповнення паролів прямо у браузері. Один клік — і дані вставлені. Підтримує Chrome, Firefox та Edge.</div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:24px;">
+          <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">Chrome</span>
+          <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">Firefox</span>
+          <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">Edge</span>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-ghost dl-btn" style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px; padding:12px; font-size:0.82rem;" onclick="dlClick('ext-chrome')">
+            <!-- Chrome icon -->
+            <svg viewBox="0 0 24 24" style="width:15px; height:15px; fill:none; flex-shrink:0;">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="12" cy="12" r="4" fill="currentColor"/>
+            </svg>
+            Chrome
+          </button>
+          <button class="btn-ghost dl-btn" style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px; padding:12px; font-size:0.82rem;" onclick="dlClick('ext-firefox')">
+            <!-- Firefox icon -->
+            <svg viewBox="0 0 24 24" style="width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.8; flex-shrink:0;">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 2c3 3 5 6 5 10s-2 7-5 10"/>
+            </svg>
+            Firefox
+          </button>
+          <button class="btn-ghost dl-btn" style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px; padding:12px; font-size:0.82rem;" onclick="dlClick('ext-edge')">
+            <!-- Edge icon -->
+            <svg viewBox="0 0 24 24" style="width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.8; flex-shrink:0;">
+              <path d="M3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9"/>
+              <path d="M3 12h18"/>
+            </svg>
+            Edge
+          </button>
+        </div>
       </div>
 
     </div>
   </div>
 
-  <footer style="margin-top:80px;">
+  <!-- ── Веб-версія / CTA ── -->
+  <div class="section" style="padding-bottom:80px;">
+    <div class="card" style="max-width:860px; margin:0 auto; border-radius:24px; padding:52px 48px; text-align:center; position:relative; overflow:hidden;">
+      <div style="position:absolute; inset:0; background:radial-gradient(circle at 50% 0%, rgba(100,200,140,0.06) 0%, transparent 60%); pointer-events:none;"></div>
+      <div class="badge" style="margin:0 auto 20px;"><span class="dot"></span>Без встановлення</div>
+      <h2 class="section-title" style="font-size:clamp(1.5rem,3vw,2rem); margin-bottom:12px;">Спробуйте прямо зараз</h2>
+      <p class="sub" style="margin-top:0; margin-bottom:32px; max-width:480px; margin-left:auto; margin-right:auto;">Веб-версія SafeBox доступна у будь-якому браузері без встановлення. Увійдіть і керуйте сховищем з будь-якого пристрою.</p>
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <button class="btn-solid" style="padding:13px 32px;" onclick="showPage('signup')">Створити акаунт</button>
+        <button class="btn-ghost" style="padding:13px 32px;" onclick="showPage('signin')">Увійти</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
     <span>© 2025 SafeBox. Всі права захищені.</span>
     <span>Конфіденційність · Умови · Безпека</span>
   </footer>
 </div>
+
+<style>
+/* ── Картки завантажень ── */
+.dl-card { transition: transform .18s, box-shadow .18s; }
+.dl-card:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,0,0,0.35); }
+.dl-platform-glow { position:absolute; inset:0; pointer-events:none; }
+.dl-btn { transition: all .15s; font-family: inherit; cursor: pointer; border-radius: 10px; font-size: 0.84rem; }
+.dl-btn:disabled { cursor: default; }
+.dl-btn-secondary:hover { background: rgba(255,255,255,0.04) !important; color: rgba(240,244,248,0.65) !important; }
+
+@media (max-width: 640px) {
+  #downloads .grid-2,
+  #downloads [style*="grid-template-columns:repeat(2"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+</style>
+
+<script>
+function dlClick(platform) {
+  const urls = {
+    'windows':      '#',          /* посилання на .exe */
+    'android-play': '#',          /* Google Play */
+    'android-apk':  '#',          /* пряме APK */
+    'ios-pwa':      'app.html',
+    'ext-chrome':   '#',
+    'ext-firefox':  '#',
+    'ext-edge':     '#',
+  };
+  const url = urls[platform] || '#';
+  if (url === '#') {
+    /* Тимчасово — показати повідомлення поки немає посилання */
+    const msg = {
+      'windows':      'Збірка для Windows буде доступна найближчим часом.',
+      'android-play': 'Застосунок на Google Play — незабаром!',
+      'android-apk':  'APK-файл буде доступний незабаром.',
+      'ext-chrome':   'Розширення для Chrome — в розробці.',
+      'ext-firefox':  'Розширення для Firefox — в розробці.',
+      'ext-edge':     'Розширення для Edge — в розробці.',
+    };
+    alert(msg[platform] || 'Незабаром буде доступно.');
+  } else {
+    window.location.href = url;
+  }
+}
+</script>
 
 <!-- ══════════════════════════════════════
      БЕЗПЕКА
