@@ -226,11 +226,11 @@
           <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">~18 MB</span>
         </div>
         <div style="display:flex; gap:8px; flex-direction:column;">
-          <button class="btn-ghost dl-btn" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:12px;" onclick="dlClick('android-play')">
+          <button class="btn-ghost dl-btn" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:12px; opacity:0.4; cursor:default;" disabled>
             <svg viewBox="0 0 24 24" style="width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0;">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="m10 8 6 4-6 4V8z" fill="currentColor" stroke="none"/>
             </svg>
-            Google Play Store
+            Google Play — Незабаром
           </button>
           <button class="btn-ghost dl-btn" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:11px; font-size:0.82rem; opacity:0.7;" onclick="dlClick('android-apk')">
             <svg viewBox="0 0 24 24" style="width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0;">
@@ -271,12 +271,20 @@
             </svg>
             App Store — Незабаром
           </button>
-          <button class="dl-btn-secondary" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:11px; font-size:0.82rem; background:none; border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:rgba(240,244,248,0.5); cursor:pointer; font-family:inherit; transition:all .15s;" onclick="dlClick('ios-pwa')">
+          <button class="dl-btn-secondary" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:11px; font-size:0.82rem; background:none; border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:rgba(240,244,248,0.5); cursor:pointer; font-family:inherit; transition:all .15s;" onclick="showIosInstall()">
             <svg viewBox="0 0 24 24" style="width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0;">
-              <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              <path d="M12 2v13M8 9l4-4 4 4"/><path d="M20 17v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2"/>
             </svg>
-            Відкрити Web-версію
+            Встановити на iPhone
           </button>
+          <div id="ios-install-hint" style="display:none; margin-top:12px; padding:12px 14px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.08); font-size:0.75rem; color:rgba(240,244,248,0.55); line-height:1.7;">
+            <strong style="color:rgba(240,244,248,0.8);">Як встановити SafeBox на iPhone:</strong><br>
+            1. Відкрийте <strong style="color:rgba(240,244,248,0.8);">Safari</strong> на iPhone<br>
+            2. Перейдіть на <strong style="color:rgba(240,244,248,0.8);">safebox-web.vercel.app</strong><br>
+            3. Натисніть кнопку <strong style="color:rgba(240,244,248,0.8);">□↑</strong> (Поділитись)<br>
+            4. Виберіть <strong style="color:rgba(240,244,248,0.8);">"На початковий екран"</strong><br>
+            5. Натисніть <strong style="color:rgba(240,244,248,0.8);">Додати</strong>
+          </div>
         </div>
       </div>
 
@@ -300,31 +308,18 @@
           <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">Firefox</span>
           <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">Edge</span>
         </div>
-        <div style="display:flex; gap:8px;">
-          <button class="btn-ghost dl-btn" style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px; padding:12px; font-size:0.82rem;" onclick="dlClick('ext-chrome')">
-            <!-- Chrome icon -->
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button class="btn-ghost dl-btn" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:12px; opacity:0.4; cursor:default;" disabled>
             <svg viewBox="0 0 24 24" style="width:15px; height:15px; fill:none; flex-shrink:0;">
               <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/>
               <circle cx="12" cy="12" r="4" fill="currentColor"/>
             </svg>
-            Chrome
+            Chrome Web Store — Незабаром
           </button>
-          <button class="btn-ghost dl-btn" style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px; padding:12px; font-size:0.82rem;" onclick="dlClick('ext-firefox')">
-            <!-- Firefox icon -->
-            <svg viewBox="0 0 24 24" style="width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.8; flex-shrink:0;">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 2c3 3 5 6 5 10s-2 7-5 10"/>
-            </svg>
-            Firefox
-          </button>
-          <button class="btn-ghost dl-btn" style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px; padding:12px; font-size:0.82rem;" onclick="dlClick('ext-edge')">
-            <!-- Edge icon -->
-            <svg viewBox="0 0 24 24" style="width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.8; flex-shrink:0;">
-              <path d="M3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9"/>
-              <path d="M3 12h18"/>
-            </svg>
-            Edge
-          </button>
+          <div style="font-size:0.75rem; color:rgba(240,244,248,0.35); text-align:center; padding:4px 0; line-height:1.5;">
+            Розширення проходить перевірку Chrome Web Store.<br>
+            Очікуйте незабаром.
+          </div>
         </div>
       </div>
 
@@ -370,30 +365,45 @@
 
 <script>
 function dlClick(platform) {
-  const urls = {
-    'windows':      '#',          /* посилання на .exe */
-    'android-play': '#',          /* Google Play */
-    'android-apk':  '#',          /* пряме APK */
-    'ios-pwa':      'app.html',
-    'ext-chrome':   '#',
-    'ext-firefox':  '#',
-    'ext-edge':     '#',
+  const downloads = {
+    'windows':     'https://github.com/NonStop1488/safebox-desktop/releases/download/v1.0.0/SafeBox.Setup.1.0.0.exe',
+    'android-apk': 'https://github.com/NonStop1488/safebox-desktop/releases/download/v1.0.0/app-debug.apk',
+    'ios-pwa':     'app.html',
   };
-  const url = urls[platform] || '#';
-  if (url === '#') {
-    /* Тимчасово — показати повідомлення поки немає посилання */
-    const msg = {
-      'windows':      'Збірка для Windows буде доступна найближчим часом.',
-      'android-play': 'Застосунок на Google Play — незабаром!',
-      'android-apk':  'APK-файл буде доступний незабаром.',
-      'ext-chrome':   'Розширення для Chrome — в розробці.',
-      'ext-firefox':  'Розширення для Firefox — в розробці.',
-      'ext-edge':     'Розширення для Edge — в розробці.',
-    };
-    alert(msg[platform] || 'Незабаром буде доступно.');
-  } else {
-    window.location.href = url;
+  const comingSoon = {
+    'android-play': 'Застосунок на Google Play — незабаром!',
+    'ext-chrome':   'Розширення для Chrome Web Store — незабаром!',
+    'ext-firefox':  'Розширення для Firefox — незабаром!',
+    'ext-edge':     'Розширення для Edge — незабаром!',
+  };
+  if (downloads[platform]) {
+    const a = document.createElement('a');
+    a.href = downloads[platform];
+    a.download = '';
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } else if (comingSoon[platform]) {
+    showToast(comingSoon[platform]);
   }
+}
+
+function showIosInstall() {
+  const hint = document.getElementById('ios-install-hint');
+  if (hint) { hint.style.display = hint.style.display === 'none' ? 'block' : 'none'; }
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a2230;border:1px solid rgba(63,224,138,0.25);border-radius:12px;padding:12px 20px;color:#dce4f0;font-size:0.85rem;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4);white-space:nowrap;animation:fadeInUp .2s ease;';
+  t.textContent = msg;
+  const style = document.createElement('style');
+  style.textContent = '@keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';
+  document.head.appendChild(style);
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
 }
 </script>
 
