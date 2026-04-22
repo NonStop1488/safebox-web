@@ -61,10 +61,233 @@
     </button>
   </div>
 
-  <!-- Попередній перегляд застосунку -->
-  <div style="max-width:860px; margin:0 auto 48px; padding:0 48px;">
-    <div class="card" style="border-radius:20px; padding:32px; min-height:260px; display:flex; align-items:center; justify-content:center;">
-      <p style="color:var(--muted); font-size:0.88rem;">Попередній перегляд застосунку</p>
+  <!-- ── App Mockup ── -->
+  <div style="max-width:960px; margin:0 auto 56px; padding:0 32px;">
+    <div class="app-mockup-wrap">
+
+      <!-- ── Головне вікно (десктоп) ── -->
+      <div class="app-mockup-main">
+        <!-- Titlebar -->
+        <div class="mock-titlebar">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div style="width:11px;height:11px;border-radius:50%;background:#ff5f57;"></div>
+            <div style="width:11px;height:11px;border-radius:50%;background:#febc2e;"></div>
+            <div style="width:11px;height:11px;border-radius:50%;background:#28c840;"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;margin-left:12px;">
+            <svg width="14" height="14" viewBox="0 0 40 40" fill="none"><path d="M20 4L32 9.5V20C32 27.5 26.5 34 20 36C13.5 34 8 27.5 8 20V9.5L20 4Z" stroke="#3fe08a" stroke-width="2.5" stroke-linejoin="round"/><circle cx="20" cy="21" r="4" stroke="#3fe08a" stroke-width="2.2"/></svg>
+            <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);letter-spacing:0.02em;">SafeBox</span>
+          </div>
+        </div>
+        <!-- App body -->
+        <div style="display:flex;height:100%;overflow:hidden;">
+          <!-- Sidebar -->
+          <div class="mock-sidebar">
+            <div style="padding:12px 10px 8px;">
+              <div class="mock-search">
+                <svg width="10" height="10" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.3)" fill="none" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span style="font-size:9px;color:rgba(255,255,255,0.25);">Пошук...</span>
+              </div>
+            </div>
+            <div style="padding:4px 10px;font-size:8px;font-weight:700;letter-spacing:0.08em;color:rgba(255,255,255,0.25);text-transform:uppercase;">Групи</div>
+            <div class="mock-nav-item mock-nav-active">
+              <svg width="9" height="9" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+              Всі паролі <span class="mock-badge">4</span>
+            </div>
+            <div class="mock-nav-item">
+              <svg width="9" height="9" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              Робота <span class="mock-badge">1</span>
+            </div>
+            <div class="mock-nav-item">
+              <svg width="9" height="9" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+              Соцмережі <span class="mock-badge">2</span>
+            </div>
+            <div class="mock-nav-item">
+              <svg width="9" height="9" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              Картки <span class="mock-badge">1</span>
+            </div>
+            <div style="padding:8px 10px 4px;font-size:8px;font-weight:700;letter-spacing:0.08em;color:rgba(255,255,255,0.25);text-transform:uppercase;">Фільтри</div>
+            <div class="mock-nav-item">
+              <svg width="9" height="9" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Закріплені
+            </div>
+            <div class="mock-nav-item">
+              <svg width="9" height="9" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+              Слабкі паролі
+            </div>
+            <!-- User -->
+            <div class="mock-user">
+              <div class="mock-avatar">MP</div>
+              <div>
+                <div style="font-size:8.5px;font-weight:600;color:rgba(255,255,255,0.8);">mplay924</div>
+                <div style="font-size:7px;color:rgba(255,255,255,0.3);">mplay924@gmail.com</div>
+              </div>
+            </div>
+          </div>
+          <!-- Main area -->
+          <div class="mock-main">
+            <div class="mock-topbar">
+              <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.8);">Всі паролі</span>
+              <div style="display:flex;gap:6px;margin-left:auto;">
+                <div class="mock-btn-add">+ Новий</div>
+                <div class="mock-icon-btn">
+                  <svg width="10" height="10" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+              </div>
+            </div>
+            <!-- Table header -->
+            <div class="mock-table-head">
+              <span style="flex:2;">Назва</span>
+              <span style="flex:2;">Логін</span>
+              <span style="flex:1;text-align:right;">Надійність</span>
+            </div>
+            <!-- Rows -->
+            <div class="mock-row mock-row-pin">
+              <div class="mock-row-icon" style="background:rgba(63,224,138,0.15);">G</div>
+              <div style="flex:2;min-width:0;">
+                <div class="mock-row-name">Google</div>
+                <div class="mock-row-sub">user@gmail.com</div>
+              </div>
+              <div style="flex:2;min-width:0;display:flex;align-items:center;">
+                <div class="mock-pass-dots">••••••••••••</div>
+              </div>
+              <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:4px;">
+                <div class="mock-strength-bar"><div style="width:100%;background:#3fe08a;height:100%;border-radius:2px;"></div></div>
+                <span style="font-size:7px;color:#3fe08a;">Відмінний</span>
+              </div>
+            </div>
+            <div class="mock-row">
+              <div class="mock-row-icon" style="background:rgba(90,176,255,0.15);color:#5ab0ff;">G</div>
+              <div style="flex:2;min-width:0;">
+                <div class="mock-row-name">GitHub</div>
+                <div class="mock-row-sub">username</div>
+              </div>
+              <div style="flex:2;min-width:0;display:flex;align-items:center;">
+                <div class="mock-pass-dots">••••••••••</div>
+              </div>
+              <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:4px;">
+                <div class="mock-strength-bar"><div style="width:80%;background:#84cc16;height:100%;border-radius:2px;"></div></div>
+                <span style="font-size:7px;color:#84cc16;">Надійний</span>
+              </div>
+            </div>
+            <div class="mock-row">
+              <div class="mock-row-icon" style="background:rgba(248,113,113,0.15);color:#f87171;">I</div>
+              <div style="flex:2;min-width:0;">
+                <div class="mock-row-name">Instagram</div>
+                <div class="mock-row-sub">user123</div>
+              </div>
+              <div style="flex:2;min-width:0;display:flex;align-items:center;">
+                <div class="mock-pass-dots">••••••••</div>
+              </div>
+              <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:4px;">
+                <div class="mock-strength-bar"><div style="width:45%;background:#f97316;height:100%;border-radius:2px;"></div></div>
+                <span style="font-size:7px;color:#f97316;">Добрий</span>
+              </div>
+            </div>
+            <div class="mock-row mock-row-card">
+              <div class="mock-row-icon" style="background:rgba(250,190,75,0.15);color:#fbbf24;">💳</div>
+              <div style="flex:2;min-width:0;">
+                <div class="mock-row-name">Monobank <span class="mock-type-badge">CARD</span></div>
+                <div class="mock-row-sub">•••• 4567</div>
+              </div>
+              <div style="flex:2;min-width:0;display:flex;align-items:center;">
+                <div class="mock-pass-dots">••••</div>
+              </div>
+              <div style="flex:1;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Мобільний overlay (Android) ── -->
+      <div class="app-mockup-mobile">
+        <div class="mock-mobile-header">
+          <svg width="14" height="14" viewBox="0 0 40 40" fill="none"><path d="M20 4L32 9.5V20C32 27.5 26.5 34 20 36C13.5 34 8 27.5 8 20V9.5L20 4Z" stroke="#3fe08a" stroke-width="2.5" stroke-linejoin="round"/><circle cx="20" cy="21" r="4" stroke="#3fe08a" stroke-width="2.2"/></svg>
+          <span style="font-size:10px;font-weight:700;color:#3fe08a;">SafeBox</span>
+        </div>
+        <div class="mock-mobile-chips">
+          <div class="mock-chip mock-chip-active">Всі</div>
+          <div class="mock-chip">Закріплені</div>
+          <div class="mock-chip">Картки</div>
+        </div>
+        <div style="padding:0 10px;display:flex;flex-direction:column;gap:5px;">
+          <div class="mock-m-card">
+            <div class="mock-m-icon" style="background:rgba(63,224,138,0.15);">G</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);">Google</div>
+              <div style="font-size:7.5px;color:rgba(255,255,255,0.35);">user@gmail.com</div>
+            </div>
+            <div class="mock-m-str mock-m-str-green"></div>
+          </div>
+          <div class="mock-m-card">
+            <div class="mock-m-icon" style="background:rgba(90,176,255,0.15);color:#5ab0ff;">G</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);">GitHub</div>
+              <div style="font-size:7.5px;color:rgba(255,255,255,0.35);">username</div>
+            </div>
+            <div class="mock-m-str mock-m-str-lime"></div>
+          </div>
+          <div class="mock-m-card">
+            <div class="mock-m-icon" style="background:rgba(250,190,75,0.15);color:#fbbf24;font-size:9px;">💳</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);">Monobank</div>
+              <div style="font-size:7.5px;color:rgba(255,255,255,0.35);">•••• 4567</div>
+            </div>
+          </div>
+        </div>
+        <!-- Bottom nav -->
+        <div class="mock-mobile-nav">
+          <div class="mock-nav-tab mock-nav-tab-active">
+            <svg width="12" height="12" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <span>Паролі</span>
+          </div>
+          <div class="mock-nav-tab">
+            <svg width="12" height="12" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>Пошук</span>
+          </div>
+          <div class="mock-nav-tab">
+            <svg width="12" height="12" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Профіль</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Extension popup overlay ── -->
+      <div class="app-mockup-ext">
+        <div class="mock-ext-header">
+          <svg width="13" height="13" viewBox="0 0 40 40" fill="none"><path d="M20 4L32 9.5V20C32 27.5 26.5 34 20 36C13.5 34 8 27.5 8 20V9.5L20 4Z" stroke="#3fe08a" stroke-width="2.5" stroke-linejoin="round"/></svg>
+          <span style="font-size:9px;font-weight:700;color:#3fe08a;">SafeBox</span>
+          <span style="font-size:7.5px;color:rgba(255,255,255,0.3);margin-left:auto;">Цей сайт (2)</span>
+        </div>
+        <div style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.06);">
+          <div style="background:rgba(255,255,255,0.05);border-radius:6px;padding:4px 7px;display:flex;align-items:center;gap:4px;">
+            <svg width="8" height="8" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.3)" fill="none" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span style="font-size:7.5px;color:rgba(255,255,255,0.25);">Пошук...</span>
+          </div>
+        </div>
+        <div style="padding:4px 0;">
+          <div class="mock-ext-item mock-ext-item-active">
+            <div style="width:22px;height:22px;border-radius:6px;background:rgba(63,224,138,0.15);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#3fe08a;flex-shrink:0;">G</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:8.5px;font-weight:600;color:rgba(255,255,255,0.85);">Google</div>
+              <div style="font-size:7px;color:rgba(255,255,255,0.3);">user@gmail.com</div>
+            </div>
+            <div style="font-size:7px;color:#3fe08a;font-weight:700;padding:2px 5px;border:1px solid rgba(63,224,138,0.25);border-radius:4px;">↵</div>
+          </div>
+          <div class="mock-ext-item">
+            <div style="width:22px;height:22px;border-radius:6px;background:rgba(63,224,138,0.08);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#3fe08a;flex-shrink:0;">G</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:8.5px;font-weight:600;color:rgba(255,255,255,0.7);">Google Work</div>
+              <div style="font-size:7px;color:rgba(255,255,255,0.3);">work@gmail.com</div>
+            </div>
+            <div style="font-size:7px;color:rgba(63,224,138,0.5);font-weight:700;padding:2px 5px;border:1px solid rgba(63,224,138,0.15);border-radius:4px;">↵</div>
+          </div>
+        </div>
+        <div style="padding:6px 8px;border-top:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:7px;color:rgba(255,255,255,0.25);text-align:center;">Відкрити SafeBox ↗</div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -226,11 +449,11 @@
           <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">~18 MB</span>
         </div>
         <div style="display:flex; gap:8px; flex-direction:column;">
-          <button class="btn-ghost dl-btn" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:12px; opacity:0.4; cursor:default;" disabled>
+          <button class="btn-ghost dl-btn" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:12px;" onclick="dlClick('android-play')">
             <svg viewBox="0 0 24 24" style="width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0;">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="m10 8 6 4-6 4V8z" fill="currentColor" stroke="none"/>
             </svg>
-            Google Play — Незабаром
+            Google Play Store
           </button>
           <button class="btn-ghost dl-btn" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:11px; font-size:0.82rem; opacity:0.7;" onclick="dlClick('android-apk')">
             <svg viewBox="0 0 24 24" style="width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0;">
@@ -271,20 +494,12 @@
             </svg>
             App Store — Незабаром
           </button>
-          <button class="dl-btn-secondary" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:11px; font-size:0.82rem; background:none; border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:rgba(240,244,248,0.5); cursor:pointer; font-family:inherit; transition:all .15s;" onclick="showIosInstall()">
+          <button class="dl-btn-secondary" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:11px; font-size:0.82rem; background:none; border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:rgba(240,244,248,0.5); cursor:pointer; font-family:inherit; transition:all .15s;" onclick="dlClick('ios-pwa')">
             <svg viewBox="0 0 24 24" style="width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0;">
-              <path d="M12 2v13M8 9l4-4 4 4"/><path d="M20 17v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2"/>
+              <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
             </svg>
-            Встановити на iPhone
+            Відкрити Web-версію
           </button>
-          <div id="ios-install-hint" style="display:none; margin-top:12px; padding:12px 14px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.08); font-size:0.75rem; color:rgba(240,244,248,0.55); line-height:1.7;">
-            <strong style="color:rgba(240,244,248,0.8);">Як встановити SafeBox на iPhone:</strong><br>
-            1. Відкрийте <strong style="color:rgba(240,244,248,0.8);">Safari</strong> на iPhone<br>
-            2. Перейдіть на <strong style="color:rgba(240,244,248,0.8);">safebox-web.vercel.app</strong><br>
-            3. Натисніть кнопку <strong style="color:rgba(240,244,248,0.8);">□↑</strong> (Поділитись)<br>
-            4. Виберіть <strong style="color:rgba(240,244,248,0.8);">"На початковий екран"</strong><br>
-            5. Натисніть <strong style="color:rgba(240,244,248,0.8);">Додати</strong>
-          </div>
         </div>
       </div>
 
@@ -308,18 +523,31 @@
           <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">Firefox</span>
           <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">Edge</span>
         </div>
-        <div style="display:flex; flex-direction:column; gap:8px;">
-          <button class="btn-ghost dl-btn" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:12px; opacity:0.4; cursor:default;" disabled>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-ghost dl-btn" style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px; padding:12px; font-size:0.82rem;" onclick="dlClick('ext-chrome')">
+            <!-- Chrome icon -->
             <svg viewBox="0 0 24 24" style="width:15px; height:15px; fill:none; flex-shrink:0;">
               <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/>
               <circle cx="12" cy="12" r="4" fill="currentColor"/>
             </svg>
-            Chrome Web Store — Незабаром
+            Chrome
           </button>
-          <div style="font-size:0.75rem; color:rgba(240,244,248,0.35); text-align:center; padding:4px 0; line-height:1.5;">
-            Розширення проходить перевірку Chrome Web Store.<br>
-            Очікуйте незабаром.
-          </div>
+          <button class="btn-ghost dl-btn" style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px; padding:12px; font-size:0.82rem;" onclick="dlClick('ext-firefox')">
+            <!-- Firefox icon -->
+            <svg viewBox="0 0 24 24" style="width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.8; flex-shrink:0;">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 2c3 3 5 6 5 10s-2 7-5 10"/>
+            </svg>
+            Firefox
+          </button>
+          <button class="btn-ghost dl-btn" style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px; padding:12px; font-size:0.82rem;" onclick="dlClick('ext-edge')">
+            <!-- Edge icon -->
+            <svg viewBox="0 0 24 24" style="width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.8; flex-shrink:0;">
+              <path d="M3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9"/>
+              <path d="M3 12h18"/>
+            </svg>
+            Edge
+          </button>
         </div>
       </div>
 
@@ -361,49 +589,259 @@
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ══════════════════════════════════════
+   APP MOCKUP
+══════════════════════════════════════ */
+.app-mockup-wrap {
+  position: relative;
+  border-radius: 20px;
+  overflow: visible;
+  min-height: 360px;
+}
+
+/* Main desktop window */
+.app-mockup-main {
+  background: #0f1318;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
+  display: flex;
+  flex-direction: column;
+  height: 340px;
+}
+
+.mock-titlebar {
+  height: 32px; min-height: 32px;
+  background: #080c10;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex; align-items: center;
+  padding: 0 12px; gap: 0; flex-shrink: 0;
+}
+
+.mock-sidebar {
+  width: 160px; min-width: 160px;
+  background: #0b0e13;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  display: flex; flex-direction: column;
+  overflow: hidden; position: relative;
+}
+
+.mock-search {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 7px; padding: 5px 8px;
+  display: flex; align-items: center; gap: 5px;
+}
+
+.mock-nav-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 10px; font-size: 9px;
+  color: rgba(255,255,255,0.4);
+  cursor: default; border-radius: 0;
+}
+.mock-nav-active {
+  background: rgba(63,224,138,0.1);
+  color: #3fe08a !important;
+  border-right: 2px solid #3fe08a;
+}
+.mock-badge {
+  margin-left: auto;
+  background: rgba(255,255,255,0.08);
+  border-radius: 8px; padding: 1px 5px;
+  font-size: 7.5px; color: rgba(255,255,255,0.4);
+}
+.mock-nav-active .mock-badge {
+  background: rgba(63,224,138,0.15);
+  color: #3fe08a;
+}
+
+.mock-user {
+  margin-top: auto;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 8px 10px;
+  display: flex; align-items: center; gap: 7px;
+}
+.mock-avatar {
+  width: 22px; height: 22px; border-radius: 6px;
+  background: rgba(63,224,138,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7.5px; font-weight: 700; color: #3fe08a; flex-shrink: 0;
+}
+
+.mock-main {
+  flex: 1; display: flex; flex-direction: column; overflow: hidden;
+}
+.mock-topbar {
+  height: 38px; min-height: 38px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex; align-items: center; padding: 0 14px; gap: 8px; flex-shrink: 0;
+}
+.mock-btn-add {
+  background: #3fe08a; color: #060a0e;
+  border-radius: 7px; padding: 4px 9px;
+  font-size: 8.5px; font-weight: 700; cursor: default;
+}
+.mock-icon-btn {
+  width: 22px; height: 22px; border-radius: 6px;
+  background: rgba(255,255,255,0.06);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.4);
+}
+.mock-table-head {
+  display: flex; align-items: center;
+  padding: 5px 14px; gap: 8px;
+  font-size: 7.5px; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: rgba(255,255,255,0.25);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.mock-row {
+  display: flex; align-items: center;
+  padding: 7px 14px; gap: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background .1s;
+}
+.mock-row:hover { background: rgba(255,255,255,0.02); }
+.mock-row-pin { border-left: 2px solid #3fe08a; }
+.mock-row-icon {
+  width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: #3fe08a;
+}
+.mock-row-name {
+  font-size: 9.5px; font-weight: 600; color: rgba(255,255,255,0.85);
+  display: flex; align-items: center; gap: 4px;
+}
+.mock-row-sub { font-size: 7.5px; color: rgba(255,255,255,0.3); margin-top: 1px; }
+.mock-pass-dots { font-size: 8px; color: rgba(255,255,255,0.2); letter-spacing: 0.08em; }
+.mock-strength-bar {
+  width: 44px; height: 3px; background: rgba(255,255,255,0.08);
+  border-radius: 2px; overflow: hidden;
+}
+.mock-type-badge {
+  font-size: 6.5px; font-weight: 700; letter-spacing: 0.06em;
+  color: rgba(251,191,36,0.7); background: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.2); border-radius: 3px; padding: 1px 4px;
+}
+
+/* Mobile overlay */
+.app-mockup-mobile {
+  position: absolute;
+  bottom: -28px; left: -28px;
+  width: 150px;
+  background: #0f1318;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
+  display: flex; flex-direction: column;
+}
+.mock-mobile-header {
+  background: #0b0e13;
+  padding: 10px 10px 8px;
+  display: flex; align-items: center; gap: 5px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.mock-mobile-chips {
+  display: flex; gap: 4px; padding: 6px 8px;
+  overflow: hidden;
+}
+.mock-chip {
+  padding: 3px 7px; border-radius: 12px; font-size: 7px; font-weight: 500;
+  background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.35);
+  border: 1px solid rgba(255,255,255,0.08); white-space: nowrap;
+}
+.mock-chip-active {
+  background: rgba(63,224,138,0.12);
+  color: #3fe08a; border-color: rgba(63,224,138,0.25);
+}
+.mock-m-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 9px; padding: 7px 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.mock-m-icon {
+  width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; color: #3fe08a;
+}
+.mock-m-str {
+  width: 28px; height: 3px; border-radius: 2px; flex-shrink: 0;
+}
+.mock-m-str-green { background: #3fe08a; }
+.mock-m-str-lime  { background: #84cc16; }
+.mock-mobile-nav {
+  margin-top: auto;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex; padding: 6px 0 8px;
+}
+.mock-nav-tab {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-size: 6.5px; color: rgba(255,255,255,0.3);
+}
+.mock-nav-tab-active { color: #3fe08a; }
+
+/* Extension popup */
+.app-mockup-ext {
+  position: absolute;
+  top: -24px; right: -24px;
+  width: 170px;
+  background: #141a22;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(63,224,138,0.08);
+}
+.mock-ext-header {
+  background: #0f1318;
+  padding: 8px 10px;
+  display: flex; align-items: center; gap: 5px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.mock-ext-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 8px; cursor: default;
+  transition: background .1s;
+}
+.mock-ext-item-active { background: rgba(63,224,138,0.05); }
+.mock-ext-item:hover { background: rgba(255,255,255,0.03); }
+
+@media (max-width: 640px) {
+  .app-mockup-mobile { display: none; }
+  .app-mockup-ext { display: none; }
+  .app-mockup-main { height: 280px; }
+  .mock-sidebar { width: 100px; min-width: 100px; }
+}
 </style>
 
 <script>
 function dlClick(platform) {
-  const downloads = {
-    'windows':     'https://github.com/NonStop1488/safebox-desktop/releases/download/v1.0.0/SafeBox.Setup.1.0.0.exe',
-    'android-apk': 'https://github.com/NonStop1488/safebox-desktop/releases/download/v1.0.0/app-debug.apk',
-    'ios-pwa':     'app.html',
+  const urls = {
+    'windows':      '#',          /* посилання на .exe */
+    'android-play': '#',          /* Google Play */
+    'android-apk':  '#',          /* пряме APK */
+    'ios-pwa':      'app.html',
+    'ext-chrome':   '#',
+    'ext-firefox':  '#',
+    'ext-edge':     '#',
   };
-  const comingSoon = {
-    'android-play': 'Застосунок на Google Play — незабаром!',
-    'ext-chrome':   'Розширення для Chrome Web Store — незабаром!',
-    'ext-firefox':  'Розширення для Firefox — незабаром!',
-    'ext-edge':     'Розширення для Edge — незабаром!',
-  };
-  if (downloads[platform]) {
-    const a = document.createElement('a');
-    a.href = downloads[platform];
-    a.download = '';
-    a.target = '_blank';
-    a.rel = 'noopener';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  } else if (comingSoon[platform]) {
-    showToast(comingSoon[platform]);
+  const url = urls[platform] || '#';
+  if (url === '#') {
+    /* Тимчасово — показати повідомлення поки немає посилання */
+    const msg = {
+      'windows':      'Збірка для Windows буде доступна найближчим часом.',
+      'android-play': 'Застосунок на Google Play — незабаром!',
+      'android-apk':  'APK-файл буде доступний незабаром.',
+      'ext-chrome':   'Розширення для Chrome — в розробці.',
+      'ext-firefox':  'Розширення для Firefox — в розробці.',
+      'ext-edge':     'Розширення для Edge — в розробці.',
+    };
+    alert(msg[platform] || 'Незабаром буде доступно.');
+  } else {
+    window.location.href = url;
   }
-}
-
-function showIosInstall() {
-  const hint = document.getElementById('ios-install-hint');
-  if (hint) { hint.style.display = hint.style.display === 'none' ? 'block' : 'none'; }
-}
-
-function showToast(msg) {
-  const t = document.createElement('div');
-  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a2230;border:1px solid rgba(63,224,138,0.25);border-radius:12px;padding:12px 20px;color:#dce4f0;font-size:0.85rem;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4);white-space:nowrap;animation:fadeInUp .2s ease;';
-  t.textContent = msg;
-  const style = document.createElement('style');
-  style.textContent = '@keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';
-  document.head.appendChild(style);
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 3000);
 }
 </script>
 
