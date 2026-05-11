@@ -1234,6 +1234,12 @@ body.theme-mint .type-tab { background: #fff; }
         Змінити пароль
       </button>
 
+      <!-- 2FA -->
+      <button class="um-item" onclick="closeUserMenu();open2FA()" id="btn2FA">
+        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        Двофакторна автентифікація
+      </button>
+
       <!-- Експорт -->
       <button class="um-item" onclick="closeUserMenu();exportPasswords()">
         <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -1363,7 +1369,130 @@ body.theme-mint .type-tab { background: #fff; }
     </div>
   </div>
 
+  <!-- ══ 2FA MODAL ════════════════════════════════════════════════ -->
+  <div class="overlay" id="twoFAOverlay" onclick="close2FAOnBg(event)">
+    <div class="modal" style="max-width:460px;" id="twoFAModal">
+
+      <div class="modal-head">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:34px;height:34px;border-radius:9px;background:var(--grn-dim);display:flex;align-items:center;justify-content:center;">
+            <svg width="17" height="17" viewBox="0 0 24 24" stroke="var(--grn)" fill="none" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          </div>
+          <div>
+            <div style="font-family:'Sora',sans-serif;font-weight:600;font-size:0.95rem;" id="twoFATitle">Двофакторна автентифікація</div>
+            <div style="font-size:0.74rem;color:var(--t2);" id="twoFASubtitle">Захистіть акаунт додатковим рівнем безпеки</div>
+          </div>
+        </div>
+        <button class="modal-close" onclick="close2FA()">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Step 0: Status (увімкнена / вимкнена) -->
+      <div id="twofa-status-step" class="modal-body" style="padding:20px 24px;">
+        <div id="twofa-enabled-view" style="display:none;">
+          <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--grn-dim);border:1px solid rgba(63,224,138,0.2);border-radius:12px;margin-bottom:20px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" stroke="var(--grn)" fill="none" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <div>
+              <div style="font-size:0.88rem;font-weight:600;color:var(--grn);">2FA увімкнена</div>
+              <div style="font-size:0.74rem;color:var(--t2);margin-top:2px;">Ваш акаунт захищено двофакторною автентифікацією</div>
+            </div>
+          </div>
+          <div style="margin-bottom:16px;">
+            <label class="f-label" style="display:block;margin-bottom:6px;">Введіть код з додатку для підтвердження</label>
+            <input class="f-inp" type="tel" inputmode="numeric" maxlength="6" id="disable-totp-code" placeholder="000 000" style="font-size:1.2rem;letter-spacing:0.25em;text-align:center;">
+            <div id="disable-totp-err" style="color:var(--red);font-size:0.75rem;margin-top:6px;min-height:16px;"></div>
+          </div>
+          <button class="btn-save" onclick="disable2FA()" style="background:rgba(255,97,97,0.1);color:var(--red);border:1px solid rgba(255,97,97,0.25);">
+            Вимкнути 2FA
+          </button>
+        </div>
+        <div id="twofa-disabled-view" style="display:none;">
+          <div style="text-align:center;padding:10px 0 20px;">
+            <div style="width:56px;height:56px;border-radius:16px;background:var(--surface2);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+              <svg width="26" height="26" viewBox="0 0 24 24" stroke="var(--t2)" fill="none" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div style="font-size:0.92rem;font-weight:600;margin-bottom:8px;">2FA не налаштована</div>
+            <div style="font-size:0.8rem;color:var(--t2);line-height:1.6;margin-bottom:20px;">Двофакторна автентифікація додає додатковий рівень захисту — навіть якщо пароль буде скомпрометований, зловмисник не зможе увійти без доступу до вашого телефону.</div>
+          </div>
+          <button class="btn-save" onclick="setup2FA()">
+            <svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" style="margin-right:6px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            Налаштувати 2FA
+          </button>
+          <!-- Інструкція -->
+          <div style="margin-top:20px;padding:14px;background:var(--surface2);border-radius:10px;">
+            <div style="font-size:0.76rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--t2);margin-bottom:10px;">Як це працює?</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:20px;height:20px;border-radius:50%;background:var(--grn-dim);border:1px solid rgba(63,224,138,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--grn);flex-shrink:0;">1</div>
+                <div style="font-size:0.78rem;color:var(--t2);line-height:1.5;">Встановіть <strong style="color:var(--t1);">Google Authenticator</strong> або <strong style="color:var(--t1);">Authy</strong> на телефон</div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:20px;height:20px;border-radius:50%;background:var(--grn-dim);border:1px solid rgba(63,224,138,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--grn);flex-shrink:0;">2</div>
+                <div style="font-size:0.78rem;color:var(--t2);line-height:1.5;">Відскануйте QR-код або введіть секрет вручну</div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:20px;height:20px;border-radius:50%;background:var(--grn-dim);border:1px solid rgba(63,224,138,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--grn);flex-shrink:0;">3</div>
+                <div style="font-size:0.78rem;color:var(--t2);line-height:1.5;">Підтвердіть 6-значний код — і 2FA увімкнена</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 1: QR-код і секрет -->
+      <div id="twofa-setup-step" class="modal-body" style="display:none;padding:20px 24px;">
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <!-- QR -->
+          <div style="flex-shrink:0;">
+            <div style="width:140px;height:140px;border-radius:12px;background:white;display:flex;align-items:center;justify-content:center;overflow:hidden;border:3px solid var(--grn);">
+              <img id="twofa-qr-img" src="" alt="QR" style="width:134px;height:134px;display:block;">
+            </div>
+            <div style="text-align:center;margin-top:6px;font-size:0.68rem;color:var(--t2);">Відскануйте в додатку</div>
+          </div>
+          <!-- Info -->
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:0.82rem;color:var(--t2);line-height:1.6;margin-bottom:12px;">
+              Відскануйте QR-код у <strong style="color:var(--t1);">Google Authenticator</strong> або <strong style="color:var(--t1);">Authy</strong>, або введіть секрет вручну:
+            </div>
+            <div style="background:var(--surface2);border:1px solid var(--b1);border-radius:8px;padding:8px 10px;margin-bottom:12px;">
+              <div style="font-size:0.65rem;color:var(--t3);margin-bottom:3px;">Секретний ключ</div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <code id="twofa-secret" style="font-size:0.8rem;color:var(--grn);letter-spacing:0.08em;word-break:break-all;flex:1;"></code>
+                <button onclick="copyTotpSecret()" style="background:none;border:none;cursor:pointer;color:var(--t2);flex-shrink:0;" title="Скопіювати">
+                  <svg width="13" height="13" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" target="_blank" style="display:flex;align-items:center;gap:5px;padding:5px 10px;background:var(--surface2);border:1px solid var(--b1);border-radius:7px;font-size:0.72rem;color:var(--t2);text-decoration:none;">
+                <svg width="11" height="11" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="1"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                Android
+              </a>
+              <a href="https://apps.apple.com/app/google-authenticator/id388497605" target="_blank" style="display:flex;align-items:center;gap:5px;padding:5px 10px;background:var(--surface2);border:1px solid var(--b1);border-radius:7px;font-size:0.72rem;color:var(--t2);text-decoration:none;">
+                <svg width="11" height="11" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/></svg>
+                iPhone
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Код підтвердження -->
+        <div style="margin-top:18px;padding-top:18px;border-top:1px solid var(--b1);">
+          <label class="f-label" style="display:block;margin-bottom:6px;">Введіть код з додатку для підтвердження:</label>
+          <input class="f-inp" type="tel" inputmode="numeric" maxlength="6" id="enable-totp-code" placeholder="000 000" style="font-size:1.4rem;letter-spacing:0.3em;text-align:center;">
+          <div id="enable-totp-err" style="color:var(--red);font-size:0.75rem;margin-top:6px;min-height:16px;"></div>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button class="btn-cancel" onclick="close2FA()">Закрити</button>
+        <button class="btn-save" id="twofa-save-btn" onclick="enable2FA()" style="display:none;">Увімкнути 2FA</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Selection bar -->
+
   <div class="sel-bar" id="selBar">
     <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;"><polyline points="20 6 9 17 4 12"/></svg>
     <span id="selCnt">0</span> вибрано
@@ -2862,6 +2991,165 @@ function toggleMobSidebar() {
 // Закрити сайдбар при зміні орієнтації на десктоп
 window.addEventListener('resize', function() {
   if (window.innerWidth > 768) closeMobSidebar();
+});
+
+
+// ═══════════════════════════════════════════════════════
+//  2FA — ДВОФАКТОРНА АВТЕНТИФІКАЦІЯ
+// ═══════════════════════════════════════════════════════
+let _2faEnabled = false;
+
+async function open2FA() {
+  document.getElementById('twoFAOverlay').classList.add('on');
+  // Перевірити статус
+  try {
+    const res = await apiFetch('/auth/2fa/status');
+    if (!res) return;
+    const data = await res.json();
+    _2faEnabled = data.two_factor_enabled;
+  } catch { _2faEnabled = false; }
+
+  show2FAStatus();
+}
+
+function show2FAStatus() {
+  document.getElementById('twofa-status-step').style.display = '';
+  document.getElementById('twofa-setup-step').style.display  = 'none';
+  document.getElementById('twofa-save-btn').style.display    = 'none';
+  document.getElementById('twoFATitle').textContent    = 'Двофакторна автентифікація';
+  document.getElementById('twoFASubtitle').textContent = _2faEnabled
+    ? 'Ваш акаунт захищено 2FA'
+    : 'Захистіть акаунт додатковим рівнем безпеки';
+  document.getElementById('twofa-enabled-view').style.display  = _2faEnabled ? '' : 'none';
+  document.getElementById('twofa-disabled-view').style.display = _2faEnabled ? 'none' : '';
+  // Скинути поля
+  document.getElementById('disable-totp-code').value = '';
+  document.getElementById('disable-totp-err').textContent = '';
+
+  // Оновити кнопку у меню
+  const btn = document.getElementById('btn2FA');
+  if (btn) {
+    btn.style.color = _2faEnabled ? 'var(--grn)' : '';
+  }
+}
+
+async function setup2FA() {
+  const btn = document.querySelector('#twofa-disabled-view .btn-save');
+  btn.textContent = 'Генерація QR...';
+  btn.disabled = true;
+
+  try {
+    const res = await apiFetch('/auth/2fa/setup', { method: 'POST' });
+    if (!res || !res.ok) {
+      toast('Помилка отримання QR-коду', 'err');
+      btn.textContent = 'Налаштувати 2FA';
+      btn.disabled = false;
+      return;
+    }
+    const data = await res.json();
+
+    document.getElementById('twofa-qr-img').src      = data.qr_url;
+    document.getElementById('twofa-secret').textContent = formatSecret(data.secret);
+    document.getElementById('twofa-secret').dataset.raw = data.secret;
+    document.getElementById('enable-totp-code').value = '';
+    document.getElementById('enable-totp-err').textContent = '';
+
+    document.getElementById('twofa-status-step').style.display = 'none';
+    document.getElementById('twofa-setup-step').style.display  = '';
+    document.getElementById('twofa-save-btn').style.display    = '';
+    document.getElementById('twoFATitle').textContent    = 'Підключення 2FA';
+    document.getElementById('twoFASubtitle').textContent = 'Відскануйте QR та підтвердіть код';
+
+    setTimeout(() => document.getElementById('enable-totp-code').focus(), 200);
+  } catch(e) { toast('Помилка зʼєднання', 'err'); }
+
+  btn.textContent = 'Налаштувати 2FA';
+  btn.disabled = false;
+}
+
+async function enable2FA() {
+  const code = document.getElementById('enable-totp-code').value.replace(/\s/g,'');
+  const err  = document.getElementById('enable-totp-err');
+  const btn  = document.getElementById('twofa-save-btn');
+  if (code.length !== 6) { err.textContent = 'Введіть 6-значний код'; return; }
+  err.textContent = '';
+  btn.textContent = 'Перевірка...';
+  btn.disabled = true;
+
+  try {
+    const res = await apiFetch('/auth/2fa/enable', {
+      method: 'POST',
+      body: JSON.stringify({ totp_code: code }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      err.textContent = data.detail || 'Невірний код';
+      document.getElementById('enable-totp-code').value = '';
+      document.getElementById('enable-totp-code').focus();
+      btn.textContent = 'Увімкнути 2FA';
+      btn.disabled = false;
+      return;
+    }
+    _2faEnabled = true;
+    toast('✓ 2FA успішно увімкнена!', 'ok');
+    show2FAStatus();
+  } catch(e) { err.textContent = 'Помилка зʼєднання'; }
+
+  btn.textContent = 'Увімкнути 2FA';
+  btn.disabled = false;
+}
+
+async function disable2FA() {
+  const code = document.getElementById('disable-totp-code').value.replace(/\s/g,'');
+  const err  = document.getElementById('disable-totp-err');
+  if (code.length !== 6) { err.textContent = 'Введіть 6-значний код'; return; }
+  err.textContent = '';
+
+  try {
+    const res = await apiFetch('/auth/2fa/disable', {
+      method: 'POST',
+      body: JSON.stringify({ totp_code: code }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      err.textContent = data.detail || 'Невірний код';
+      document.getElementById('disable-totp-code').value = '';
+      document.getElementById('disable-totp-code').focus();
+      return;
+    }
+    _2faEnabled = false;
+    toast('2FA вимкнена', 'inf');
+    show2FAStatus();
+  } catch(e) { err.textContent = 'Помилка зʼєднання'; }
+}
+
+function close2FA() {
+  document.getElementById('twoFAOverlay').classList.remove('on');
+}
+function close2FAOnBg(e) {
+  if (e.target === document.getElementById('twoFAOverlay')) close2FA();
+}
+
+function formatSecret(s) {
+  return s.replace(/(.{4})/g,'$1 ').trim();
+}
+function copyTotpSecret() {
+  const raw = document.getElementById('twofa-secret').dataset.raw || document.getElementById('twofa-secret').textContent.replace(/\s/g,'');
+  navigator.clipboard?.writeText(raw);
+  toast('Секрет скопійовано', 'ok');
+}
+
+// Auto-submit при введенні 6 цифр
+document.addEventListener('DOMContentLoaded', () => {
+  ['enable-totp-code','disable-totp-code'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', () => {
+      if (el.value.replace(/\s/g,'').length === 6) {
+        if (id === 'enable-totp-code') enable2FA();
+        else disable2FA();
+      }
+    });
+  });
 });
 
 init();
