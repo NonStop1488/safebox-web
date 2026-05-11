@@ -61,230 +61,186 @@
     </button>
   </div>
 
-  <!-- ── App Mockup ── -->
-  <div style="max-width:960px; margin:0 auto 56px; padding:0 32px;">
-    <div class="app-mockup-wrap">
+  <!-- App Mockup -->
+  <div style="max-width:900px; margin:0 auto 60px; padding:0 48px; position:relative;">
+    <div class="mockup-scene">
 
-      <!-- ── Головне вікно (десктоп) ── -->
-      <div class="app-mockup-main">
+      <!-- Головне вікно (десктоп) — пропорції 16:9 -->
+      <div class="mock-window">
         <!-- Titlebar -->
-        <div class="mock-titlebar">
-          <div style="display:flex;align-items:center;gap:6px;">
-            <div style="width:11px;height:11px;border-radius:50%;background:#ff5f57;"></div>
-            <div style="width:11px;height:11px;border-radius:50%;background:#febc2e;"></div>
-            <div style="width:11px;height:11px;border-radius:50%;background:#28c840;"></div>
+        <div class="mock-tb">
+          <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#ff5f57;"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#febc2e;"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#28c840;"></div>
           </div>
-          <div style="display:flex;align-items:center;gap:6px;margin-left:12px;">
-            <svg width="14" height="14" viewBox="0 0 40 40" fill="none"><path d="M20 4L32 9.5V20C32 27.5 26.5 34 20 36C13.5 34 8 27.5 8 20V9.5L20 4Z" stroke="#3fe08a" stroke-width="2.5" stroke-linejoin="round"/><circle cx="20" cy="21" r="4" stroke="#3fe08a" stroke-width="2.2"/></svg>
-            <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);letter-spacing:0.02em;">SafeBox</span>
+          <div style="display:flex;align-items:center;gap:5px;margin-left:10px;">
+            <svg width="12" height="12" viewBox="0 0 40 40" fill="none"><path d="M20 4L32 9.5V20C32 27.5 26.5 34 20 36C13.5 34 8 27.5 8 20V9.5L20 4Z" stroke="#3fe08a" stroke-width="2.5" stroke-linejoin="round"/><circle cx="20" cy="21" r="4" stroke="#3fe08a" stroke-width="2.2"/></svg>
+            <span style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.6);">SafeBox</span>
+          </div>
+          <div style="flex:1;display:flex;justify-content:center;">
+            <div style="background:rgba(255,255,255,0.06);border-radius:5px;padding:3px 32px;font-size:8px;color:rgba(255,255,255,0.25);">safebox-web.vercel.app/app.html</div>
           </div>
         </div>
         <!-- App body -->
-        <div style="display:flex;height:100%;overflow:hidden;">
+        <div style="display:flex;flex:1;overflow:hidden;">
           <!-- Sidebar -->
-          <div class="mock-sidebar">
-            <div style="padding:12px 10px 8px;">
-              <div class="mock-search">
-                <svg width="10" height="10" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.3)" fill="none" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                <span style="font-size:9px;color:rgba(255,255,255,0.25);">Пошук...</span>
+          <div class="mock-sb">
+            <div style="padding:10px 8px 6px;">
+              <div class="mock-search-box">
+                <svg width="8" height="8" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.25)" fill="none" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span style="font-size:8px;color:rgba(255,255,255,0.2);">Пошук...</span>
               </div>
             </div>
-            <div style="padding:4px 10px;font-size:8px;font-weight:700;letter-spacing:0.08em;color:rgba(255,255,255,0.25);text-transform:uppercase;">Групи</div>
-            <div class="mock-nav-item mock-nav-active">
-              <svg width="9" height="9" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-              Всі паролі <span class="mock-badge">4</span>
+            <div class="mock-section-lbl">ГРУПИ</div>
+            <div class="mock-ni mock-ni-on">
+              <svg width="8" height="8" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+              Всі паролі <span class="mock-n">4</span>
             </div>
-            <div class="mock-nav-item">
-              <svg width="9" height="9" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-              Робота <span class="mock-badge">1</span>
+            <div class="mock-ni">
+              <svg width="8" height="8" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="1"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              Робота <span class="mock-n">1</span>
             </div>
-            <div class="mock-nav-item">
-              <svg width="9" height="9" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
-              Соцмережі <span class="mock-badge">2</span>
+            <div class="mock-ni">
+              <svg width="8" height="8" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              Соцмережі <span class="mock-n">2</span>
             </div>
-            <div class="mock-nav-item">
-              <svg width="9" height="9" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-              Картки <span class="mock-badge">1</span>
+            <div class="mock-ni">
+              <svg width="8" height="8" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              Картки <span class="mock-n">1</span>
             </div>
-            <div style="padding:8px 10px 4px;font-size:8px;font-weight:700;letter-spacing:0.08em;color:rgba(255,255,255,0.25);text-transform:uppercase;">Фільтри</div>
-            <div class="mock-nav-item">
-              <svg width="9" height="9" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <div class="mock-section-lbl" style="margin-top:6px;">ФІЛЬТРИ</div>
+            <div class="mock-ni">
+              <svg width="8" height="8" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
               Закріплені
             </div>
-            <div class="mock-nav-item">
-              <svg width="9" height="9" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+            <div class="mock-ni">
+              <svg width="8" height="8" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
               Слабкі паролі
             </div>
-            <!-- User -->
-            <div class="mock-user">
-              <div class="mock-avatar">MP</div>
+            <div class="mock-user-row">
+              <div class="mock-av">MP</div>
               <div>
-                <div style="font-size:8.5px;font-weight:600;color:rgba(255,255,255,0.8);">mplay924</div>
-                <div style="font-size:7px;color:rgba(255,255,255,0.3);">mplay924@gmail.com</div>
+                <div style="font-size:7.5px;font-weight:600;color:rgba(255,255,255,0.75);">mplay924</div>
+                <div style="font-size:6.5px;color:rgba(255,255,255,0.28);">mplay924@gmail.com</div>
               </div>
             </div>
           </div>
-          <!-- Main area -->
-          <div class="mock-main">
+          <!-- Main content -->
+          <div class="mock-content">
             <div class="mock-topbar">
-              <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.8);">Всі паролі</span>
-              <div style="display:flex;gap:6px;margin-left:auto;">
-                <div class="mock-btn-add">+ Новий</div>
-                <div class="mock-icon-btn">
-                  <svg width="10" height="10" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </div>
+              <span style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.8);">Всі паролі</span>
+              <div style="display:flex;gap:5px;margin-left:auto;">
+                <div class="mock-add-btn">+ Новий</div>
               </div>
             </div>
-            <!-- Table header -->
-            <div class="mock-table-head">
-              <span style="flex:2;">Назва</span>
-              <span style="flex:2;">Логін</span>
-              <span style="flex:1;text-align:right;">Надійність</span>
+            <!-- Column headers -->
+            <div class="mock-thead">
+              <span style="flex:2.5;">НАЗВА</span>
+              <span style="flex:2;">ЛОГІН</span>
+              <span style="flex:1.5;text-align:right;">НАДІЙНІСТЬ</span>
             </div>
             <!-- Rows -->
-            <div class="mock-row mock-row-pin">
-              <div class="mock-row-icon" style="background:rgba(63,224,138,0.15);">G</div>
-              <div style="flex:2;min-width:0;">
-                <div class="mock-row-name">Google</div>
-                <div class="mock-row-sub">user@gmail.com</div>
+            <div class="mock-row mock-pinned">
+              <div class="mock-ico" style="background:rgba(63,224,138,0.12);">G</div>
+              <div style="flex:2.5;min-width:0;">
+                <div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);">Google</div>
+                <div style="font-size:7px;color:rgba(255,255,255,0.3);">user@gmail.com</div>
               </div>
-              <div style="flex:2;min-width:0;display:flex;align-items:center;">
-                <div class="mock-pass-dots">••••••••••••</div>
-              </div>
-              <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:4px;">
-                <div class="mock-strength-bar"><div style="width:100%;background:#3fe08a;height:100%;border-radius:2px;"></div></div>
+              <div style="flex:2;font-size:8px;color:rgba(255,255,255,0.18);letter-spacing:.05em;">••••••••••••</div>
+              <div style="flex:1.5;display:flex;align-items:center;justify-content:flex-end;gap:4px;">
+                <div style="width:38px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;"><div style="width:100%;height:100%;background:#3fe08a;border-radius:2px;"></div></div>
                 <span style="font-size:7px;color:#3fe08a;">Відмінний</span>
               </div>
             </div>
             <div class="mock-row">
-              <div class="mock-row-icon" style="background:rgba(90,176,255,0.15);color:#5ab0ff;">G</div>
-              <div style="flex:2;min-width:0;">
-                <div class="mock-row-name">GitHub</div>
-                <div class="mock-row-sub">username</div>
+              <div class="mock-ico" style="background:rgba(90,176,255,0.12);color:#5ab0ff;">G</div>
+              <div style="flex:2.5;min-width:0;">
+                <div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);">GitHub</div>
+                <div style="font-size:7px;color:rgba(255,255,255,0.3);">username</div>
               </div>
-              <div style="flex:2;min-width:0;display:flex;align-items:center;">
-                <div class="mock-pass-dots">••••••••••</div>
-              </div>
-              <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:4px;">
-                <div class="mock-strength-bar"><div style="width:80%;background:#84cc16;height:100%;border-radius:2px;"></div></div>
+              <div style="flex:2;font-size:8px;color:rgba(255,255,255,0.18);letter-spacing:.05em;">••••••••••</div>
+              <div style="flex:1.5;display:flex;align-items:center;justify-content:flex-end;gap:4px;">
+                <div style="width:38px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;"><div style="width:80%;height:100%;background:#84cc16;border-radius:2px;"></div></div>
                 <span style="font-size:7px;color:#84cc16;">Надійний</span>
               </div>
             </div>
             <div class="mock-row">
-              <div class="mock-row-icon" style="background:rgba(248,113,113,0.15);color:#f87171;">I</div>
-              <div style="flex:2;min-width:0;">
-                <div class="mock-row-name">Instagram</div>
-                <div class="mock-row-sub">user123</div>
+              <div class="mock-ico" style="background:rgba(248,113,113,0.12);color:#f87171;">I</div>
+              <div style="flex:2.5;min-width:0;">
+                <div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);">Instagram</div>
+                <div style="font-size:7px;color:rgba(255,255,255,0.3);">user123</div>
               </div>
-              <div style="flex:2;min-width:0;display:flex;align-items:center;">
-                <div class="mock-pass-dots">••••••••</div>
-              </div>
-              <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:4px;">
-                <div class="mock-strength-bar"><div style="width:45%;background:#f97316;height:100%;border-radius:2px;"></div></div>
+              <div style="flex:2;font-size:8px;color:rgba(255,255,255,0.18);letter-spacing:.05em;">••••••••</div>
+              <div style="flex:1.5;display:flex;align-items:center;justify-content:flex-end;gap:4px;">
+                <div style="width:38px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;"><div style="width:45%;height:100%;background:#f97316;border-radius:2px;"></div></div>
                 <span style="font-size:7px;color:#f97316;">Добрий</span>
               </div>
             </div>
-            <div class="mock-row mock-row-card">
-              <div class="mock-row-icon" style="background:rgba(250,190,75,0.15);color:#fbbf24;">💳</div>
-              <div style="flex:2;min-width:0;">
-                <div class="mock-row-name">Monobank <span class="mock-type-badge">CARD</span></div>
-                <div class="mock-row-sub">•••• 4567</div>
+            <div class="mock-row">
+              <div class="mock-ico" style="background:rgba(251,191,36,0.12);color:#fbbf24;font-size:9px;">💳</div>
+              <div style="flex:2.5;min-width:0;">
+                <div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);display:flex;align-items:center;gap:4px;">
+                  Monobank
+                  <span style="font-size:6px;font-weight:700;color:rgba(251,191,36,0.7);background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2);border-radius:3px;padding:1px 3px;letter-spacing:.04em;">CARD</span>
+                </div>
+                <div style="font-size:7px;color:rgba(255,255,255,0.3);">•••• 4567</div>
               </div>
-              <div style="flex:2;min-width:0;display:flex;align-items:center;">
-                <div class="mock-pass-dots">••••</div>
-              </div>
-              <div style="flex:1;"></div>
+              <div style="flex:2;font-size:8px;color:rgba(255,255,255,0.18);">••••</div>
+              <div style="flex:1.5;"></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ── Мобільний overlay (Android) ── -->
-      <div class="app-mockup-mobile">
-        <div class="mock-mobile-header">
-          <svg width="14" height="14" viewBox="0 0 40 40" fill="none"><path d="M20 4L32 9.5V20C32 27.5 26.5 34 20 36C13.5 34 8 27.5 8 20V9.5L20 4Z" stroke="#3fe08a" stroke-width="2.5" stroke-linejoin="round"/><circle cx="20" cy="21" r="4" stroke="#3fe08a" stroke-width="2.2"/></svg>
-          <span style="font-size:10px;font-weight:700;color:#3fe08a;">SafeBox</span>
+      <!-- Mobile overlay -->
+      <div class="mock-mobile">
+        <div class="mock-mob-hdr">
+          <svg width="11" height="11" viewBox="0 0 40 40" fill="none"><path d="M20 4L32 9.5V20C32 27.5 26.5 34 20 36C13.5 34 8 27.5 8 20V9.5L20 4Z" stroke="#3fe08a" stroke-width="2.5" stroke-linejoin="round"/><circle cx="20" cy="21" r="4" stroke="#3fe08a" stroke-width="2.2"/></svg>
+          <span style="font-size:9px;font-weight:700;color:#3fe08a;">SafeBox</span>
         </div>
-        <div class="mock-mobile-chips">
-          <div class="mock-chip mock-chip-active">Всі</div>
+        <div style="display:flex;gap:4px;padding:5px 8px;">
+          <div class="mock-chip mock-chip-on">Всі</div>
           <div class="mock-chip">Закріплені</div>
           <div class="mock-chip">Картки</div>
         </div>
-        <div style="padding:0 10px;display:flex;flex-direction:column;gap:5px;">
-          <div class="mock-m-card">
-            <div class="mock-m-icon" style="background:rgba(63,224,138,0.15);">G</div>
-            <div style="flex:1;min-width:0;">
-              <div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);">Google</div>
-              <div style="font-size:7.5px;color:rgba(255,255,255,0.35);">user@gmail.com</div>
-            </div>
-            <div class="mock-m-str mock-m-str-green"></div>
-          </div>
-          <div class="mock-m-card">
-            <div class="mock-m-icon" style="background:rgba(90,176,255,0.15);color:#5ab0ff;">G</div>
-            <div style="flex:1;min-width:0;">
-              <div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);">GitHub</div>
-              <div style="font-size:7.5px;color:rgba(255,255,255,0.35);">username</div>
-            </div>
-            <div class="mock-m-str mock-m-str-lime"></div>
-          </div>
-          <div class="mock-m-card">
-            <div class="mock-m-icon" style="background:rgba(250,190,75,0.15);color:#fbbf24;font-size:9px;">💳</div>
-            <div style="flex:1;min-width:0;">
-              <div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.85);">Monobank</div>
-              <div style="font-size:7.5px;color:rgba(255,255,255,0.35);">•••• 4567</div>
-            </div>
-          </div>
+        <div style="padding:0 8px;display:flex;flex-direction:column;gap:4px;">
+          <div class="mock-mc"><div class="mock-mi" style="background:rgba(63,224,138,0.12);">G</div><div style="flex:1;"><div style="font-size:8px;font-weight:600;color:rgba(255,255,255,0.8);">Google</div><div style="font-size:6.5px;color:rgba(255,255,255,0.3);">user@gmail.com</div></div><div style="width:24px;height:3px;background:#3fe08a;border-radius:2px;"></div></div>
+          <div class="mock-mc"><div class="mock-mi" style="background:rgba(90,176,255,0.12);color:#5ab0ff;">G</div><div style="flex:1;"><div style="font-size:8px;font-weight:600;color:rgba(255,255,255,0.8);">GitHub</div><div style="font-size:6.5px;color:rgba(255,255,255,0.3);">username</div></div><div style="width:20px;height:3px;background:#84cc16;border-radius:2px;"></div></div>
+          <div class="mock-mc"><div class="mock-mi" style="background:rgba(251,191,36,0.12);color:#fbbf24;font-size:8px;">💳</div><div style="flex:1;"><div style="font-size:8px;font-weight:600;color:rgba(255,255,255,0.8);">Monobank</div><div style="font-size:6.5px;color:rgba(255,255,255,0.3);">•••• 4567</div></div></div>
         </div>
-        <!-- Bottom nav -->
-        <div class="mock-mobile-nav">
-          <div class="mock-nav-tab mock-nav-tab-active">
-            <svg width="12" height="12" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-            <span>Паролі</span>
-          </div>
-          <div class="mock-nav-tab">
-            <svg width="12" height="12" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <span>Пошук</span>
-          </div>
-          <div class="mock-nav-tab">
-            <svg width="12" height="12" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span>Профіль</span>
-          </div>
+        <div class="mock-mob-nav">
+          <div class="mock-nt mock-nt-on"><svg width="10" height="10" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Паролі</span></div>
+          <div class="mock-nt"><svg width="10" height="10" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Пошук</span></div>
+          <div class="mock-nt"><svg width="10" height="10" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Профіль</span></div>
         </div>
       </div>
 
-      <!-- ── Extension popup overlay ── -->
-      <div class="app-mockup-ext">
-        <div class="mock-ext-header">
-          <svg width="13" height="13" viewBox="0 0 40 40" fill="none"><path d="M20 4L32 9.5V20C32 27.5 26.5 34 20 36C13.5 34 8 27.5 8 20V9.5L20 4Z" stroke="#3fe08a" stroke-width="2.5" stroke-linejoin="round"/></svg>
-          <span style="font-size:9px;font-weight:700;color:#3fe08a;">SafeBox</span>
-          <span style="font-size:7.5px;color:rgba(255,255,255,0.3);margin-left:auto;">Цей сайт (2)</span>
+      <!-- Extension overlay -->
+      <div class="mock-ext">
+        <div class="mock-ext-hdr">
+          <svg width="11" height="11" viewBox="0 0 40 40" fill="none"><path d="M20 4L32 9.5V20C32 27.5 26.5 34 20 36C13.5 34 8 27.5 8 20V9.5L20 4Z" stroke="#3fe08a" stroke-width="2.5" stroke-linejoin="round"/></svg>
+          <span style="font-size:8.5px;font-weight:700;color:#3fe08a;">SafeBox</span>
+          <span style="font-size:7px;color:rgba(255,255,255,0.25);margin-left:auto;">Цей сайт (2)</span>
         </div>
-        <div style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.06);">
-          <div style="background:rgba(255,255,255,0.05);border-radius:6px;padding:4px 7px;display:flex;align-items:center;gap:4px;">
-            <svg width="8" height="8" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.3)" fill="none" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <span style="font-size:7.5px;color:rgba(255,255,255,0.25);">Пошук...</span>
+        <div style="padding:5px 7px;border-bottom:1px solid rgba(255,255,255,0.06);">
+          <div style="background:rgba(255,255,255,0.05);border-radius:5px;padding:3px 6px;display:flex;gap:4px;align-items:center;">
+            <svg width="7" height="7" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.3)" fill="none" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span style="font-size:7px;color:rgba(255,255,255,0.2);">Пошук...</span>
           </div>
         </div>
-        <div style="padding:4px 0;">
-          <div class="mock-ext-item mock-ext-item-active">
-            <div style="width:22px;height:22px;border-radius:6px;background:rgba(63,224,138,0.15);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#3fe08a;flex-shrink:0;">G</div>
-            <div style="flex:1;min-width:0;">
-              <div style="font-size:8.5px;font-weight:600;color:rgba(255,255,255,0.85);">Google</div>
-              <div style="font-size:7px;color:rgba(255,255,255,0.3);">user@gmail.com</div>
-            </div>
-            <div style="font-size:7px;color:#3fe08a;font-weight:700;padding:2px 5px;border:1px solid rgba(63,224,138,0.25);border-radius:4px;">↵</div>
-          </div>
-          <div class="mock-ext-item">
-            <div style="width:22px;height:22px;border-radius:6px;background:rgba(63,224,138,0.08);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#3fe08a;flex-shrink:0;">G</div>
-            <div style="flex:1;min-width:0;">
-              <div style="font-size:8.5px;font-weight:600;color:rgba(255,255,255,0.7);">Google Work</div>
-              <div style="font-size:7px;color:rgba(255,255,255,0.3);">work@gmail.com</div>
-            </div>
-            <div style="font-size:7px;color:rgba(63,224,138,0.5);font-weight:700;padding:2px 5px;border:1px solid rgba(63,224,138,0.15);border-radius:4px;">↵</div>
-          </div>
+        <div class="mock-ext-item mock-ext-hl">
+          <div style="width:20px;height:20px;border-radius:5px;background:rgba(63,224,138,0.12);display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:700;color:#3fe08a;flex-shrink:0;">G</div>
+          <div style="flex:1;min-width:0;"><div style="font-size:8px;font-weight:600;color:rgba(255,255,255,0.85);">Google</div><div style="font-size:6.5px;color:rgba(255,255,255,0.3);">user@gmail.com</div></div>
+          <div style="font-size:6.5px;color:#3fe08a;font-weight:700;padding:1px 4px;border:1px solid rgba(63,224,138,0.25);border-radius:3px;flex-shrink:0;">↵</div>
         </div>
-        <div style="padding:6px 8px;border-top:1px solid rgba(255,255,255,0.06);">
-          <div style="font-size:7px;color:rgba(255,255,255,0.25);text-align:center;">Відкрити SafeBox ↗</div>
+        <div class="mock-ext-item">
+          <div style="width:20px;height:20px;border-radius:5px;background:rgba(63,224,138,0.07);display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:700;color:rgba(63,224,138,0.6);flex-shrink:0;">G</div>
+          <div style="flex:1;min-width:0;"><div style="font-size:8px;font-weight:600;color:rgba(255,255,255,0.6);">Google Work</div><div style="font-size:6.5px;color:rgba(255,255,255,0.25);">work@gmail.com</div></div>
+          <div style="font-size:6.5px;color:rgba(63,224,138,0.4);font-weight:700;padding:1px 4px;border:1px solid rgba(63,224,138,0.12);border-radius:3px;flex-shrink:0;">↵</div>
+        </div>
+        <div style="padding:5px 7px;border-top:1px solid rgba(255,255,255,0.05);">
+          <div style="font-size:6.5px;color:rgba(255,255,255,0.2);text-align:center;">Відкрити SafeBox ↗</div>
         </div>
       </div>
 
@@ -590,229 +546,198 @@
   }
 }
 
-/* ══════════════════════════════════════
-   APP MOCKUP
-══════════════════════════════════════ */
-.app-mockup-wrap {
+/* ══ APP MOCKUP ══════════════════════════ */
+.mockup-scene {
   position: relative;
-  border-radius: 20px;
-  overflow: visible;
-  min-height: 360px;
+  /* Залишаємо місце для overlays */
+  padding: 30px 30px 50px 30px;
 }
 
-/* Main desktop window */
-.app-mockup-main {
+/* Головне вікно — пропорції 16:9, не на весь екран */
+.mock-window {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
   background: #0f1318;
   border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 14px;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
   display: flex;
   flex-direction: column;
-  height: 340px;
 }
 
-.mock-titlebar {
-  height: 32px; min-height: 32px;
+.mock-tb {
+  height: 28px; min-height: 28px; flex-shrink: 0;
   background: #080c10;
   border-bottom: 1px solid rgba(255,255,255,0.07);
-  display: flex; align-items: center;
-  padding: 0 12px; gap: 0; flex-shrink: 0;
+  display: flex; align-items: center; padding: 0 10px; gap: 0;
 }
 
-.mock-sidebar {
-  width: 160px; min-width: 160px;
+.mock-sb {
+  width: 140px; min-width: 140px; flex-shrink: 0;
   background: #0b0e13;
   border-right: 1px solid rgba(255,255,255,0.06);
-  display: flex; flex-direction: column;
-  overflow: hidden; position: relative;
+  display: flex; flex-direction: column; overflow: hidden;
 }
 
-.mock-search {
+.mock-search-box {
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 7px; padding: 5px 8px;
-  display: flex; align-items: center; gap: 5px;
+  border-radius: 6px; padding: 4px 7px;
+  display: flex; align-items: center; gap: 4px;
 }
 
-.mock-nav-item {
-  display: flex; align-items: center; gap: 6px;
-  padding: 6px 10px; font-size: 9px;
-  color: rgba(255,255,255,0.4);
-  cursor: default; border-radius: 0;
+.mock-section-lbl {
+  font-size: 7px; font-weight: 700; letter-spacing: 0.09em;
+  color: rgba(255,255,255,0.22); padding: 5px 8px 2px;
+  text-transform: uppercase;
 }
-.mock-nav-active {
-  background: rgba(63,224,138,0.1);
+
+.mock-ni {
+  display: flex; align-items: center; gap: 5px;
+  padding: 5px 8px; font-size: 8px;
+  color: rgba(255,255,255,0.38); cursor: default;
+}
+.mock-ni-on {
+  background: rgba(63,224,138,0.09);
   color: #3fe08a !important;
   border-right: 2px solid #3fe08a;
 }
-.mock-badge {
-  margin-left: auto;
-  background: rgba(255,255,255,0.08);
-  border-radius: 8px; padding: 1px 5px;
-  font-size: 7.5px; color: rgba(255,255,255,0.4);
+.mock-n {
+  margin-left: auto; font-size: 7px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 8px; padding: 1px 4px;
+  color: rgba(255,255,255,0.35);
 }
-.mock-nav-active .mock-badge {
-  background: rgba(63,224,138,0.15);
-  color: #3fe08a;
+.mock-ni-on .mock-n {
+  background: rgba(63,224,138,0.14); color: #3fe08a;
 }
 
-.mock-user {
+.mock-user-row {
   margin-top: auto;
   border-top: 1px solid rgba(255,255,255,0.06);
-  padding: 8px 10px;
-  display: flex; align-items: center; gap: 7px;
+  padding: 7px 8px;
+  display: flex; align-items: center; gap: 6px;
 }
-.mock-avatar {
-  width: 22px; height: 22px; border-radius: 6px;
-  background: rgba(63,224,138,0.15);
+.mock-av {
+  width: 20px; height: 20px; border-radius: 5px; flex-shrink: 0;
+  background: rgba(63,224,138,0.13);
   display: flex; align-items: center; justify-content: center;
-  font-size: 7.5px; font-weight: 700; color: #3fe08a; flex-shrink: 0;
+  font-size: 7px; font-weight: 700; color: #3fe08a;
 }
 
-.mock-main {
+.mock-content {
   flex: 1; display: flex; flex-direction: column; overflow: hidden;
+  background: #0f1318;
 }
+
 .mock-topbar {
-  height: 38px; min-height: 38px;
+  height: 34px; min-height: 34px; flex-shrink: 0;
   border-bottom: 1px solid rgba(255,255,255,0.06);
-  display: flex; align-items: center; padding: 0 14px; gap: 8px; flex-shrink: 0;
+  display: flex; align-items: center; padding: 0 12px; gap: 6px;
 }
-.mock-btn-add {
+.mock-add-btn {
   background: #3fe08a; color: #060a0e;
-  border-radius: 7px; padding: 4px 9px;
-  font-size: 8.5px; font-weight: 700; cursor: default;
+  border-radius: 6px; padding: 3px 8px;
+  font-size: 8px; font-weight: 700; cursor: default;
 }
-.mock-icon-btn {
-  width: 22px; height: 22px; border-radius: 6px;
-  background: rgba(255,255,255,0.06);
-  display: flex; align-items: center; justify-content: center;
-  color: rgba(255,255,255,0.4);
-}
-.mock-table-head {
-  display: flex; align-items: center;
-  padding: 5px 14px; gap: 8px;
-  font-size: 7.5px; font-weight: 700; letter-spacing: 0.06em;
-  text-transform: uppercase; color: rgba(255,255,255,0.25);
+
+.mock-thead {
+  display: flex; padding: 4px 12px; gap: 6px;
+  font-size: 7px; font-weight: 700; letter-spacing: 0.07em;
+  text-transform: uppercase; color: rgba(255,255,255,0.22);
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 .mock-row {
-  display: flex; align-items: center;
-  padding: 7px 14px; gap: 8px;
+  display: flex; align-items: center; padding: 6px 12px; gap: 6px;
   border-bottom: 1px solid rgba(255,255,255,0.04);
-  transition: background .1s;
 }
-.mock-row:hover { background: rgba(255,255,255,0.02); }
-.mock-row-pin { border-left: 2px solid #3fe08a; }
-.mock-row-icon {
-  width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+.mock-pinned { border-left: 2px solid #3fe08a; }
+.mock-ico {
+  width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 700; color: #3fe08a;
-}
-.mock-row-name {
-  font-size: 9.5px; font-weight: 600; color: rgba(255,255,255,0.85);
-  display: flex; align-items: center; gap: 4px;
-}
-.mock-row-sub { font-size: 7.5px; color: rgba(255,255,255,0.3); margin-top: 1px; }
-.mock-pass-dots { font-size: 8px; color: rgba(255,255,255,0.2); letter-spacing: 0.08em; }
-.mock-strength-bar {
-  width: 44px; height: 3px; background: rgba(255,255,255,0.08);
-  border-radius: 2px; overflow: hidden;
-}
-.mock-type-badge {
-  font-size: 6.5px; font-weight: 700; letter-spacing: 0.06em;
-  color: rgba(251,191,36,0.7); background: rgba(251,191,36,0.1);
-  border: 1px solid rgba(251,191,36,0.2); border-radius: 3px; padding: 1px 4px;
+  font-size: 9.5px; font-weight: 700; color: #3fe08a;
 }
 
-/* Mobile overlay */
-.app-mockup-mobile {
+/* Mobile overlay — внизу зліва */
+.mock-mobile {
   position: absolute;
-  bottom: -28px; left: -28px;
-  width: 150px;
+  bottom: 0; left: 0;
+  width: 140px;
   background: #0f1318;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 14px; overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.05);
   display: flex; flex-direction: column;
 }
-.mock-mobile-header {
+.mock-mob-hdr {
   background: #0b0e13;
-  padding: 10px 10px 8px;
+  padding: 8px 9px;
   display: flex; align-items: center; gap: 5px;
   border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.mock-mobile-chips {
-  display: flex; gap: 4px; padding: 6px 8px;
-  overflow: hidden;
+  flex-shrink: 0;
 }
 .mock-chip {
-  padding: 3px 7px; border-radius: 12px; font-size: 7px; font-weight: 500;
-  background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.35);
-  border: 1px solid rgba(255,255,255,0.08); white-space: nowrap;
+  padding: 2px 6px; border-radius: 10px; font-size: 6.5px; font-weight: 500;
+  background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.3);
+  border: 1px solid rgba(255,255,255,0.07); white-space: nowrap;
 }
-.mock-chip-active {
-  background: rgba(63,224,138,0.12);
-  color: #3fe08a; border-color: rgba(63,224,138,0.25);
+.mock-chip-on {
+  background: rgba(63,224,138,0.11); color: #3fe08a;
+  border-color: rgba(63,224,138,0.22);
 }
-.mock-m-card {
+.mock-mc {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 9px; padding: 7px 8px;
-  display: flex; align-items: center; gap: 6px;
+  border-radius: 8px; padding: 6px 7px;
+  display: flex; align-items: center; gap: 5px;
 }
-.mock-m-icon {
-  width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+.mock-mi {
+  width: 20px; height: 20px; border-radius: 5px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 9px; font-weight: 700; color: #3fe08a;
+  font-size: 8.5px; font-weight: 700; color: #3fe08a;
 }
-.mock-m-str {
-  width: 28px; height: 3px; border-radius: 2px; flex-shrink: 0;
-}
-.mock-m-str-green { background: #3fe08a; }
-.mock-m-str-lime  { background: #84cc16; }
-.mock-mobile-nav {
-  margin-top: auto;
+.mock-mob-nav {
+  margin-top: 6px;
   border-top: 1px solid rgba(255,255,255,0.06);
-  display: flex; padding: 6px 0 8px;
+  display: flex; padding: 5px 0 6px; flex-shrink: 0;
 }
-.mock-nav-tab {
-  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
-  font-size: 6.5px; color: rgba(255,255,255,0.3);
+.mock-nt {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 2px;
+  font-size: 6px; color: rgba(255,255,255,0.28);
 }
-.mock-nav-tab-active { color: #3fe08a; }
+.mock-nt-on { color: #3fe08a; }
 
-/* Extension popup */
-.app-mockup-ext {
+/* Extension overlay — вгорі справа */
+.mock-ext {
   position: absolute;
-  top: -24px; right: -24px;
-  width: 170px;
+  top: 0; right: 0;
+  width: 160px;
   background: #141a22;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(63,224,138,0.08);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 10px; overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(63,224,138,0.07);
 }
-.mock-ext-header {
+.mock-ext-hdr {
   background: #0f1318;
-  padding: 8px 10px;
+  padding: 7px 9px;
   display: flex; align-items: center; gap: 5px;
   border-bottom: 1px solid rgba(255,255,255,0.07);
 }
 .mock-ext-item {
   display: flex; align-items: center; gap: 6px;
-  padding: 6px 8px; cursor: default;
-  transition: background .1s;
+  padding: 5px 7px; cursor: default;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
 }
-.mock-ext-item-active { background: rgba(63,224,138,0.05); }
-.mock-ext-item:hover { background: rgba(255,255,255,0.03); }
+.mock-ext-hl { background: rgba(63,224,138,0.05); }
 
-@media (max-width: 640px) {
-  .app-mockup-mobile { display: none; }
-  .app-mockup-ext { display: none; }
-  .app-mockup-main { height: 280px; }
-  .mock-sidebar { width: 100px; min-width: 100px; }
+@media (max-width: 600px) {
+  .mock-mobile, .mock-ext { display: none; }
+  .mockup-scene { padding: 0; }
+  .mock-window { border-radius: 8px; }
 }
 </style>
 
