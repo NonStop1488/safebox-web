@@ -1225,6 +1225,19 @@ function dlClick(platform) {
         return;
       }
 
+      // 202 = потрібна 2FA (навіть після Google-входу)
+      if (res.status === 202 && data.requires_2fa) {
+        _2faTempToken = data.temp_token;
+        showPage('signin');
+        document.getElementById('signin-main-btns').style.display = 'none';
+        document.getElementById('twofa-step').style.display = 'block';
+        document.getElementById('si-email').disabled = true;
+        document.getElementById('si-pass').disabled  = true;
+        if (btn) { btn.textContent = 'Google'; btn.disabled = false; }
+        setTimeout(() => document.getElementById('totp-code').focus(), 150);
+        return;
+      }
+
       saveSession(data, () => { window.location.href = 'app.html'; });
 
     } catch(e) {
