@@ -1047,25 +1047,29 @@ function dlClick(platform) {
         <span class="cb-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>
         <span class="cb-label">Залишатися в системі на цьому пристрої</span>
       </label>
-      <!-- 2FA step (прихований до потреби) -->
-      <div id="twofa-step" style="display:none;">
-        <div style="background:rgba(63,224,138,0.06);border:1px solid rgba(63,224,138,0.2);border-radius:12px;padding:16px;margin-bottom:16px;">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" stroke="#3fe08a" fill="none" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-            <span style="font-size:0.88rem;font-weight:600;color:var(--text);">Двофакторна автентифікація</span>
+      <!-- 2FA step — прихований, з'являється якщо сервер повернув requires_2fa -->
+      <div id="twofa-step" style="display:none; margin-bottom:16px;">
+        <div style="background:rgba(63,224,138,0.07); border:1px solid rgba(63,224,138,0.25); border-radius:12px; padding:16px; margin-bottom:12px;">
+          <div style="display:flex; align-items:center; gap:9px; margin-bottom:8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" stroke="#3fe08a" fill="none" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <span style="font-size:0.87rem; font-weight:600;">Двофакторна автентифікація</span>
           </div>
-          <p style="font-size:0.78rem;color:var(--muted);margin-bottom:14px;line-height:1.5;">Введіть 6-значний код з додатку Google Authenticator або іншого TOTP-додатку.</p>
+          <p style="font-size:0.78rem; color:var(--muted); line-height:1.5; margin-bottom:12px;">
+            Введіть 6-значний код з додатку <strong>Google Authenticator</strong>.
+          </p>
           <input class="form-input" type="tel" inputmode="numeric" maxlength="6"
-                 id="totp-code" placeholder="000 000"
-                 style="font-size:1.4rem;letter-spacing:0.3em;text-align:center;font-weight:600;">
-          <div id="totp-err" style="color:#ff6161;font-size:0.76rem;margin-top:6px;min-height:18px;"></div>
+                 id="totp-code" placeholder="0 0 0 0 0 0" autocomplete="one-time-code"
+                 style="font-size:1.5rem; letter-spacing:0.35em; text-align:center; font-weight:700;">
+          <div id="totp-err" style="color:#ff6161; font-size:0.76rem; margin-top:6px; min-height:16px;"></div>
         </div>
         <button class="btn-primary" id="totp-verify-btn" onclick="handleTotpVerify()">Підтвердити</button>
-        <button onclick="cancelTwofa()" style="width:100%;margin-top:8px;padding:10px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.82rem;font-family:inherit;">← Повернутись до входу</button>
+        <button onclick="cancelTwofa()" style="width:100%; margin-top:8px; padding:9px; background:none; border:none; color:var(--muted); cursor:pointer; font-size:0.8rem; font-family:inherit;">
+          ← Повернутись до входу
+        </button>
       </div>
 
-      <div id="signin-main-btns">
-        <button class="btn-primary" onclick="handleSignin()">Відкрити сховище</button>
+      <div id="signin-normal-btn">
+        <button class="btn-primary" id="signin-btn" onclick="handleSignin()">Відкрити сховище</button>
       </div>
 
       <div class="divider-line" style="margin-top:20px;"><span>або продовжити через</span></div>
@@ -1225,19 +1229,6 @@ function dlClick(platform) {
         return;
       }
 
-      // 202 = потрібна 2FA (навіть після Google-входу)
-      if (res.status === 202 && data.requires_2fa) {
-        _2faTempToken = data.temp_token;
-        showPage('signin');
-        document.getElementById('signin-main-btns').style.display = 'none';
-        document.getElementById('twofa-step').style.display = 'block';
-        document.getElementById('si-email').disabled = true;
-        document.getElementById('si-pass').disabled  = true;
-        if (btn) { btn.textContent = 'Google'; btn.disabled = false; }
-        setTimeout(() => document.getElementById('totp-code').focus(), 150);
-        return;
-      }
-
       saveSession(data, () => { window.location.href = 'app.html'; });
 
     } catch(e) {
@@ -1319,7 +1310,7 @@ function dlClick(platform) {
     const pass  = document.getElementById('si-pass').value;
     if (!email || !pass) return alert('Будь ласка, введіть пошту та головний пароль.');
 
-    const btn = document.getElementById('signin-main-btns').querySelector('.btn-primary');
+    const btn = document.getElementById('signin-btn');
     btn.textContent = 'Відкриття...';
     btn.disabled = true;
 
@@ -1338,11 +1329,14 @@ function dlClick(platform) {
       // 202 = потрібна 2FA
       if (res.status === 202 && data.requires_2fa) {
         _2faTempToken = data.temp_token;
-        document.getElementById('signin-main-btns').style.display = 'none';
+        // Показати форму 2FA, сховати звичайну кнопку
+        document.getElementById('signin-normal-btn').style.display = 'none';
         document.getElementById('twofa-step').style.display = 'block';
         document.getElementById('si-email').disabled = true;
         document.getElementById('si-pass').disabled  = true;
-        setTimeout(() => document.getElementById('totp-code').focus(), 100);
+        document.getElementById('totp-code').value   = '';
+        document.getElementById('totp-err').textContent = '';
+        setTimeout(() => document.getElementById('totp-code').focus(), 150);
         btn.textContent = 'Відкрити сховище';
         btn.disabled = false;
         return;
@@ -1370,6 +1364,7 @@ function dlClick(platform) {
     err.textContent = '';
     btn.textContent = 'Перевірка...';
     btn.disabled = true;
+
     try {
       const res = await fetch(`${API}/auth/2fa/verify`, {
         method: 'POST',
@@ -1377,43 +1372,45 @@ function dlClick(platform) {
         body: JSON.stringify({ totp_code: code, temp_token: _2faTempToken }),
       });
       const data = await res.json();
+
       if (!res.ok) {
-        err.textContent = data.detail || 'Невірний код';
+        err.textContent = data.detail || 'Невірний код. Спробуйте ще раз.';
         document.getElementById('totp-code').value = '';
         document.getElementById('totp-code').focus();
         btn.textContent = 'Підтвердити';
         btn.disabled = false;
         return;
       }
+
       saveSession(data, () => { window.location.href = 'app.html'; });
     } catch(e) {
-      err.textContent = 'Помилка зʼєднання';
+      err.textContent = 'Помилка з'єднання';
       btn.textContent = 'Підтвердити';
       btn.disabled = false;
     }
   }
 
-  // Auto-submit when 6 digits entered
+  function cancelTwofa() {
+    _2faTempToken = null;
+    document.getElementById('twofa-step').style.display      = 'none';
+    document.getElementById('signin-normal-btn').style.display = 'block';
+    document.getElementById('si-email').disabled = false;
+    document.getElementById('si-pass').disabled  = false;
+    document.getElementById('totp-code').value   = '';
+    document.getElementById('totp-err').textContent = '';
+  }
+
+  // Автосабміт при введенні 6 цифр
   document.addEventListener('DOMContentLoaded', () => {
     const inp = document.getElementById('totp-code');
     if (inp) inp.addEventListener('input', () => {
-      if (inp.value.replace(/\s/g,'').length === 6) handleTotpVerify();
+      if (inp.value.replace(/\s/g, '').length === 6) handleTotpVerify();
     });
   });
 
-  function cancelTwofa() {
-    _2faTempToken = null;
-    document.getElementById('twofa-step').style.display = 'none';
-    document.getElementById('signin-main-btns').style.display = 'block';
-    document.getElementById('si-email').disabled = false;
-    document.getElementById('si-pass').disabled  = false;
-    document.getElementById('totp-code').value = '';
-    document.getElementById('totp-err').textContent = '';
-  }
-  
   if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js');
-}
+    navigator.serviceWorker.register('/sw.js');
+  }
 </script>
 
 </body>
