@@ -978,35 +978,71 @@ function dlClick(platform) {
     </div>
 
     <div class="auth-card">
-      <div class="form-group">
-        <label>Повне ім'я</label>
-        <input class="form-input" type="text" placeholder="Ваше ім'я" id="su-name">
-      </div>
-      <div class="form-group">
-        <label>Електронна пошта</label>
-        <input class="form-input" type="email" placeholder="ви@приклад.com" id="su-email">
-      </div>
-      <div class="form-group">
-        <label>Головний пароль</label>
-        <input class="form-input" type="password" placeholder="Створіть надійний головний пароль" id="su-pass" oninput="checkStrength(this.value)">
-        <div class="strength-bar">
-          <div class="strength-fill" id="strength-fill" style="width:0%; background:#ef4444;"></div>
+
+      <!-- ── Крок 1: Дані реєстрації ── -->
+      <div id="signup-step1">
+        <div class="form-group">
+          <label>Повне імʼя</label>
+          <input class="form-input" type="text" placeholder="Ваше імʼя" id="su-name">
         </div>
-        <div class="strength-label" id="strength-label" style="color:var(--muted);">Введіть головний пароль</div>
+        <div class="form-group">
+          <label>Електронна пошта</label>
+          <input class="form-input" type="email" placeholder="ви@приклад.com" id="su-email" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label>Головний пароль</label>
+          <input class="form-input" type="password" placeholder="Створіть надійний головний пароль" id="su-pass" oninput="checkStrength(this.value)">
+          <div class="strength-bar">
+            <div class="strength-fill" id="strength-fill" style="width:0%; background:#ef4444;"></div>
+          </div>
+          <div class="strength-label" id="strength-label" style="color:var(--muted);">Введіть головний пароль</div>
+        </div>
+        <div class="form-group">
+          <label>Підтвердіть головний пароль</label>
+          <input class="form-input" type="password" placeholder="Повторіть головний пароль" id="su-pass2">
+        </div>
+        <div class="master-info">
+          <p><strong>⚠ Важливо:</strong> Головний пароль ніколи не надсилається на наші сервери. Якщо ви його забудете, ми не зможемо відновити сховище. Запишіть його та зберігайте в безпечному місці.</p>
+        </div>
+        <label class="cb-wrap">
+          <input type="checkbox" id="terms">
+          <span class="cb-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>
+          <span class="cb-label">Я погоджуюся з <a href="#">Умовами використання</a> та <a href="#">Політикою конфіденційності</a></span>
+        </label>
+        <button class="btn-primary" id="su-send-btn" onclick="handleSendVerification()">Надіслати код підтвердження</button>
       </div>
-      <div class="form-group">
-        <label>Підтвердіть головний пароль</label>
-        <input class="form-input" type="password" placeholder="Повторіть головний пароль" id="su-pass2">
+
+      <!-- ── Крок 2: Введення коду ── -->
+      <div id="signup-step2" style="display:none;">
+        <div style="text-align:center;padding:8px 0 20px;">
+          <div style="width:52px;height:52px;border-radius:14px;background:rgba(63,224,138,0.1);border:1px solid rgba(63,224,138,0.25);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" stroke="#3fe08a" fill="none" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;">Перевірте пошту</div>
+          <div style="font-size:0.82rem;color:var(--muted);line-height:1.6;">
+            Ми надіслали 6-значний код на<br>
+            <strong id="su-email-display" style="color:var(--text);"></strong>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Код підтвердження</label>
+          <input class="form-input" type="tel" inputmode="numeric" maxlength="6"
+                 id="su-verify-code" placeholder="0 0 0 0 0 0" autocomplete="one-time-code"
+                 style="font-size:1.6rem;letter-spacing:0.4em;text-align:center;font-weight:700;">
+          <div id="su-verify-err" style="color:#ff6161;font-size:0.76rem;margin-top:6px;min-height:16px;"></div>
+        </div>
+
+        <button class="btn-primary" id="su-verify-btn" onclick="handleVerifyAndRegister()">Підтвердити і створити сховище</button>
+
+        <div style="text-align:center;margin-top:12px;">
+          <span style="font-size:0.8rem;color:var(--muted);">Не отримали? </span>
+          <a onclick="resendVerification()" style="font-size:0.8rem;cursor:pointer;color:var(--accent);">Надіслати знову</a>
+          <span style="font-size:0.8rem;color:var(--muted);"> · </span>
+          <a onclick="backToSignup()" style="font-size:0.8rem;cursor:pointer;color:var(--muted);">← Назад</a>
+        </div>
       </div>
-      <div class="master-info">
-        <p><strong>⚠ Важливо:</strong> Головний пароль ніколи не надсилається на наші сервери. Якщо ви його забудете, ми не зможемо відновити сховище. Запишіть його та зберігайте в безпечному місці.</p>
-      </div>
-      <label class="cb-wrap">
-        <input type="checkbox" id="terms">
-        <span class="cb-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>
-        <span class="cb-label">Я погоджуюся з <a href="#">Умовами використання</a> та <a href="#">Політикою конфіденційності</a></span>
-      </label>
-      <button class="btn-primary" onclick="handleSignup()">Створити сховище</button>
+
     </div>
 
     <div class="auth-footer">
@@ -1258,7 +1294,9 @@ function dlClick(platform) {
   }
 
   /* ── РЕЄСТРАЦІЯ ─────────────────────────────────── */
-  async function handleSignup() {
+  /* ── РЕЄСТРАЦІЯ З ВЕРИФІКАЦІЄЮ EMAIL ─────────────── */
+
+  async function handleSendVerification() {
     const name  = document.getElementById('su-name').value.trim();
     const email = document.getElementById('su-email').value.trim();
     const pass  = document.getElementById('su-pass').value;
@@ -1267,40 +1305,121 @@ function dlClick(platform) {
 
     if (!name || !email || !pass) return alert('Будь ласка, заповніть усі поля.');
     if (pass !== pass2)           return alert('Паролі не збігаються.');
+    if (pass.length < 8)          return alert('Пароль має бути не менше 8 символів.');
     if (!terms)                   return alert('Будь ласка, прийміть умови використання.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return alert('Введіть коректний email.');
 
-    const btn = document.querySelector('#signup .btn-primary');
-    btn.textContent = 'Створення...';
+    const btn = document.getElementById('su-send-btn');
+    btn.textContent = 'Надсилання...';
     btn.disabled = true;
 
     try {
-      const res = await fetch(`${API}/auth/register`, {
+      const res = await fetch(`${API}/auth/send-verification`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        btn.textContent = 'Надіслати код підтвердження';
+        btn.disabled = false;
+        return alert('Помилка: ' + (data.detail || 'Невідома помилка'));
+      }
+
+      // Показати крок 2
+      document.getElementById('signup-step1').style.display = 'none';
+      document.getElementById('signup-step2').style.display = 'block';
+      document.getElementById('su-email-display').textContent = email;
+      document.getElementById('su-verify-code').value = '';
+      document.getElementById('su-verify-err').textContent = '';
+      setTimeout(() => document.getElementById('su-verify-code').focus(), 150);
+
+    } catch(e) {
+      btn.textContent = 'Надіслати код підтвердження';
+      btn.disabled = false;
+      alert('Не вдалося підключитися до сервера.');
+    }
+  }
+
+  async function handleVerifyAndRegister() {
+    const email = document.getElementById('su-email').value.trim();
+    const pass  = document.getElementById('su-pass').value;
+    const code  = document.getElementById('su-verify-code').value.trim();
+    const err   = document.getElementById('su-verify-err');
+    const btn   = document.getElementById('su-verify-btn');
+
+    if (code.length !== 6) { err.textContent = 'Введіть 6-значний код'; return; }
+    err.textContent = '';
+    btn.textContent = 'Перевірка...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(`${API}/auth/verify-and-register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email,
+          code,
           master_password: pass,
           device_name: navigator.userAgent.includes('Windows') ? 'Windows Browser' : 'Web Browser',
           device_type: 'web',
         }),
       });
-
       const data = await res.json();
 
       if (!res.ok) {
-        btn.textContent = 'Створити сховище';
+        err.textContent = data.detail || 'Невірний код підтвердження';
+        document.getElementById('su-verify-code').value = '';
+        document.getElementById('su-verify-code').focus();
+        btn.textContent = 'Підтвердити і створити сховище';
         btn.disabled = false;
-        return alert('Помилка: ' + (data.detail || 'Невідома помилка'));
+        return;
       }
 
       saveSession(data, () => { window.location.href = 'app.html'; });
 
-    } catch (e) {
-      btn.textContent = 'Створити сховище';
+    } catch(e) {
+      err.textContent = 'Помилка зʼєднання';
+      btn.textContent = 'Підтвердити і створити сховище';
       btn.disabled = false;
-      alert('Не вдалося підключитися до сервера. Переконайся що бекенд запущений на порту 8000.');
     }
   }
+
+  async function resendVerification() {
+    const email = document.getElementById('su-email').value.trim();
+    try {
+      const res = await fetch(`${API}/auth/send-verification`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        document.getElementById('su-verify-err').textContent = '';
+        alert('Новий код надіслано на ' + email);
+      } else {
+        document.getElementById('su-verify-err').textContent = data.detail || 'Помилка';
+      }
+    } catch(e) {
+      document.getElementById('su-verify-err').textContent = 'Помилка зʼєднання';
+    }
+  }
+
+  function backToSignup() {
+    document.getElementById('signup-step2').style.display = 'none';
+    document.getElementById('signup-step1').style.display = 'block';
+    document.getElementById('su-send-btn').textContent = 'Надіслати код підтвердження';
+    document.getElementById('su-send-btn').disabled = false;
+  }
+
+  // Автосабміт при введенні 6 цифр
+  document.addEventListener('DOMContentLoaded', () => {
+    const vc = document.getElementById('su-verify-code');
+    if (vc) vc.addEventListener('input', () => {
+      if (vc.value.replace(/\D/g,'').length === 6) handleVerifyAndRegister();
+    });
+  });
 
   /* ── ВХІД ───────────────────────────────────────── */
   let _2faTempToken = null;
