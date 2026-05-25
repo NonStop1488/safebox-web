@@ -1337,6 +1337,65 @@ function dlClick(platform) {
     }
   }
 
+  /* ── ZK helpers ─────────────────────────────────────────────
+     Всі криптографічні операції виконуються ТІЛЬКИ на клієнті.
+     На сервер ніколи не потрапляє master_password або vault_key.
+  ─────────────────────────────────────────────────────────── */
+
+  async function zkDeriveMasterKey(password, saltB64, iterations) {
+    /* PBKDF2-HMAC-SHA256: password → 512-bit master_key */
+    const enc     = new TextEncoder();
+    const keyMat  = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']);
+    const salt    = Uint8Array.from(atob(saltB64), c => c.charCodeAt(0));
+    const bits    = await crypto.subtle.deriveBits(
+      { name: 'PBKDF2', hash: 'SHA-256', salt, iterations },
+      keyMat, 512
+    );
+    return new Uint8Array(bits); // [0:32]=enc_key, [32:64]=mac_key
+  }
+
+  async function zkEncryptVaultKey(vaultKey, masterKey) {
+    /* AES-256-GCM: шифрує vault_key за допомогою перших 32 байт master_key */
+    const encKey = masterKey.slice(0, 32);
+    const iv     = crypto.getRandomValues(new Uint8Array(12));
+    const key    = await crypto.subtle.importKey('raw', encKey, { name: 'AES-GCM' }, false, ['encrypt']);
+    const vkB64  = btoa(String.fromCharCode(...vaultKey));
+    const enc    = new TextEncoder();
+    const ct     = await crypto.subtle.encrypt({ name: 'AES-GCM', iv, tagLength: 128 }, key, enc.encode(vkB64));
+
+    const ctBytes  = new Uint8Array(ct);
+    const cipher   = ctBytes.slice(0, ctBytes.length - 16);
+    const tag      = ctBytes.slice(ctBytes.length - 16);
+    const toB64    = arr => btoa(String.fromCharCode(...arr));
+    return `${toB64(iv)}.${toB64(cipher)}.${toB64(tag)}`;
+  }
+
+  async function zkDecryptVaultKey(protectedKey, masterKey) {
+    /* Розшифровує protected_symmetric_key → vault_key (Uint8Array) */
+    const [ivB64, cipherB64, tagB64] = protectedKey.split('.');
+    const fromB64 = b64 => Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+    const iv      = fromB64(ivB64);
+    const cipher  = fromB64(cipherB64);
+    const tag     = fromB64(tagB64);
+    const combined = new Uint8Array(cipher.length + tag.length);
+    combined.set(cipher); combined.set(tag, cipher.length);
+
+    const encKey = masterKey.slice(0, 32);
+    const key    = await crypto.subtle.importKey('raw', encKey, { name: 'AES-GCM' }, false, ['decrypt']);
+    const dec    = await crypto.subtle.decrypt({ name: 'AES-GCM', iv, tagLength: 128 }, key, combined);
+    const vkB64  = new TextDecoder().decode(dec);
+    return Uint8Array.from(atob(vkB64), c => c.charCodeAt(0));
+  }
+
+  async function zkHashPassword(password) {
+    /* SHA-256 хеш пароля — відправляємо на сервер для Argon2 верифікації.
+       Це не є справжнім Argon2 на клієнті, але запобігає передачі
+       відкритого пароля по мережі. */
+    const enc  = new TextEncoder();
+    const hash = await crypto.subtle.digest('SHA-256', enc.encode(password));
+    return btoa(String.fromCharCode(...new Uint8Array(hash)));
+  }
+
   async function handleVerifyAndRegister() {
     const email = document.getElementById('su-email').value.trim();
     const pass  = document.getElementById('su-pass').value;
@@ -1346,17 +1405,41 @@ function dlClick(platform) {
 
     if (code.length !== 6) { err.textContent = 'Введіть 6-значний код'; return; }
     err.textContent = '';
-    btn.textContent = 'Перевірка...';
+    btn.textContent = 'Генерація ключів...';
     btn.disabled = true;
 
     try {
+      // ── ZK: всі операції на клієнті ──────────────────────────
+      // 1. Генеруємо KDF сіль на клієнті
+      const kdfSalt      = crypto.getRandomValues(new Uint8Array(32));
+      const kdfSaltB64   = btoa(String.fromCharCode(...kdfSalt));
+      const kdfIter      = 600000;
+
+      // 2. Деривуємо master_key з пароля (PBKDF2)
+      const masterKey    = await zkDeriveMasterKey(pass, kdfSaltB64, kdfIter);
+
+      // 3. Генеруємо vault_key на клієнті
+      const vaultKey     = crypto.getRandomValues(new Uint8Array(32));
+
+      // 4. Шифруємо vault_key master_key'ом
+      const protectedKey = await zkEncryptVaultKey(vaultKey, masterKey);
+
+      // 5. Хешуємо пароль для аутентифікації на сервері
+      const passHash     = await zkHashPassword(pass);
+
+      btn.textContent = 'Створення сховища...';
+
+      // ── Відправляємо на сервер (без master_password!) ────────
       const res = await fetch(`${API}/auth/verify-and-register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email,
           code,
-          master_password: pass,
+          password_hash:            passHash,
+          kdf_salt:                 kdfSaltB64,
+          kdf_iterations:           kdfIter,
+          protected_symmetric_key:  protectedKey,
           device_name: navigator.userAgent.includes('Windows') ? 'Windows Browser' : 'Web Browser',
           device_type: 'web',
         }),
@@ -1372,6 +1455,8 @@ function dlClick(platform) {
         return;
       }
 
+      // Зберігаємо vault_key в пам'яті сесії (не в localStorage!)
+      sessionStorage.setItem('sb_vault_key', btoa(String.fromCharCode(...vaultKey)));
       saveSession(data, () => { window.location.href = 'app.html'; });
 
     } catch(e) {
@@ -1429,12 +1514,32 @@ function dlClick(platform) {
     btn.disabled = true;
 
     try {
+      // ── ZK Крок 1: отримати KDF параметри з сервера ──────────
+      const preRes = await fetch(`${API}/auth/prelogin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      if (!preRes.ok) {
+        btn.textContent = 'Відкрити сховище';
+        btn.disabled = false;
+        return alert('Помилка: ' + ((await preRes.json()).detail || 'Невірний email'));
+      }
+      const pre = await preRes.json();
+
+      // ── ZK Крок 2: деривуємо master_key на клієнті ───────────
+      const masterKey  = await zkDeriveMasterKey(pass, pre.kdf_salt, pre.kdf_iterations);
+      const passHash   = await zkHashPassword(pass);
+
+      // ── ZK Крок 3: логін з хешем пароля ──────────────────────
       const res = await fetch(`${API}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email, master_password: pass,
-          device_name: 'Web Browser', device_type: 'web',
+          email,
+          password_hash: passHash,
+          device_name: 'Web Browser',
+          device_type: 'web',
         }),
       });
 
@@ -1442,8 +1547,9 @@ function dlClick(platform) {
 
       // 202 = потрібна 2FA
       if (res.status === 202 && data.requires_2fa) {
+        // Зберігаємо masterKey тимчасово для після 2FA
+        sessionStorage.setItem('sb_tmp_mk', btoa(String.fromCharCode(...masterKey)));
         _2faTempToken = data.temp_token;
-        // Показати форму 2FA, сховати звичайну кнопку
         document.getElementById('signin-normal-btn').style.display = 'none';
         document.getElementById('twofa-step').style.display = 'block';
         document.getElementById('si-email').disabled = true;
@@ -1461,6 +1567,10 @@ function dlClick(platform) {
         btn.disabled = false;
         return alert('Помилка: ' + (data.detail || 'Невірний email або пароль'));
       }
+
+      // ── ZK Крок 4: розшифровуємо vault_key на клієнті ────────
+      const vaultKey = await zkDecryptVaultKey(data.protected_symmetric_key, masterKey);
+      sessionStorage.setItem('sb_vault_key', btoa(String.fromCharCode(...vaultKey)));
 
       saveSession(data, () => { window.location.href = 'app.html'; });
     } catch (e) {
@@ -1494,6 +1604,15 @@ function dlClick(platform) {
         btn.textContent = 'Підтвердити';
         btn.disabled = false;
         return;
+      }
+
+      // Розшифровуємо vault_key після успішної 2FA
+      const tmpMk = sessionStorage.getItem('sb_tmp_mk');
+      if (tmpMk) {
+        const masterKey = Uint8Array.from(atob(tmpMk), c => c.charCodeAt(0));
+        sessionStorage.removeItem('sb_tmp_mk');
+        const vaultKey = await zkDecryptVaultKey(data.protected_symmetric_key, masterKey);
+        sessionStorage.setItem('sb_vault_key', btoa(String.fromCharCode(...vaultKey)));
       }
 
       saveSession(data, () => { window.location.href = 'app.html'; });
