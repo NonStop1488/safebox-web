@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="100" fill="#0f1318"/>
+  <!-- Shield body -->
+  <path d="M100 32 L152 56 L152 108 C152 144 100 168 100 168 C100 168 48 144 48 108 L48 56 Z"
+        fill="#0f1318" stroke="#3fe08a" stroke-width="5" stroke-linejoin="round"/>
+  <!-- Inner shield glow ring -->
+  <path d="M100 48 L138 67 L138 108 C138 136 100 154 100 154 C100 154 62 136 62 108 L62 67 Z"
+        fill="none" stroke="#3fe08a" stroke-width="1.5" opacity="0.3"/>
+  <!-- Lock body -->
+  <rect x="82" y="104" width="36" height="28" rx="5" fill="#3fe08a"/>
+  <!-- Lock shackle -->
+  <path d="M89 104 L89 88 Q89 72 100 72 Q111 72 111 88 L111 104"
+        fill="none" stroke="#3fe08a" stroke-width="7" stroke-linecap="round"/>
+  <!-- Keyhole circle -->
+  <circle cx="100" cy="116" r="6" fill="#0f1318"/>
+  <!-- Keyhole stem -->
+  <rect x="96.5" y="116" width="7" height="10" rx="1.5" fill="#0f1318"/>
+</svg>

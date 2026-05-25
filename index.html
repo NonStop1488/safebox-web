@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<link rel="manifest" href="/manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="/icons/icon-180.png">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SafeBox">
   <title>SafeBox – Безпека, що просто працює</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icons/icon-180.png">
+  <link rel="apple-touch-startup-image" href="/icons/icon-512.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SafeBox">
-<link rel="apple-touch-icon" href="/icons/icon-180.png">
-<link rel="apple-touch-startup-image" href="/icons/icon-512.png">
-<link rel="manifest" href="/manifest.json">
   <!-- Google Identity Services -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -338,7 +334,7 @@
 
   <footer>
     <span>© 2025 SafeBox. Всі права захищені.</span>
-    <span>Конфіденційність · Умови · Безпека</span>
+    <span><a href="#" onclick="alert('Сторінка в розробці')">Конфіденційність</a> · <a href="#" onclick="alert('Сторінка в розробці')">Умови</a> · <a onclick="showPage('security')">Безпека</a></span>
   </footer>
 </div>
 
@@ -526,7 +522,7 @@
 
   <footer>
     <span>© 2025 SafeBox. Всі права захищені.</span>
-    <span>Конфіденційність · Умови · Безпека</span>
+    <span><a href="#" onclick="alert('Сторінка в розробці')">Конфіденційність</a> · <a href="#" onclick="alert('Сторінка в розробці')">Умови</a> · <a onclick="showPage('security')">Безпека</a></span>
   </footer>
 </div>
 
@@ -853,7 +849,7 @@ function dlClick(platform) {
 
   <footer>
     <span>© 2025 SafeBox. Всі права захищені.</span>
-    <span>Конфіденційність · Умови · Безпека</span>
+    <span><a href="#" onclick="alert('Сторінка в розробці')">Конфіденційність</a> · <a href="#" onclick="alert('Сторінка в розробці')">Умови</a> · <a onclick="showPage('security')">Безпека</a></span>
   </footer>
 </div>
 
@@ -959,7 +955,7 @@ function dlClick(platform) {
 
   <footer>
     <span>© 2025 SafeBox. Всі права захищені.</span>
-    <span>Конфіденційність · Умови · Безпека</span>
+    <span><a href="#" onclick="alert('Сторінка в розробці')">Конфіденційність</a> · <a href="#" onclick="alert('Сторінка в розробці')">Умови</a> · <a onclick="showPage('security')">Безпека</a></span>
   </footer>
 </div>
 
@@ -1007,7 +1003,7 @@ function dlClick(platform) {
         <label class="cb-wrap">
           <input type="checkbox" id="terms">
           <span class="cb-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>
-          <span class="cb-label">Я погоджуюся з <a href="#">Умовами використання</a> та <a href="#">Політикою конфіденційності</a></span>
+          <span class="cb-label">Я погоджуюся з <a href="#" onclick="alert('Сторінка в розробці')">Умовами використання</a> та <a href="#" onclick="alert('Сторінка в розробці')">Політикою конфіденційності</a></span>
         </label>
         <button class="btn-primary" id="su-send-btn" onclick="handleSendVerification()">Надіслати код підтвердження</button>
       </div>
@@ -1074,7 +1070,6 @@ function dlClick(platform) {
       <div class="form-group">
         <div class="form-label-row">
           <label>Головний пароль</label>
-          <a href="#" class="forgot-link">Забули підказку?</a>
         </div>
         <input class="form-input" type="password" placeholder="Введіть головний пароль" id="si-pass" style="margin-top:6px;">
       </div>
