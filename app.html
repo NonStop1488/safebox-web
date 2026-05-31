@@ -1701,6 +1701,13 @@ async function tryRefresh() {
     const data = await res.json();
     localStorage.setItem('sb_access',  data.access_token);
     localStorage.setItem('sb_refresh', data.refresh_token);
+    // Відновлюємо vault_key для Google-акаунтів (PSK без крапок = сам vault_key)
+    if (data.protected_symmetric_key) {
+      localStorage.setItem('sb_psk', data.protected_symmetric_key);
+      if (!data.protected_symmetric_key.includes('.')) {
+        sessionStorage.setItem('sb_vault_key', data.protected_symmetric_key);
+      }
+    }
     return true;
   } catch { return false; }
 }
@@ -1732,12 +1739,19 @@ function getVaultKey() {
 async function ensureVaultKey() {
   if (getVaultKey()) return true;
 
-  const psk      = localStorage.getItem('sb_psk');
   const authType = localStorage.getItem('sb_auth_type');
-  const refresh  = localStorage.getItem('sb_refresh');
 
-  // Спробуємо отримати свіжий PSK через refresh
-  let freshPsk = psk;
+  // Спочатку перевіряємо psk що вже є в localStorage (міг бути збережений tryRefresh)
+  let freshPsk = localStorage.getItem('sb_psk');
+
+  // Google акаунт: PSK без крапок — це сам vault_key (Base64)
+  if (freshPsk && !freshPsk.includes('.')) {
+    sessionStorage.setItem('sb_vault_key', freshPsk);
+    return true;
+  }
+
+  // Якщо vault_key досі не відновлено — пробуємо refresh тільки один раз
+  const refresh = localStorage.getItem('sb_refresh');
   if (refresh) {
     try {
       const res = await fetch(API + '/auth/refresh', {
@@ -1752,18 +1766,16 @@ async function ensureVaultKey() {
         if (data.protected_symmetric_key) {
           freshPsk = data.protected_symmetric_key;
           localStorage.setItem('sb_psk', freshPsk);
+          if (!freshPsk.includes('.')) {
+            sessionStorage.setItem('sb_vault_key', freshPsk);
+            return true;
+          }
         }
       }
     } catch(e) {}
   }
 
-  // Google акаунт: PSK не містить крапок — це Base64 vault_key напряму
-  if (freshPsk && !freshPsk.includes('.')) {
-    sessionStorage.setItem('sb_vault_key', freshPsk);
-    return true;
-  }
-
-  // Google акаунт але PSK відсутній — потрібен повторний вхід
+  // Google акаунт але PSK відсутній або невалідний — потрібен повторний вхід
   if (authType === 'google') {
     window.location.href = 'index.html';
     return false;
