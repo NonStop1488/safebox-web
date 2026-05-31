@@ -1463,6 +1463,8 @@ function dlClick(platform) {
 
       // Зберігаємо vault_key в пам'яті сесії (не в localStorage!)
       sessionStorage.setItem('sb_vault_key', btoa(String.fromCharCode(...vaultKey)));
+      localStorage.setItem('sb_email',     document.getElementById('su-email')?.value?.trim() || '');
+      localStorage.setItem('sb_auth_type', 'password');
       saveSession(data, () => { window.location.href = 'app.html'; });
 
     } catch(e) {
@@ -1578,6 +1580,8 @@ function dlClick(platform) {
       const vaultKey = await zkDecryptVaultKey(data.protected_symmetric_key, masterKey);
       sessionStorage.setItem('sb_vault_key', btoa(String.fromCharCode(...vaultKey)));
 
+      localStorage.setItem('sb_email',     email);
+      localStorage.setItem('sb_auth_type', 'password');
       saveSession(data, () => { window.location.href = 'app.html'; });
     } catch (e) {
       btn.textContent = 'Відкрити сховище';
@@ -1613,6 +1617,8 @@ function dlClick(platform) {
       }
 
       // Розшифровуємо vault_key після успішної 2FA
+      localStorage.setItem('sb_email',     localStorage.getItem('sb_email') || document.getElementById('si-email')?.value?.trim() || '');
+      localStorage.setItem('sb_auth_type', 'password');
       const tmpMk = sessionStorage.getItem('sb_tmp_mk');
       if (tmpMk) {
         const masterKey = Uint8Array.from(atob(tmpMk), c => c.charCodeAt(0));
