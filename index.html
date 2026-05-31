@@ -1463,7 +1463,13 @@ function dlClick(platform) {
       const data = await res.json();
 
       if (!res.ok) {
-        err.textContent = data.detail || 'Невірний код підтвердження';
+        let errMsg = 'Невірний код підтвердження';
+        if (data.detail) {
+          if (typeof data.detail === 'string') errMsg = data.detail;
+          else if (Array.isArray(data.detail)) errMsg = data.detail.map(e => e.msg || JSON.stringify(e)).join('; ');
+        }
+        err.textContent = errMsg;
+        console.error('verify-and-register error:', res.status, data);
         document.getElementById('su-verify-code').value = '';
         document.getElementById('su-verify-code').focus();
         btn.textContent = 'Підтвердити і створити сховище';
