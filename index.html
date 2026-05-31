@@ -1260,6 +1260,10 @@ function dlClick(platform) {
         return;
       }
 
+      // Google акаунт: PSK = vault_key напряму (Base64, без крапок)
+      if (data.protected_symmetric_key && !data.protected_symmetric_key.includes('.')) {
+        sessionStorage.setItem('sb_vault_key', data.protected_symmetric_key);
+      }
       saveSession(data, () => { window.location.href = 'app.html'; });
 
     } catch(e) {

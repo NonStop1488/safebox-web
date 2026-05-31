@@ -1708,6 +1708,17 @@ async function tryRefresh() {
 // Перевірка авторизації при відкритті сторінки
 if (!getToken()) { window.location.href = 'index.html'; }
 
+// Відновлення vault_key якщо sessionStorage очищено (refresh сторінки)
+// або для Google акаунтів де PSK = vault_key напряму (без крапок)
+(function restoreVaultKey() {
+  if (sessionStorage.getItem('sb_vault_key')) return;
+  const psk = localStorage.getItem('sb_psk');
+  if (!psk) return;
+  if (!psk.includes('.')) {
+    sessionStorage.setItem('sb_vault_key', psk);
+  }
+})();
+
 // ═══════════════════════════════════════════════════════
 //  ШИФРУВАННЯ — AES-256-GCM (однакове з десктопом)
 // ═══════════════════════════════════════════════════════
