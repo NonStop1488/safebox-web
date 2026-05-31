@@ -1187,23 +1187,24 @@ function dlClick(platform) {
     localStorage.setItem('sb_kdf_iter',  data.kdf_iterations);
     if (data.email) localStorage.setItem('sb_email', data.email);
 
-    const proceed = () => { if (onDone) { const fn = onDone; onDone = null; fn(); } };
-    if (window.chrome?.runtime?.sendMessage) {
-      const extMsg = {
-        type:          'SB_SET_TOKEN',
-        access_token:  data.access_token,
-        refresh_token: data.refresh_token,
-      };
-      // Передаємо vault_key у розширення щоб воно могло шифрувати/дешифрувати
-      if (vaultKeyB64) extMsg.vault_key = vaultKeyB64;
-      chrome.runtime.sendMessage(
-        EXTENSION_ID, extMsg,
-        () => { if (chrome.runtime?.lastError) {} proceed(); }
-      );
-      setTimeout(proceed, 400);
-    } else {
-      proceed();
-    }
+    // Одразу переходимо — не чекаємо на розширення
+    if (onDone) onDone();
+
+    // Паралельно намагаємось передати токени в розширення (fire-and-forget)
+    try {
+      if (window.chrome?.runtime?.sendMessage && typeof EXTENSION_ID === 'string') {
+        const extMsg = {
+          type:          'SB_SET_TOKEN',
+          access_token:  data.access_token,
+          refresh_token: data.refresh_token,
+        };
+        if (vaultKeyB64) extMsg.vault_key = vaultKeyB64;
+        chrome.runtime.sendMessage(EXTENSION_ID, extMsg, () => {
+          // ігноруємо chrome.runtime.lastError — розширення може бути не встановлене
+          void chrome.runtime.lastError;
+        });
+      }
+    } catch (e) { /* розширення недоступне — не критично */ }
   }
 
   /* ── Google Login через redirect (надійніший метод) ── */
