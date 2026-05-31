@@ -1709,60 +1709,84 @@ async function tryRefresh() {
 if (!getToken()) { window.location.href = 'index.html'; }
 
 // ═══════════════════════════════════════════════════════
-//  ШИФРУВАННЯ (client-side, спрощена версія для Web)
-//  У повній версії тут буде PBKDF2 + AES-256-GCM
-//  Зараз використовуємо Base64 як placeholder
-//  щоб дані зберігались в БД і повертались коректно
+//  ШИФРУВАННЯ — AES-256-GCM (однакове з десктопом)
 // ═══════════════════════════════════════════════════════
-function encryptField(text) {
-  // Base64 encode (placeholder для AES-256-GCM у продакшні)
+function getVaultKey() {
+  const vkB64 = sessionStorage.getItem('sb_vault_key');
+  if (!vkB64) return null;
   try {
-    return {
-      encrypted: btoa(unescape(encodeURIComponent(text))),
-      iv:        btoa('iv-' + Math.random().toString(36).slice(2,14)),
-      auth_tag:  btoa('tag-' + Math.random().toString(36).slice(2,14)),
-    };
+    return Uint8Array.from(atob(vkB64), c => c.charCodeAt(0));
   } catch(e) {
-    // Fallback якщо текст містить спецсимволи
-    return {
-      encrypted: btoa(encodeURIComponent(text)),
-      iv:        btoa('iv-fallback'),
-      auth_tag:  btoa('tag-fallback'),
-    };
+    sessionStorage.removeItem('sb_vault_key');
+    return null;
   }
 }
 
-function decryptField(encrypted) {
-  if (!encrypted) return '';
-  try {
-    // Спробувати unescape decode (наш основний формат)
-    return decodeURIComponent(escape(atob(encrypted)));
-  } catch(e1) {
+function _toB64(arr) {
+  let s = '';
+  for (let i = 0; i < arr.length; i++) s += String.fromCharCode(arr[i]);
+  return btoa(s);
+}
+
+async function encryptField(text) {
+  const vaultKey = getVaultKey();
+  if (!vaultKey) throw new Error('Vault key не знайдено — потрібен повторний вхід');
+  const iv  = crypto.getRandomValues(new Uint8Array(12));
+  const key = await crypto.subtle.importKey('raw', vaultKey, { name: 'AES-GCM' }, false, ['encrypt']);
+  const ct  = await crypto.subtle.encrypt(
+    { name: 'AES-GCM', iv, tagLength: 128 },
+    key,
+    new TextEncoder().encode(text)
+  );
+  const ctBytes = new Uint8Array(ct);
+  const cipher  = ctBytes.slice(0, ctBytes.length - 16);
+  const tag     = ctBytes.slice(ctBytes.length - 16);
+  return {
+    encrypted: _toB64(cipher),
+    iv:        _toB64(iv),
+    auth_tag:  _toB64(tag),
+  };
+}
+
+async function decryptField(encryptedB64, ivB64, authTagB64) {
+  if (!encryptedB64) return '';
+  // AES-256-GCM (формат десктопу та нових записів)
+  const vaultKey = getVaultKey();
+  if (vaultKey && ivB64 && authTagB64) {
     try {
-      // Fallback: decodeURIComponent після atob
-      return decodeURIComponent(atob(encrypted));
-    } catch(e2) {
-      try {
-        // Останній варіант: просто atob
-        return atob(encrypted);
-      } catch(e3) {
-        // Якщо нічого не спрацювало — повернути як є
-        return encrypted;
+      const fromB64  = b64 => Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+      const cipher   = fromB64(encryptedB64);
+      const iv       = fromB64(ivB64);
+      const tag      = fromB64(authTagB64);
+      const combined = new Uint8Array(cipher.length + tag.length);
+      combined.set(cipher); combined.set(tag, cipher.length);
+      const key = await crypto.subtle.importKey('raw', vaultKey, { name: 'AES-GCM' }, false, ['decrypt']);
+      const dec = await crypto.subtle.decrypt({ name: 'AES-GCM', iv, tagLength: 128 }, key, combined);
+      return new TextDecoder().decode(dec);
+    } catch(e) {
+      // AES не спрацювало — пробуємо старий Base64 формат
+    }
+  }
+  // Fallback: старий Base64 формат (записи збережені до оновлення)
+  try { return decodeURIComponent(escape(atob(encryptedB64))); } catch(e1) {
+    try { return decodeURIComponent(atob(encryptedB64)); } catch(e2) {
+      try { return atob(encryptedB64); } catch(e3) {
+        return encryptedB64;
       }
     }
   }
 }
 
 // Конвертація API-запису → локальний формат DB
-function apiToLocal(item) {
+async function apiToLocal(item) {
   let plainData = {};
   let name = '';
 
-  try { name = decryptField(item.name_encrypted); }
+  try { name = await decryptField(item.name_encrypted, item.name_iv, item.name_auth_tag); }
   catch(e) { name = item.name_encrypted || 'Unknown'; }
 
   try {
-    const rawData = decryptField(item.data_encrypted);
+    const rawData = await decryptField(item.data_encrypted, item.data_iv, item.auth_tag);
     plainData = JSON.parse(rawData);
   } catch(e) { console.warn('Cannot parse data for item:', item.id, e); }
 
@@ -1791,8 +1815,8 @@ function apiToLocal(item) {
 }
 
 // Конвертація локального формату → API payload
-function localToApi(entry) {
-  const nameEnc = encryptField(entry.t);
+async function localToApi(entry) {
+  const nameEnc = await encryptField(entry.t);
   let dataObj;
   if (entry.type === 'card' && entry.card) {
     dataObj = {
@@ -1815,7 +1839,7 @@ function localToApi(entry) {
       group:    entry.g,
     };
   }
-  const dataEnc = encryptField(JSON.stringify(dataObj));
+  const dataEnc = await encryptField(JSON.stringify(dataObj));
   return {
     name_encrypted: nameEnc.encrypted,
     name_iv:        nameEnc.iv,
@@ -1841,7 +1865,7 @@ async function loadPasswords() {
     const res = await apiFetch('/passwords');
     if (!res) return;
     const items = await res.json();
-    DB = items.map(apiToLocal);
+    DB = await Promise.all(items.map(apiToLocal));
     renderGroups();
     render();
     updateCounts();
@@ -1939,7 +1963,7 @@ async function saveEntry() {
 
   const btn = document.querySelector('#addOverlay .btn-save');
   btn.textContent = 'Збереження...'; btn.disabled = true;
-  const payload = localToApi(entry);
+  const payload = await localToApi(entry);
   try {
     let res;
     if (editId) {
