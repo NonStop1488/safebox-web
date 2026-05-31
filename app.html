@@ -1708,20 +1708,16 @@ async function tryRefresh() {
 // Перевірка авторизації при відкритті сторінки
 if (!getToken()) { window.location.href = 'index.html'; }
 
-// Відновлення vault_key якщо sessionStorage очищено (refresh сторінки)
-// або для Google акаунтів де PSK = vault_key напряму (без крапок)
-(function restoreVaultKey() {
-  if (sessionStorage.getItem('sb_vault_key')) return;
-  const psk = localStorage.getItem('sb_psk');
-  if (!psk) return;
-  if (!psk.includes('.')) {
-    sessionStorage.setItem('sb_vault_key', psk);
-  }
-})();
+// ═══════════════════════════════════════════════════════
+//  ШИФРУВАННЯ — AES-256-GCM (ідентично десктопу)
+// ═══════════════════════════════════════════════════════
 
-// ═══════════════════════════════════════════════════════
-//  ШИФРУВАННЯ — AES-256-GCM (однакове з десктопом)
-// ═══════════════════════════════════════════════════════
+function _toB64(arr) {
+  let s = '';
+  for (let i = 0; i < arr.length; i++) s += String.fromCharCode(arr[i]);
+  return btoa(s);
+}
+
 function getVaultKey() {
   const vkB64 = sessionStorage.getItem('sb_vault_key');
   if (!vkB64) return null;
@@ -1733,35 +1729,149 @@ function getVaultKey() {
   }
 }
 
-function _toB64(arr) {
-  let s = '';
-  for (let i = 0; i < arr.length; i++) s += String.fromCharCode(arr[i]);
-  return btoa(s);
+async function ensureVaultKey() {
+  if (getVaultKey()) return true;
+
+  const psk      = localStorage.getItem('sb_psk');
+  const authType = localStorage.getItem('sb_auth_type');
+  const refresh  = localStorage.getItem('sb_refresh');
+
+  // Спробуємо отримати свіжий PSK через refresh
+  let freshPsk = psk;
+  if (refresh) {
+    try {
+      const res = await fetch(API + '/auth/refresh', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refresh_token: refresh }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem('sb_access',  data.access_token);
+        localStorage.setItem('sb_refresh', data.refresh_token);
+        if (data.protected_symmetric_key) {
+          freshPsk = data.protected_symmetric_key;
+          localStorage.setItem('sb_psk', freshPsk);
+        }
+      }
+    } catch(e) {}
+  }
+
+  // Google акаунт: PSK не містить крапок — це Base64 vault_key напряму
+  if (freshPsk && !freshPsk.includes('.')) {
+    sessionStorage.setItem('sb_vault_key', freshPsk);
+    return true;
+  }
+
+  // Google акаунт але PSK відсутній — потрібен повторний вхід
+  if (authType === 'google') {
+    window.location.href = 'index.html';
+    return false;
+  }
+
+  // Звичайний акаунт — показуємо unlock-діалог
+  const kdfSalt = localStorage.getItem('sb_kdf_salt');
+  const kdfIter = parseInt(localStorage.getItem('sb_kdf_iter') || '600000');
+  if (!kdfSalt) { window.location.href = 'index.html'; return false; }
+
+  return new Promise(resolve => {
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(10,13,17,.95);display:flex;align-items:center;justify-content:center;z-index:9999;';
+    overlay.innerHTML = `
+      <div style="background:#161b22;border:1px solid #2a3140;border-radius:16px;padding:32px;width:360px;text-align:center;">
+        <svg viewBox="0 0 24 24" style="width:48px;height:48px;stroke:#3fe08a;fill:none;margin-bottom:16px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <h2 style="color:#dce4f0;margin:0 0 8px;font-size:1.2rem;">Підтвердіть особу</h2>
+        <p style="color:#6b7a99;font-size:.85rem;margin:0 0 20px;">Введіть головний пароль для розблокування сховища.</p>
+        <input id="rvkPass" type="password" placeholder="Головний пароль"
+          style="width:100%;box-sizing:border-box;padding:10px 14px;background:#0f1318;border:1px solid #2a3140;border-radius:8px;color:#dce4f0;font-size:.95rem;margin-bottom:8px;outline:none;">
+        <p id="rvkErr" style="color:#e05c3f;font-size:.8rem;min-height:18px;margin:0 0 12px;"></p>
+        <button id="rvkBtn"
+          style="width:100%;padding:10px;background:#3fe08a;border:none;border-radius:8px;color:#0a0d11;font-weight:700;font-size:.95rem;cursor:pointer;margin-bottom:10px;">
+          Розблокувати
+        </button>
+        <button id="rvkSwitch"
+          style="width:100%;padding:8px;background:transparent;border:1px solid #2a3140;border-radius:8px;color:#6b7a99;font-size:.85rem;cursor:pointer;">
+          Увійти в інший акаунт
+        </button>
+      </div>`;
+    document.body.appendChild(overlay);
+
+    async function tryUnlock() {
+      const pass = document.getElementById('rvkPass').value;
+      const btn  = document.getElementById('rvkBtn');
+      const err  = document.getElementById('rvkErr');
+      if (!pass) { err.textContent = 'Введіть пароль'; return; }
+      btn.textContent = 'Перевірка...'; btn.disabled = true;
+      try {
+        const enc     = new TextEncoder();
+        const keyMat  = await crypto.subtle.importKey('raw', enc.encode(pass), 'PBKDF2', false, ['deriveBits']);
+        const salt    = Uint8Array.from(atob(kdfSalt), c => c.charCodeAt(0));
+        const bits    = await crypto.subtle.deriveBits({ name:'PBKDF2', hash:'SHA-256', salt, iterations:kdfIter }, keyMat, 512);
+        const masterKey = new Uint8Array(bits);
+
+        let pskToUse = freshPsk;
+        if (!pskToUse || !pskToUse.includes('.')) {
+          // Отримуємо PSK через логін
+          let phArr = new Uint8Array(await crypto.subtle.digest('SHA-256', enc.encode(pass)));
+          let phStr = ''; for (let i=0;i<phArr.length;i++) phStr+=String.fromCharCode(phArr[i]);
+          const passHash = btoa(phStr);
+          const email = localStorage.getItem('sb_email') || '';
+          const loginRes = await fetch(API + '/auth/login', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ email, password_hash: passHash, device_name:'Web Browser', device_type:'web' })
+          });
+          if (!loginRes.ok) { err.textContent = 'Невірний пароль'; btn.textContent = 'Розблокувати'; btn.disabled = false; return; }
+          const loginData = await loginRes.json();
+          localStorage.setItem('sb_access',  loginData.access_token);
+          localStorage.setItem('sb_refresh', loginData.refresh_token);
+          pskToUse = loginData.protected_symmetric_key;
+          localStorage.setItem('sb_psk', pskToUse);
+        }
+
+        const [iv64, c64, t64] = pskToUse.split('.');
+        const fromB64  = b => Uint8Array.from(atob(b), c => c.charCodeAt(0));
+        const cipher   = fromB64(c64); const tag = fromB64(t64);
+        const combined = new Uint8Array(cipher.length + tag.length);
+        combined.set(cipher); combined.set(tag, cipher.length);
+        const aesKey   = await crypto.subtle.importKey('raw', masterKey.slice(0,32), {name:'AES-GCM'}, false, ['decrypt']);
+        const dec      = await crypto.subtle.decrypt({name:'AES-GCM', iv:fromB64(iv64), tagLength:128}, aesKey, combined);
+        const vaultKey = Uint8Array.from(atob(new TextDecoder().decode(dec)), c => c.charCodeAt(0));
+        sessionStorage.setItem('sb_vault_key', _toB64(vaultKey));
+
+        document.body.removeChild(overlay);
+        resolve(true);
+      } catch(e) {
+        err.textContent = 'Невірний пароль';
+        btn.textContent = 'Розблокувати'; btn.disabled = false;
+      }
+    }
+
+    document.getElementById('rvkBtn').addEventListener('click', tryUnlock);
+    document.getElementById('rvkPass').addEventListener('keydown', e => { if(e.key==='Enter') tryUnlock(); });
+    document.getElementById('rvkSwitch').addEventListener('click', () => {
+      localStorage.clear(); sessionStorage.clear();
+      window.location.href = 'index.html';
+    });
+    setTimeout(() => document.getElementById('rvkPass').focus(), 100);
+  });
 }
 
 async function encryptField(text) {
   const vaultKey = getVaultKey();
-  if (!vaultKey) throw new Error('Vault key не знайдено — потрібен повторний вхід');
+  if (!vaultKey) throw new Error('Vault key відсутній');
   const iv  = crypto.getRandomValues(new Uint8Array(12));
   const key = await crypto.subtle.importKey('raw', vaultKey, { name: 'AES-GCM' }, false, ['encrypt']);
-  const ct  = await crypto.subtle.encrypt(
-    { name: 'AES-GCM', iv, tagLength: 128 },
-    key,
-    new TextEncoder().encode(text)
-  );
+  const ct  = await crypto.subtle.encrypt({ name: 'AES-GCM', iv, tagLength: 128 }, key, new TextEncoder().encode(text));
   const ctBytes = new Uint8Array(ct);
-  const cipher  = ctBytes.slice(0, ctBytes.length - 16);
-  const tag     = ctBytes.slice(ctBytes.length - 16);
   return {
-    encrypted: _toB64(cipher),
+    encrypted: _toB64(ctBytes.slice(0, ctBytes.length - 16)),
     iv:        _toB64(iv),
-    auth_tag:  _toB64(tag),
+    auth_tag:  _toB64(ctBytes.slice(ctBytes.length - 16)),
   };
 }
 
 async function decryptField(encryptedB64, ivB64, authTagB64) {
   if (!encryptedB64) return '';
-  // AES-256-GCM (формат десктопу та нових записів)
   const vaultKey = getVaultKey();
   if (vaultKey && ivB64 && authTagB64) {
     try {
@@ -1774,16 +1884,12 @@ async function decryptField(encryptedB64, ivB64, authTagB64) {
       const key = await crypto.subtle.importKey('raw', vaultKey, { name: 'AES-GCM' }, false, ['decrypt']);
       const dec = await crypto.subtle.decrypt({ name: 'AES-GCM', iv, tagLength: 128 }, key, combined);
       return new TextDecoder().decode(dec);
-    } catch(e) {
-      // AES не спрацювало — пробуємо старий Base64 формат
-    }
+    } catch(e) { /* fallback нижче */ }
   }
-  // Fallback: старий Base64 формат (записи збережені до оновлення)
+  // Fallback: старий Base64 формат
   try { return decodeURIComponent(escape(atob(encryptedB64))); } catch(e1) {
     try { return decodeURIComponent(atob(encryptedB64)); } catch(e2) {
-      try { return atob(encryptedB64); } catch(e3) {
-        return encryptedB64;
-      }
+      try { return atob(encryptedB64); } catch(e3) { return encryptedB64; }
     }
   }
 }
@@ -2594,10 +2700,11 @@ document.addEventListener('keydown', function(e) {
 
 
 async function init() {
-  // Очистити пошук при завантаженні
   const searchEl = document.getElementById('gSearch');
   if (searchEl) { searchEl.value = ''; q = ''; }
   renderGroups();
+  const hasKey = await ensureVaultKey();
+  if (!hasKey) return;
   await loadProfile();
   await loadPasswords();
 }

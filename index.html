@@ -1184,6 +1184,7 @@ function dlClick(platform) {
     localStorage.setItem('sb_psk',       data.protected_symmetric_key);
     localStorage.setItem('sb_kdf_salt',  data.kdf_salt);
     localStorage.setItem('sb_kdf_iter',  data.kdf_iterations);
+    if (data.email) localStorage.setItem('sb_email', data.email);
 
     const proceed = () => { if (onDone) { const fn = onDone; onDone = null; fn(); } };
     if (window.chrome?.runtime?.sendMessage) {
@@ -1264,6 +1265,7 @@ function dlClick(platform) {
       if (data.protected_symmetric_key && !data.protected_symmetric_key.includes('.')) {
         sessionStorage.setItem('sb_vault_key', data.protected_symmetric_key);
       }
+      localStorage.setItem('sb_auth_type', 'google');
       saveSession(data, () => { window.location.href = 'app.html'; });
 
     } catch(e) {
