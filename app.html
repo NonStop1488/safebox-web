@@ -1979,6 +1979,10 @@ let nid = 1;
 
 async function loadPasswords() {
   try {
+    // Переконуємось що vault_key доступний ДО дешифрування записів
+    const hasKey = await ensureVaultKey();
+    if (!hasKey) return; // ensureVaultKey сам перенаправить на login або покаже unlock-діалог
+
     const res = await apiFetch('/passwords');
     if (!res) return;
     const items = await res.json();
@@ -2703,8 +2707,7 @@ async function init() {
   const searchEl = document.getElementById('gSearch');
   if (searchEl) { searchEl.value = ''; q = ''; }
   renderGroups();
-  const hasKey = await ensureVaultKey();
-  if (!hasKey) return;
+  // ensureVaultKey викликається всередині loadPasswords — не дублюємо
   await loadProfile();
   await loadPasswords();
 }

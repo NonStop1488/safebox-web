@@ -1178,7 +1178,8 @@ function dlClick(platform) {
   const EXTENSION_ID = 'lggeponbhhknooajlpbmpamgnfgdlcim';
 
   /* ── Збереження токенів + передача в розширення ─── */
-  function saveSession(data, onDone) {
+  // vaultKeyB64 — опціонально, Base64-рядок vault_key для передачі у розширення
+  function saveSession(data, onDone, vaultKeyB64) {
     localStorage.setItem('sb_access',    data.access_token);
     localStorage.setItem('sb_refresh',   data.refresh_token);
     localStorage.setItem('sb_psk',       data.protected_symmetric_key);
@@ -1188,9 +1189,15 @@ function dlClick(platform) {
 
     const proceed = () => { if (onDone) { const fn = onDone; onDone = null; fn(); } };
     if (window.chrome?.runtime?.sendMessage) {
+      const extMsg = {
+        type:          'SB_SET_TOKEN',
+        access_token:  data.access_token,
+        refresh_token: data.refresh_token,
+      };
+      // Передаємо vault_key у розширення щоб воно могло шифрувати/дешифрувати
+      if (vaultKeyB64) extMsg.vault_key = vaultKeyB64;
       chrome.runtime.sendMessage(
-        EXTENSION_ID,
-        { type: 'SB_SET_TOKEN', access_token: data.access_token, refresh_token: data.refresh_token },
+        EXTENSION_ID, extMsg,
         () => { if (chrome.runtime?.lastError) {} proceed(); }
       );
       setTimeout(proceed, 400);
@@ -1262,11 +1269,13 @@ function dlClick(platform) {
       }
 
       // Google акаунт: PSK = vault_key напряму (Base64, без крапок)
+      let googleVaultKeyB64 = null;
       if (data.protected_symmetric_key && !data.protected_symmetric_key.includes('.')) {
         sessionStorage.setItem('sb_vault_key', data.protected_symmetric_key);
+        googleVaultKeyB64 = data.protected_symmetric_key;
       }
       localStorage.setItem('sb_auth_type', 'google');
-      saveSession(data, () => { window.location.href = 'app.html'; });
+      saveSession(data, () => { window.location.href = 'app.html'; }, googleVaultKeyB64);
 
     } catch(e) {
       if (btn) { btn.textContent = 'Google'; btn.disabled = false; }
@@ -1462,10 +1471,11 @@ function dlClick(platform) {
       }
 
       // Зберігаємо vault_key в пам'яті сесії (не в localStorage!)
-      sessionStorage.setItem('sb_vault_key', btoa(String.fromCharCode(...vaultKey)));
+      const vkB64reg = btoa(String.fromCharCode(...vaultKey));
+      sessionStorage.setItem('sb_vault_key', vkB64reg);
       localStorage.setItem('sb_email',     document.getElementById('su-email')?.value?.trim() || '');
       localStorage.setItem('sb_auth_type', 'password');
-      saveSession(data, () => { window.location.href = 'app.html'; });
+      saveSession(data, () => { window.location.href = 'app.html'; }, vkB64reg);
 
     } catch(e) {
       err.textContent = 'Помилка зʼєднання';
@@ -1578,11 +1588,12 @@ function dlClick(platform) {
 
       // ── ZK Крок 4: розшифровуємо vault_key на клієнті ────────
       const vaultKey = await zkDecryptVaultKey(data.protected_symmetric_key, masterKey);
-      sessionStorage.setItem('sb_vault_key', btoa(String.fromCharCode(...vaultKey)));
+      const vkB64login = btoa(String.fromCharCode(...vaultKey));
+      sessionStorage.setItem('sb_vault_key', vkB64login);
 
       localStorage.setItem('sb_email',     email);
       localStorage.setItem('sb_auth_type', 'password');
-      saveSession(data, () => { window.location.href = 'app.html'; });
+      saveSession(data, () => { window.location.href = 'app.html'; }, vkB64login);
     } catch (e) {
       btn.textContent = 'Відкрити сховище';
       btn.disabled = false;
@@ -1620,14 +1631,16 @@ function dlClick(platform) {
       localStorage.setItem('sb_email',     localStorage.getItem('sb_email') || document.getElementById('si-email')?.value?.trim() || '');
       localStorage.setItem('sb_auth_type', 'password');
       const tmpMk = sessionStorage.getItem('sb_tmp_mk');
+      let vkB642fa = null;
       if (tmpMk) {
         const masterKey = Uint8Array.from(atob(tmpMk), c => c.charCodeAt(0));
         sessionStorage.removeItem('sb_tmp_mk');
         const vaultKey = await zkDecryptVaultKey(data.protected_symmetric_key, masterKey);
-        sessionStorage.setItem('sb_vault_key', btoa(String.fromCharCode(...vaultKey)));
+        vkB642fa = btoa(String.fromCharCode(...vaultKey));
+        sessionStorage.setItem('sb_vault_key', vkB642fa);
       }
 
-      saveSession(data, () => { window.location.href = 'app.html'; });
+      saveSession(data, () => { window.location.href = 'app.html'; }, vkB642fa);
     } catch(e) {
       err.textContent = 'Помилка зʼєднання';
       btn.textContent = 'Підтвердити';
