@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Політика конфіденційності — SafeBox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0a0d11;
+    --bg2:      #111620;
+    --bg3:      #161d2a;
+    --accent:   #3fe08a;
+    --accent2:  #2bc974;
+    --t1:       #e8eef7;
+    --t2:       #8a95a8;
+    --t3:       #505a6e;
+    --border:   rgba(255,255,255,0.07);
+    --border2:  rgba(63,224,138,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--t1);
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* ── Decorative bg grid ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(63,224,138,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(63,224,138,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Header ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,13,17,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--t1);
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: -0.3px;
+  }
+
+  .logo svg { flex-shrink: 0; }
+
+  .logo-dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  .updated-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--t3);
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* ── Main layout ── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    margin-bottom: 60px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(63,224,138,0.08);
+    border: 1px solid var(--border2);
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    color: var(--t1);
+  }
+
+  .hero h1 span {
+    color: var(--accent);
+  }
+
+  .hero-lead {
+    font-size: 16px;
+    color: var(--t2);
+    max-width: 560px;
+    line-height: 1.7;
+  }
+
+  /* ── ZK highlight box ── */
+  .zk-box {
+    margin: 40px 0;
+    padding: 24px 28px;
+    background: rgba(63,224,138,0.05);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+  }
+
+  .zk-icon {
+    flex-shrink: 0;
+    width: 40px; height: 40px;
+    background: rgba(63,224,138,0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .zk-box h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 6px;
+    letter-spacing: 0.2px;
+  }
+
+  .zk-box p {
+    font-size: 14px;
+    color: var(--t2);
+    line-height: 1.65;
+  }
+
+  /* ── Sections ── */
+  .section {
+    margin-bottom: 52px;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section:nth-child(2) { animation-delay: 0.05s; }
+  .section:nth-child(3) { animation-delay: 0.10s; }
+  .section:nth-child(4) { animation-delay: 0.15s; }
+  .section:nth-child(5) { animation-delay: 0.20s; }
+  .section:nth-child(6) { animation-delay: 0.25s; }
+  .section:nth-child(7) { animation-delay: 0.30s; }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    opacity: 0.6;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+
+  .section h2 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
+    color: var(--t1);
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section p {
+    color: var(--t2);
+    margin-bottom: 14px;
+    font-size: 15px;
+  }
+
+  .section p:last-child { margin-bottom: 0; }
+
+  /* ── Data table ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+
+  .data-table th {
+    text-align: left;
+    padding: 10px 16px;
+    background: var(--bg3);
+    color: var(--t2);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .data-table th:first-child { border-radius: 8px 0 0 0; }
+  .data-table th:last-child  { border-radius: 0 8px 0 0; }
+
+  .data-table td {
+    padding: 12px 16px;
+    color: var(--t2);
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+
+  .data-table td:first-child {
+    color: var(--t1);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .data-table tr { transition: background 0.15s; }
+  .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ── Badge ── */
+  .badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .badge-green { background: rgba(63,224,138,0.1); color: var(--accent); border: 1px solid rgba(63,224,138,0.2); }
+  .badge-gray  { background: rgba(255,255,255,0.05); color: var(--t3); border: 1px solid var(--border); }
+
+  /* ── List ── */
+  .styled-list {
+    list-style: none;
+    margin: 16px 0;
+  }
+
+  .styled-list li {
+    color: var(--t2);
+    padding: 8px 0 8px 24px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+  }
+
+  .styled-list li:last-child { border-bottom: none; }
+
+  .styled-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  /* ── Contact card ── */
+  .contact-card {
+    margin-top: 24px;
+    padding: 20px 24px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .contact-card a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  .contact-card a:hover { text-decoration: underline; }
+
+  .contact-card .contact-label {
+    font-size: 12px;
+    color: var(--t3);
+    margin-bottom: 4px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* ── Footer ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 32px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  footer p {
+    font-size: 13px;
+    color: var(--t3);
+  }
+
+  footer a {
+    color: var(--t2);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.15s;
+  }
+
+  footer a:hover { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    header { padding: 0 20px; }
+    main { padding: 40px 16px 80px; }
+    footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+    .zk-box { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="https://safebox.lol" class="logo">
+    <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
+      <path d="M20 4L32 9.5V20C32 27.5 26.5 34 20 36C13.5 34 8 27.5 8 20V9.5L20 4Z" stroke="#3fe08a" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="20" cy="21" r="4" stroke="#3fe08a" stroke-width="2"/>
+      <line x1="20" y1="25" x2="20" y2="29" stroke="#3fe08a" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    SafeBox
+    <div class="logo-dot"></div>
+  </a>
+  <span class="updated-badge">Оновлено: червень 2026</span>
+</header>
+
+<main>
+
+  <div class="hero">
+    <div class="hero-tag">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+        <circle cx="5" cy="5" r="4" stroke="#3fe08a" stroke-width="1.5"/>
+        <circle cx="5" cy="5" r="1.5" fill="#3fe08a"/>
+      </svg>
+      Юридичний документ
+    </div>
+    <h1>Політика<br><span>конфіденційності</span></h1>
+    <p class="hero-lead">
+      Ця політика описує які дані збирає SafeBox, як вони зберігаються та захищаються.
+      Ми побудували сервіс на принципі Zero-Knowledge — ваші паролі залишаються лише у вас.
+    </p>
+
+    <div class="zk-box">
+      <div class="zk-icon">
+        <svg width="20" height="20" viewBox="0 0 40 40" fill="none">
+          <path d="M20 4L32 9.5V20C32 27.5 26.5 34 20 36C13.5 34 8 27.5 8 20V9.5L20 4Z" stroke="#3fe08a" stroke-width="2" stroke-linejoin="round"/>
+          <circle cx="20" cy="21" r="4" stroke="#3fe08a" stroke-width="2"/>
+        </svg>
+      </div>
+      <div>
+        <h3>Принцип Zero-Knowledge</h3>
+        <p>Усі паролі шифруються алгоритмом AES-256-GCM на вашому пристрої до відправки на сервер. Ми фізично не можемо прочитати ваші паролі — навіть якби захотіли.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1 -->
+  <div class="section">
+    <div class="section-num">01</div>
+    <h2>Загальні положення</h2>
+    <p>Ця Політика конфіденційності поширюється на веб-сайт <strong>safebox.lol</strong>, мобільний застосунок та розширення для браузера Chrome (далі — «Сервіс»). Використовуючи Сервіс, ви погоджуєтесь з умовами цієї Політики.</p>
+    <p>Оператором Сервісу є фізична особа — розробник SafeBox. З питань конфіденційності звертайтесь за контактами, вказаними в розділі 8.</p>
+  </div>
+
+  <!-- 2 -->
+  <div class="section">
+    <div class="section-num">02</div>
+    <h2>Які дані ми збираємо</h2>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Дані</th>
+          <th>Де зберігаються</th>
+          <th>Стан</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Email адреса</td>
+          <td>Сервер (відкрито)</td>
+          <td><span class="badge badge-gray">незашифровано</span></td>
+        </tr>
+        <tr>
+          <td>Хеш пароля (SHA-256)</td>
+          <td>Сервер</td>
+          <td><span class="badge badge-green">хешовано</span></td>
+        </tr>
+        <tr>
+          <td>Зашифровані паролі</td>
+          <td>Сервер</td>
+          <td><span class="badge badge-green">AES-256-GCM</span></td>
+        </tr>
+        <tr>
+          <td>Ключ шифрування (vault_key)</td>
+          <td>Тільки ваш пристрій</td>
+          <td><span class="badge badge-green">не передається</span></td>
+        </tr>
+        <tr>
+          <td>Google OAuth токен</td>
+          <td>Сервер (тимчасово)</td>
+          <td><span class="badge badge-green">не зберігається</span></td>
+        </tr>
+        <tr>
+          <td>IP адреса та лог дій</td>
+          <td>Сервер (audit log)</td>
+          <td><span class="badge badge-gray">для безпеки</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Ми <strong>не збираємо</strong>: реальний майстер-пароль, розшифровані паролі, платіжну інформацію, геолокацію, дані про використання сайтів у браузері.</p>
+  </div>
+
+  <!-- 3 -->
+  <div class="section">
+    <div class="section-num">03</div>
+    <h2>Розширення для Chrome</h2>
+    <p>Розширення SafeBox запитує такі дозволи браузера:</p>
+    <ul class="styled-list">
+      <li><strong>storage</strong> — збереження токенів авторизації та ключа шифрування локально на вашому пристрої</li>
+      <li><strong>activeTab</strong> — визначення полів входу на поточній вкладці для автозаповнення</li>
+      <li><strong>scripting</strong> — введення логіна та пароля у форму після вашого підтвердження</li>
+    </ul>
+    <p>Розширення не читає та не передає вміст веб-сторінок, не відстежує відвідані сайти і не має доступу до ваших даних на інших вкладках.</p>
+    <p>Ключ шифрування зберігається в <code>chrome.storage.local</code> — локально у вашому профілі Chrome і не передається на наші сервери.</p>
+  </div>
+
+  <!-- 4 -->
+  <div class="section">
+    <div class="section-num">04</div>
+    <h2>Як ми використовуємо дані</h2>
+    <ul class="styled-list">
+      <li>Ідентифікація вашого акаунту при вході</li>
+      <li>Зберігання та синхронізація зашифрованих записів між вашими пристроями</li>
+      <li>Надсилання листів підтвердження email та відновлення доступу</li>
+      <li>Виявлення підозрілої активності та захист акаунту (audit log)</li>
+    </ul>
+    <p>Ми <strong>не продаємо</strong> ваші дані третім особам. Ми <strong>не використовуємо</strong> ваші дані для реклами або маркетингу.</p>
+  </div>
+
+  <!-- 5 -->
+  <div class="section">
+    <div class="section-num">05</div>
+    <h2>Зберігання та захист даних</h2>
+    <p>Сервер розташований на платформі Render (США). База даних PostgreSQL захищена SSL/TLS з'єднанням, регулярним резервним копіюванням і обмеженим доступом.</p>
+    <p>Передача даних між вашим пристроєм і сервером захищена протоколом HTTPS (TLS 1.3).</p>
+    <p>Зашифровані паролі зберігаються стільки, скільки існує ваш акаунт. Після видалення акаунту всі дані видаляються протягом 30 днів.</p>
+  </div>
+
+  <!-- 6 -->
+  <div class="section">
+    <div class="section-num">06</div>
+    <h2>Ваші права</h2>
+    <ul class="styled-list">
+      <li>Отримати копію всіх ваших даних</li>
+      <li>Виправити або оновити особисту інформацію</li>
+      <li>Видалити акаунт та всі пов'язані дані</li>
+      <li>Відкликати згоду на обробку даних</li>
+    </ul>
+    <p>Для реалізації будь-якого з цих прав зверніться до нас через контакти в розділі 8.</p>
+  </div>
+
+  <!-- 7 -->
+  <div class="section">
+    <div class="section-num">07</div>
+    <h2>Зміни до Політики</h2>
+    <p>Ми можемо оновлювати цю Політику. Про суттєві зміни ми повідомимо на сайті або електронною поштою. Дата останнього оновлення вказана у верхній частині сторінки.</p>
+    <p>Продовження використання Сервісу після змін означає вашу згоду з оновленою Політикою.</p>
+  </div>
+
+  <!-- 8 -->
+  <div class="section">
+    <div class="section-num">08</div>
+    <h2>Контакти</h2>
+    <p>Якщо у вас є запитання щодо конфіденційності або ви хочете реалізувати свої права:</p>
+    <div class="contact-card">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3fe08a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="3"/>
+        <path d="M2 7l10 7 10-7"/>
+      </svg>
+      <div>
+        <div class="contact-label">Email для звернень</div>
+        <a href="mailto:privacy@safebox.lol">privacy@safebox.lol</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>© 2026 SafeBox. Всі права захищені.</p>
+  <div style="display:flex;gap:24px;">
+    <a href="https://safebox.lol">Головна</a>
+    <a href="https://safebox.lol/app.html">Застосунок</a>
+  </div>
+</footer>
+
+</body>
+</html>
