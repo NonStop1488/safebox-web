@@ -1775,8 +1775,14 @@ async function ensureVaultKey() {
     } catch(e) {}
   }
 
-  // Google акаунт але PSK відсутній або невалідний — потрібен повторний вхід
+  // Google акаунт але PSK відсутній або невалідний — очищаємо стан і повертаємо на вхід.
+  // Це може статися якщо email зареєстровано з паролем і PSK містить крапки.
   if (authType === 'google') {
+    localStorage.removeItem('sb_auth_type');
+    localStorage.removeItem('sb_psk');
+    localStorage.removeItem('sb_access');
+    localStorage.removeItem('sb_refresh');
+    sessionStorage.removeItem('sb_vault_key');
     window.location.href = 'index.html';
     return false;
   }

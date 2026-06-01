@@ -1265,11 +1265,40 @@ function dlClick(platform) {
 
       if (!res.ok) {
         if (btn) { btn.textContent = 'Google'; btn.disabled = false; }
-        alert('Помилка: ' + (data.detail || 'Невідома помилка'));
+        const detail = data.detail || 'Невідома помилка';
+        // 409 — email вже зареєстровано з паролем
+        if (res.status === 409) {
+          showPage('signin');
+          const errWrap = document.querySelector('#signin .auth-card');
+          if (errWrap && !document.getElementById('si-google-err')) {
+            const d = document.createElement('div');
+            d.id = 'si-google-err';
+            d.style.cssText = 'color:#ef4444;font-size:0.81rem;margin-top:10px;text-align:center;padding:8px 12px;background:rgba(239,68,68,0.07);border-radius:8px;border:1px solid rgba(239,68,68,0.18);';
+            d.textContent = detail;
+            errWrap.appendChild(d);
+          }
+        } else {
+          alert('Помилка: ' + detail);
+        }
         return;
       }
 
-      // Google акаунт: PSK = vault_key напряму (Base64, без крапок)
+      // Захист на стороні клієнта: PSK з крапками — це пароль-акаунт.
+      // Без master password розшифрувати vault_key неможливо — перенаправляємо на вхід.
+      if (data.protected_symmetric_key && data.protected_symmetric_key.includes('.')) {
+        if (btn) { btn.textContent = 'Google'; btn.disabled = false; }
+        showPage('signin');
+        const errWrap = document.querySelector('#signin .auth-card');
+        if (errWrap && !document.getElementById('si-google-err')) {
+          const d = document.createElement('div');
+          d.id = 'si-google-err';
+          d.style.cssText = 'color:#ef4444;font-size:0.81rem;margin-top:10px;text-align:center;padding:8px 12px;background:rgba(239,68,68,0.07);border-radius:8px;border:1px solid rgba(239,68,68,0.18);';
+          d.textContent = 'Цей email зареєстровано з паролем. Будь ласка, увійдіть через форму входу.';
+          errWrap.appendChild(d);
+        }
+        return;
+      }
+
       let googleVaultKeyB64 = null;
       if (data.protected_symmetric_key && !data.protected_symmetric_key.includes('.')) {
         sessionStorage.setItem('sb_vault_key', data.protected_symmetric_key);
