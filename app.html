@@ -1701,11 +1701,17 @@ async function tryRefresh() {
     const data = await res.json();
     localStorage.setItem('sb_access',  data.access_token);
     localStorage.setItem('sb_refresh', data.refresh_token);
-    // Відновлюємо vault_key для Google-акаунтів (PSK без крапок = сам vault_key)
+    // БЕЗПЕКА: PSK без крапок — це сирий vault_key (Google-акаунт).
+    // Зберігаємо ТІЛЬКИ у sessionStorage, ніколи в localStorage.
     if (data.protected_symmetric_key) {
-      localStorage.setItem('sb_psk', data.protected_symmetric_key);
-      if (!data.protected_symmetric_key.includes('.')) {
-        sessionStorage.setItem('sb_vault_key', data.protected_symmetric_key);
+      const psk = data.protected_symmetric_key;
+      if (!psk.includes('.')) {
+        // Google vault_key — тільки session, не persist
+        sessionStorage.setItem('sb_vault_key', psk);
+        // навмисно НЕ робимо localStorage.setItem('sb_psk', ...)
+      } else {
+        // Password-акаунт: зашифрований PSK
+        localStorage.setItem('sb_psk', psk);
       }
     }
     return true;
@@ -1741,16 +1747,20 @@ async function ensureVaultKey() {
 
   const authType = localStorage.getItem('sb_auth_type');
 
-  // Спочатку перевіряємо psk що вже є в localStorage (міг бути збережений tryRefresh)
+  // БЕЗПЕКА: для Google-акаунтів sb_psk в localStorage НЕ зберігається.
+  // Перевіряємо тільки PSK пароль-акаунтів (містить крапки).
   let freshPsk = localStorage.getItem('sb_psk');
 
-  // Google акаунт: PSK без крапок — це сам vault_key (Base64)
+  // Якщо в localStorage є PSK password-акаунту (зашифрований, з крапками) —
+  // vault_key відновиться через unlock-діалог нижче.
+  // Якщо раптово PSK без крапок потрапив в localStorage (старі дані) — не використовуємо.
   if (freshPsk && !freshPsk.includes('.')) {
-    sessionStorage.setItem('sb_vault_key', freshPsk);
-    return true;
+    // Застарілий небезпечний запис — видаляємо
+    localStorage.removeItem('sb_psk');
+    freshPsk = null;
   }
 
-  // Якщо vault_key досі не відновлено — пробуємо refresh тільки один раз
+  // Якщо vault_key не в sessionStorage — пробуємо refresh (може повернути vault_key для Google)
   const refresh = localStorage.getItem('sb_refresh');
   if (refresh) {
     try {
@@ -1764,19 +1774,23 @@ async function ensureVaultKey() {
         localStorage.setItem('sb_access',  data.access_token);
         localStorage.setItem('sb_refresh', data.refresh_token);
         if (data.protected_symmetric_key) {
-          freshPsk = data.protected_symmetric_key;
-          localStorage.setItem('sb_psk', freshPsk);
-          if (!freshPsk.includes('.')) {
-            sessionStorage.setItem('sb_vault_key', freshPsk);
+          const psk = data.protected_symmetric_key;
+          if (!psk.includes('.')) {
+            // Google: vault_key тільки в sessionStorage
+            sessionStorage.setItem('sb_vault_key', psk);
             return true;
+          } else {
+            // Password-акаунт: зашифрований PSK
+            freshPsk = psk;
+            localStorage.setItem('sb_psk', freshPsk);
           }
         }
       }
     } catch(e) {}
   }
 
-  // Google акаунт але PSK відсутній або невалідний — очищаємо стан і повертаємо на вхід.
-  // Це може статися якщо email зареєстровано з паролем і PSK містить крапки.
+  // Google-акаунт але vault_key відсутній в sessionStorage — сесія закрита.
+  // Перенаправляємо на вхід (vault_key не зберігається між вкладками навмисно).
   if (authType === 'google') {
     localStorage.removeItem('sb_auth_type');
     localStorage.removeItem('sb_psk');

@@ -1180,12 +1180,27 @@ function dlClick(platform) {
   /* ── Збереження токенів + передача в розширення ─── */
   // vaultKeyB64 — опціонально, Base64-рядок vault_key для передачі у розширення
   function saveSession(data, onDone, vaultKeyB64) {
-    localStorage.setItem('sb_access',    data.access_token);
-    localStorage.setItem('sb_refresh',   data.refresh_token);
-    localStorage.setItem('sb_psk',       data.protected_symmetric_key);
-    localStorage.setItem('sb_kdf_salt',  data.kdf_salt);
-    localStorage.setItem('sb_kdf_iter',  data.kdf_iterations);
+    localStorage.setItem('sb_access',   data.access_token);
+    localStorage.setItem('sb_refresh',  data.refresh_token);
+    localStorage.setItem('sb_kdf_salt', data.kdf_salt);
+    localStorage.setItem('sb_kdf_iter', data.kdf_iterations);
     if (data.email) localStorage.setItem('sb_email', data.email);
+
+    // БЕЗПЕКА: PSK без крапок — це сирий vault_key (Google-акаунт).
+    // Зберігаємо його ТІЛЬКИ у sessionStorage (не в localStorage) —
+    // щоб він не виживав між сесіями і був недоступний після закриття вкладки.
+    const psk = data.protected_symmetric_key;
+    if (psk) {
+      const isGoogleVaultKey = !psk.includes('.');
+      if (isGoogleVaultKey) {
+        // Google: vault_key тільки в sessionStorage — НЕ в localStorage
+        sessionStorage.setItem('sb_vault_key', psk);
+        // sb_psk не зберігаємо в localStorage навмисно
+      } else {
+        // Password-акаунт: зашифрований PSK можна зберегти (але не vault_key)
+        localStorage.setItem('sb_psk', psk);
+      }
+    }
 
     // Одразу переходимо — не чекаємо на розширення
     if (onDone) onDone();
