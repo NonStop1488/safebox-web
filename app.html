@@ -3198,6 +3198,13 @@ window.addEventListener('resize', function() {
 let _2faEnabled = false;
 
 async function open2FA() {
+  // Google-акаунти не підтримують 2FA — блокуємо відкриття
+  const authType = localStorage.getItem('sb_auth_type');
+  if (authType === 'google') {
+    toast('2FA недоступна для Google-акаунтів', 'inf');
+    return;
+  }
+
   document.getElementById('twoFAOverlay').classList.add('on');
   // Перевірити статус
   try {
@@ -3348,6 +3355,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // Приховати кнопку 2FA для Google-акаунтів
+  if (localStorage.getItem('sb_auth_type') === 'google') {
+    const btn2FA = document.getElementById('btn2FA');
+    if (btn2FA) btn2FA.style.display = 'none';
+  }
 });
 
 init();
