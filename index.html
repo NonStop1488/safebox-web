@@ -734,7 +734,7 @@
 <script>
 function dlClick(platform) {
   const urls = {
-    'windows':      'https://github.com/NonStop1488/safebox_pc/releases/download/v1.0.1/SafeBox.Setup.1.0.0.exe',
+    'windows':      'https://github.com/NonStop1488/safebox_pc/releases/download/v1.0.0/SafeBox.Setup.1.0.0.exe',
     'android-apk':  'https://github.com/NonStop1488/safebox-releases/raw/refs/heads/main/SafeBox.apk',
     'ios-pwa':      'app.html',
     'ext-chrome':   '#',
@@ -1234,9 +1234,13 @@ function dlClick(platform) {
     const params = new URLSearchParams({
       client_id:     GOOGLE_CLIENT_ID,
       redirect_uri:  'https://safebox.lol/index.html',
-      response_type: 'token',
+      // response_type: 'token id_token' — отримуємо id_token (підписаний JWT від Google).
+      // Бекенд верифікує підпис через Google Public Keys — клієнт не передає
+      // жодних незахищених даних (email, sub) самостійно. ZK-підхід збережений.
+      response_type: 'token id_token',
       scope:         'email profile openid',
       prompt:        'select_account',
+      nonce:         btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(16)))),
     });
 
     window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + params.toString();
@@ -1245,12 +1249,12 @@ function dlClick(platform) {
   /* ── Обробка redirect після Google login ─────────── */
   async function handleGoogleRedirect() {
     const hash = window.location.hash;
-    if (!hash.includes('access_token')) return;
+    if (!hash.includes('id_token')) return;
 
-    // Витягти access_token з URL hash
+    // Витягти id_token з URL hash
     const params = new URLSearchParams(hash.slice(1));
-    const accessToken = params.get('access_token');
-    if (!accessToken) return;
+    const idToken = params.get('id_token');
+    if (!idToken) return;
 
     // Очистити hash з URL
     history.replaceState(null, '', window.location.pathname);
@@ -1259,24 +1263,13 @@ function dlClick(platform) {
     if (btn) { btn.textContent = 'Вхід...'; btn.disabled = true; }
 
     try {
-      // Отримати email через Google API
-      const profileRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-        headers: { 'Authorization': 'Bearer ' + accessToken }
-      });
-      const profile = await profileRes.json();
-
-      if (!profile.email) throw new Error('Email не знайдено');
-
-      // Відправити на наш бекенд
+      // ZK: надсилаємо лише підписаний id_token — бекенд верифікує його
+      // через Google Public Keys і сам витягує email/sub.
+      // Клієнт не передає жодних незахищених даних про користувача.
       const res = await fetch(`${API}/auth/google-token`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email:          profile.email,
-          google_id:      profile.sub,
-          name:           profile.name || profile.email.split('@')[0],
-          email_verified: profile.email_verified || false,
-        }),
+        body: JSON.stringify({ id_token: idToken }),
       });
 
       const data = await res.json();
