@@ -483,11 +483,10 @@
           <span class="badge" style="font-size:0.7rem; background:rgba(250,130,50,0.08); border-color:rgba(250,130,50,0.18); color:rgba(240,244,248,0.7);">Розширення</span>
         </div>
         <div class="card-title" style="font-size:1.1rem; margin-bottom:8px;">Розширення браузера</div>
-        <div class="card-text" style="margin-bottom:8px;">Автозаповнення паролів прямо у браузері. Один клік — і дані вставлені. Підтримує Chrome, Firefox та Edge.</div>
+        <div class="card-text" style="margin-bottom:8px;">Автозаповнення паролів прямо у браузері. Один клік — і дані вставлені. Підтримує Chrome та Firefox.</div>
         <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:24px;">
           <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">Chrome</span>
           <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">Firefox</span>
-          <span style="font-size:0.7rem; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.05); color:rgba(240,244,248,0.45); border:1px solid rgba(255,255,255,0.08);">Edge</span>
         </div>
         <div style="display:flex; gap:8px;">
           <button class="btn-ghost dl-btn" style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px; padding:12px; font-size:0.82rem;" onclick="dlClick('ext-chrome')">
@@ -505,14 +504,6 @@
               <path d="M12 2c3 3 5 6 5 10s-2 7-5 10"/>
             </svg>
             Firefox
-          </button>
-          <button class="btn-ghost dl-btn" style="flex:1; display:flex; align-items:center; justify-content:center; gap:7px; padding:12px; font-size:0.82rem;" onclick="dlClick('ext-edge')">
-            <!-- Edge icon -->
-            <svg viewBox="0 0 24 24" style="width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.8; flex-shrink:0;">
-              <path d="M3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9"/>
-              <path d="M3 12h18"/>
-            </svg>
-            Edge
           </button>
         </div>
       </div>
@@ -766,7 +757,6 @@ function dlClick(platform) {
     const msg = {
       'ext-chrome':  'Розширення для Chrome — в розробці.',
       'ext-firefox': 'Розширення для Firefox — в розробці.',
-      'ext-edge':    'Розширення для Edge — в розробці.',
     };
     alert(msg[platform] || 'Незабаром буде доступно.');
   } else if (platform === 'windows') {
