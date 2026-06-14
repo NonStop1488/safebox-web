@@ -1274,6 +1274,21 @@ function dlClick(platform) {
         });
       }
     } catch (e) { /* розширення недоступне — не критично */ }
+
+    // Cross-browser шлях (Firefox + запасний для Chrome): постимо у власне
+    // окно postMessage, наш content script на цій сторінці ловить його і
+    // передає у фоновий скрипт розширення. На відміну від chrome.runtime.
+    // sendMessage(EXTENSION_ID, ...), цей шлях НЕ залежить від ID розширення
+    // і працює у Firefox, де externally_connectable не підтримується.
+    try {
+      window.postMessage({
+        source:        'safebox-web',
+        type:          'SB_SET_TOKEN',
+        access_token:  data.access_token,
+        refresh_token: data.refresh_token,
+        vault_key:     vaultKeyB64 || undefined,
+      }, window.location.origin);
+    } catch (e) { /* postMessage недоступний — не критично */ }
   }
 
   /* ── Google Login через redirect (надійніший метод) ── */
