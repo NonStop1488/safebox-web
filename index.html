@@ -778,17 +778,18 @@ function dlClick(platform) {
     'windows':      'https://github.com/NonStop1488/safebox_pc/releases/download/v1.0.0/SafeBox.Setup.1.0.0.exe',
     'android-apk':  'https://github.com/NonStop1488/safebox-releases/raw/refs/heads/main/SafeBox.apk',
     'ios-pwa':      'app.html',
-    'ext-chrome':   '#',
+    'ext-chrome':   'https://chromewebstore.google.com/detail/safebox-—-менеджер-паролі/ehljfffjgogghchjcfjdhldeaeniibnk',
     'ext-firefox':  '#',
     'ext-edge':     '#',
   };
   const url = urls[platform] || '#';
   if (url === '#') {
     const msg = {
-      'ext-chrome':  'Розширення для Chrome — в розробці.',
-      'ext-firefox': 'Розширення для Firefox — в розробці.',
+      'ext-firefox': 'Розширення для Firefox: зараз проводяться технічні роботи. Спробуйте, будь ласка, пізніше.',
     };
     alert(msg[platform] || 'Незабаром буде доступно.');
+  } else if (platform === 'ext-chrome') {
+    window.open(url, '_blank', 'noopener');
   } else if (platform === 'windows') {
     const a = document.createElement('a');
     a.href = url;
