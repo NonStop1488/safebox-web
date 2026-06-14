@@ -1218,7 +1218,14 @@ function dlClick(platform) {
   const GOOGLE_CLIENT_ID = '260458731697-b5mh8ek1kkm23bmplaflbn1di1kfv2uf.apps.googleusercontent.com';
 
   /* ── ID розширення SafeBox ──────────────────────── */
-  const EXTENSION_ID = 'lggeponbhhknooajlpbmpamgnfgdlcim';
+  // Production (Chrome Web Store) — основний ID, на який орієнтуємось
+  // Dev (unpacked) — лишаємо як запасний варіант для локальної розробки;
+  // sendMessage на ID, якого немає серед встановлених розширень, просто
+  // мовчки провалюється (chrome.runtime.lastError), тож це безпечно.
+  const EXTENSION_IDS = [
+    'ehljfffjgogghchjcfjdhldeaeniibnk', // Chrome Web Store (production)
+    'lggeponbhhknooajlpbmpamgnfgdlcim', // unpacked / dev build
+  ];
 
   /* ── Збереження токенів + передача в розширення ─── */
   // vaultKeyB64 — опціонально, Base64-рядок vault_key для передачі у розширення
@@ -1250,16 +1257,20 @@ function dlClick(platform) {
 
     // Паралельно намагаємось передати токени в розширення (fire-and-forget)
     try {
-      if (window.chrome?.runtime?.sendMessage && typeof EXTENSION_ID === 'string') {
+      if (window.chrome?.runtime?.sendMessage) {
         const extMsg = {
           type:          'SB_SET_TOKEN',
           access_token:  data.access_token,
           refresh_token: data.refresh_token,
         };
         if (vaultKeyB64) extMsg.vault_key = vaultKeyB64;
-        chrome.runtime.sendMessage(EXTENSION_ID, extMsg, () => {
-          // ігноруємо chrome.runtime.lastError — розширення може бути не встановлене
-          void chrome.runtime.lastError;
+        EXTENSION_IDS.forEach(id => {
+          try {
+            chrome.runtime.sendMessage(id, extMsg, () => {
+              // ігноруємо chrome.runtime.lastError — це розширення може бути не встановлене
+              void chrome.runtime.lastError;
+            });
+          } catch (e) { /* розширення з цим ID недоступне — не критично */ }
         });
       }
     } catch (e) { /* розширення недоступне — не критично */ }
